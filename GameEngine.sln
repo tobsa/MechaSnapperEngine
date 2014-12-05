@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine\GameEngine.csproj", "{C8873D3E-E06A-40A8-95B9-C2D3DB9AA035}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GameEngineContent", "GameEngine\GameEngineContent\GameEngineContent.contentproj", "{86E92866-D6DC-45CB-A939-A13C7F5DDAA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGame", "ExampleGame\ExampleGame\ExampleGame.csproj", "{D63C5B86-2D91-47D0-9B64-F3ED4ABCBD37}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ExampleGameContent", "ExampleGame\ExampleGameContent\ExampleGameContent.contentproj", "{49FA7525-EC7C-4B19-B734-32E9E8C0D7EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8873D3E-E06A-40A8-95B9-C2D3DB9AA035}.Debug|x86.ActiveCfg = Debug|x86
+		{C8873D3E-E06A-40A8-95B9-C2D3DB9AA035}.Debug|x86.Build.0 = Debug|x86
+		{C8873D3E-E06A-40A8-95B9-C2D3DB9AA035}.Release|x86.ActiveCfg = Release|x86
+		{C8873D3E-E06A-40A8-95B9-C2D3DB9AA035}.Release|x86.Build.0 = Release|x86
+		{86E92866-D6DC-45CB-A939-A13C7F5DDAA2}.Debug|x86.ActiveCfg = Debug|x86
+		{86E92866-D6DC-45CB-A939-A13C7F5DDAA2}.Release|x86.ActiveCfg = Release|x86
+		{D63C5B86-2D91-47D0-9B64-F3ED4ABCBD37}.Debug|x86.ActiveCfg = Debug|x86
+		{D63C5B86-2D91-47D0-9B64-F3ED4ABCBD37}.Debug|x86.Build.0 = Debug|x86
+		{D63C5B86-2D91-47D0-9B64-F3ED4ABCBD37}.Release|x86.ActiveCfg = Release|x86
+		{D63C5B86-2D91-47D0-9B64-F3ED4ABCBD37}.Release|x86.Build.0 = Release|x86
+		{49FA7525-EC7C-4B19-B734-32E9E8C0D7EC}.Debug|x86.ActiveCfg = Debug|x86
+		{49FA7525-EC7C-4B19-B734-32E9E8C0D7EC}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
