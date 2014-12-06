@@ -44,9 +44,6 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            engine.RegisterSystem(new InputSystem(engine.SceneManager));
-            engine.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
-
             Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
             Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
 
@@ -75,6 +72,21 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.NumPad1);
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.NumPad2);
             InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.NumPad3);
+
+            //engine.GameStateManager.RegisterState(new MainMenuState(engine.GameStateManager, engine.SpriteBatch, Content));
+            //engine.GameStateManager.RegisterState(new PlayingState(engine.GameStateManager, engine.SpriteBatch, Content));
+
+            //engine.GameStateManager.PushState(engine.GameStateManager.State<MainMenuState>());
+
+            var playingState = new PlayingState(engine);
+            playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
+            playingState.RegisterSystem(new InputSystem(engine.SceneManager));
+
+            engine.RegisterState(new MainMenuState(engine));
+            engine.RegisterState(playingState);
+            engine.RegisterState(new PausedState(engine));
+
+            engine.PushState<MainMenuState>();
         }
 
         /// <summary>
@@ -92,20 +104,11 @@ namespace ExampleGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (InputManager.Instance.IsKeyDown("Exit"))
-                Exit();
-
-            if (InputManager.Instance.IsKeyDown("ChangeScene1"))
-                engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
-            if (InputManager.Instance.IsKeyDown("ChangeScene2"))
-                engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
-            if (InputManager.Instance.IsKeyDown("ChangeScene3"))
-                engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
-
-            engine.Update(gameTime);
-
+            engine.Update(gameTime);                
             base.Update(gameTime);
         }
+
+        
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -115,7 +118,9 @@ namespace ExampleGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            engine.SpriteBatch.Begin();
             engine.Draw(gameTime);
+            engine.SpriteBatch.End();
 
             base.Draw(gameTime);
         }

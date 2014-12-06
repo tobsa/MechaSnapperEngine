@@ -5,21 +5,23 @@ using System.Text;
 using GameEngine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine.Framework
 {
     public class MechaSnapperEngine
     {
+        private Game game;
         private GraphicsDeviceManager graphics;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
 
+        private GameStateManager stateManager = new GameStateManager();
         private SceneManager sceneManager = new SceneManager();
-        private List<IUpdateableSystem> updateableSystems = new List<IUpdateableSystem>();
-        private List<IRenderableSystem> renderableSystems = new List<IRenderableSystem>();
 
         public MechaSnapperEngine(Game game, int width, int height, bool fullscreen)
         {
+            this.game = game;
             graphics = new GraphicsDeviceManager(game);
             CreateWindow(width, height, fullscreen);
             game.Content.RootDirectory = "Content";
@@ -34,6 +36,12 @@ namespace GameEngine.Framework
         public SceneManager SceneManager
         {
             get { return sceneManager; }
+        }
+
+        #region XNA Game Properties
+        public ContentManager Content
+        {
+            get { return game.Content; }
         }
 
         public GraphicsDeviceManager GraphicsDeviceManager
@@ -51,6 +59,42 @@ namespace GameEngine.Framework
             get { return spriteBatch; }
         }
 
+        public Game Game
+        {
+            get { return game; }
+        }
+        #endregion
+
+        public void RegisterState(GameState state)
+        {
+            stateManager.RegisterState(state);
+        }
+
+        public void UnregisterState(GameState state)
+        {
+            stateManager.UnregisterState(state);
+        }
+
+        public GameState State
+        {
+            get { return stateManager.State; }
+        }
+
+        public GameState GetState<T>()
+        {
+            return stateManager.GetRegisteredState<T>();
+        }
+
+        public void PushState<T>()
+        {
+            stateManager.PushState(stateManager.GetRegisteredState<T>());
+        }
+
+        public void PopState()
+        {
+            stateManager.PopState();
+        }
+
         public void CreateWindow(int width, int height, bool fullscreen)
         {
             graphics.PreferredBackBufferWidth = width;
@@ -59,38 +103,23 @@ namespace GameEngine.Framework
             graphics.ApplyChanges();
         }
 
-        public void RegisterSystem(EntitySystem system)
+        public void Update(GameTime gameTime)
         {
-            if (system is IUpdateableSystem)
-                updateableSystems.Add(system as IUpdateableSystem);
+            var state = State;
 
-            if (system is IRenderableSystem)
-                renderableSystems.Add(system as IRenderableSystem);
+            if(state.Enabled)
+                state.Update(gameTime);
+
+            InputManager.Instance.Update();
         }
 
-        public void UnregisterSystem(EntitySystem system)
+        public void Draw(GameTime gameTime)
         {
-            if (system is IUpdateableSystem)
-                updateableSystems.Remove(system as IUpdateableSystem);
-
-            if (system is IRenderableSystem)
-                renderableSystems.Remove(system as IRenderableSystem);
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
-            for (int i = 0; i < updateableSystems.Count; i++)
-                updateableSystems[i].Update(gameTime);
-        }
-
-        public virtual void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-
-            for (int i = 0; i < renderableSystems.Count; i++)
-                renderableSystems[i].Draw(gameTime);
-
-            spriteBatch.End();
+            foreach (var state in stateManager.GameStates)
+            {
+                if(state.Visible)
+                    state.Draw(gameTime);
+            }
         }
     }
 }

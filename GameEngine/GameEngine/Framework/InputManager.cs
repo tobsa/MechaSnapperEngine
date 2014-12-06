@@ -8,8 +8,13 @@ namespace GameEngine.Framework
 {
     public class InputManager
     {
-        private static InputManager inputManager;
         private Dictionary<string, List<Keys>> keyBindings = new Dictionary<string, List<Keys>>();
+        private KeyboardState prevKeyboardState;
+        private KeyboardState newKeyboardState;
+
+        private static InputManager inputManager;
+
+        private InputManager() { }
 
         public static InputManager Instance
         {
@@ -22,30 +27,43 @@ namespace GameEngine.Framework
             }
         }
 
-        public void AddKeyBinding(string action, Keys key)
+        public void AddKeyBinding(string action, Keys value)
         {
             if (!keyBindings.ContainsKey(action))
-                keyBindings.Add(action, new List<Keys>());
+                keyBindings[action] = new List<Keys>();
 
-            keyBindings[action].Add(key);
+            keyBindings[action].Add(value);
         }
 
-        public void RemoveKeyBinding(string action, Keys key)
+        public void RemoveKeyBinding(string key, Keys value)
         {
-            if (keyBindings.ContainsKey(action))
-                keyBindings[action].Remove(key);
+            keyBindings[key].Remove(value);
         }
 
         public bool IsKeyDown(string action)
         {
-            KeyboardState state = Keyboard.GetState();
-
-            var keys = keyBindings[action];
-            for (int i = 0; i < keys.Count; i++)
-                if (state.IsKeyDown(keys[i]))
+            foreach (var key in keyBindings[action])
+                if (newKeyboardState.IsKeyDown(key))
                     return true;
 
             return false;
+        }
+
+        public bool WasKeyDown(string action)
+        {
+            foreach (var key in keyBindings[action])
+            {
+                if (newKeyboardState.IsKeyDown(key) && prevKeyboardState.IsKeyUp(key))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Update()
+        {
+            prevKeyboardState = newKeyboardState;
+            newKeyboardState = Keyboard.GetState();
         }
     }
 }

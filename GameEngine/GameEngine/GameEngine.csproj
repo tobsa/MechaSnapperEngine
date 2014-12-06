@@ -117,6 +117,8 @@
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Framework\ComponentManager.cs" />
     <Compile Include="Framework\Entity.cs" />
+    <Compile Include="Framework\GameState.cs" />
+    <Compile Include="Framework\GameStateManager.cs" />
     <Compile Include="Framework\MechaSnapperEngine.cs" />
     <Compile Include="Framework\EntityFactory.cs" />
     <Compile Include="Framework\InputManager.cs" />
