@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Components
 {
-    public class CollisionCircleComponent : Component
+    public class CollisionCircleComponent : IComponent
     {
         public Vector2 Center { get; set; }
         public float Radius { get; set; }

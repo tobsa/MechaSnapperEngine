@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Components
 {
-    public class CollisionRectangleComponent : Component
+    public class CollisionRectangleComponent : IComponent
     {
         public Rectangle Rectangle { get; set; }
     }

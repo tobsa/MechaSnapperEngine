@@ -109,16 +109,18 @@
   <ItemGroup>
     <Compile Include="Components\CollisionCircleComponent.cs" />
     <Compile Include="Components\CollisionRectangleComponent.cs" />
-    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\RenderComponent.cs" />
     <Compile Include="Components\RigidBodyComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="Components\AgentComponent.cs" />
     <Compile Include="Framework\ComponentManager.cs" />
     <Compile Include="Framework\Entity.cs" />
     <Compile Include="Framework\GameState.cs" />
     <Compile Include="Framework\GameStateManager.cs" />
+    <Compile Include="Framework\IAgentBehaviour.cs" />
     <Compile Include="Framework\MechaSnapperEngine.cs" />
     <Compile Include="Framework\EntityFactory.cs" />
     <Compile Include="Framework\InputManager.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />

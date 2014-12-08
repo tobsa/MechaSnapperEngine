@@ -46,12 +46,18 @@ namespace ExampleGame
         {
             Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
             Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
+            Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(600, 600));
+
+            AgentComponent agent = new AgentComponent();
+            agent.Behaviour = new SimpleAI();
 
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(200, 200) });
+            ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
+            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity3);
             engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
             engine.SceneManager.AddEntity("World1.Level2.Room1", 1, entity1);
             engine.SceneManager.AddEntity("World1.Level2.Room1", 0, entity2);
@@ -72,6 +78,7 @@ namespace ExampleGame
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
+            playingState.RegisterSystem(new AISystem(engine.SceneManager));
 
             engine.RegisterState(playingState);
             engine.RegisterState(new MainMenuState(engine));

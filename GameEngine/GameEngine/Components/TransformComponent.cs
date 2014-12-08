@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Components
 {
-    public class TransformComponent : Component
+    public class TransformComponent : IComponent
     {
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }

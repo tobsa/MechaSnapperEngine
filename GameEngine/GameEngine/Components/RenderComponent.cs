@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Components
 {
-    public class RenderComponent : Component
+    public class RenderComponent : IComponent
     {
         public Texture2D Texture { get; set; }
     }

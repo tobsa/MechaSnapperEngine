@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine.Components
 {
-    public class InputComponent : Component
+    public class InputComponent : IComponent
     {
 
     }

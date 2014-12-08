@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace GameEngine.Components
+namespace GameEngine.Framework
 {
-    public class VelocityComponent : IComponent
+    public interface IAgentBehaviour
     {
-        public Vector2 Velocity { get; set; }
+        void Update(GameTime gameTime, Entity entity);
     }
 }
