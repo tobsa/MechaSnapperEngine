@@ -8,6 +8,9 @@ using GameEngine.Components;
 
 namespace GameEngine.Framework
 {
+
+
+    // useless comment
     public class EntityFactory
     {
         public static Entity CreateEntity(int id, Texture2D texture, Vector2 position)
