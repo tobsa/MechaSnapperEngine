@@ -84,6 +84,7 @@ namespace ExampleGame
             engine.RegisterState(new MainMenuState(engine));
             engine.RegisterState(new PausedState(engine));
 
+            // Derp
             engine.PushState<MainMenuState>();
         }
 
