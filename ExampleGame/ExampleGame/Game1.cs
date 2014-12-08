@@ -52,12 +52,9 @@ namespace ExampleGame
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
-
             engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
-
             engine.SceneManager.AddEntity("World1.Level2.Room1", 1, entity1);
             engine.SceneManager.AddEntity("World1.Level2.Room1", 0, entity2);
-
             engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
 
             InputManager.Instance.AddKeyBinding("Exit", Keys.Escape);
@@ -65,7 +62,6 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("Right", Keys.Right);
             InputManager.Instance.AddKeyBinding("Up", Keys.Up);
             InputManager.Instance.AddKeyBinding("Down", Keys.Down);
-
             InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);
             InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.D3);
@@ -73,17 +69,12 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.NumPad2);
             InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.NumPad3);
 
-            //engine.GameStateManager.RegisterState(new MainMenuState(engine.GameStateManager, engine.SpriteBatch, Content));
-            //engine.GameStateManager.RegisterState(new PlayingState(engine.GameStateManager, engine.SpriteBatch, Content));
-
-            //engine.GameStateManager.PushState(engine.GameStateManager.State<MainMenuState>());
-
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
 
-            engine.RegisterState(new MainMenuState(engine));
             engine.RegisterState(playingState);
+            engine.RegisterState(new MainMenuState(engine));
             engine.RegisterState(new PausedState(engine));
 
             engine.PushState<MainMenuState>();
