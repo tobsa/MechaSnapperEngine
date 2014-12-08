@@ -47,6 +47,7 @@ namespace ExampleGame
             Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
             Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
             Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(600, 600));
+            Entity entity4 = EntityFactory.CreateEntity(3, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
 
             AgentComponent agent = new AgentComponent();
             agent.Behaviour = new SimpleAI();
@@ -54,6 +55,8 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(200, 200) });
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
+
+            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
