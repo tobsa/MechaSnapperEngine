@@ -8,6 +8,7 @@ namespace GameEngine.Components
     public class RigidBodyComponent : IComponent
     {
         public float Gravity { get; set; }
+        public float Friction { get; set; }
         public float Mass { get; set; }
     }
 }
