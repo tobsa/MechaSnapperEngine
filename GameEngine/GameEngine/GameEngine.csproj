@@ -132,7 +132,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Systems\AISystem.cs" />
-    <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
