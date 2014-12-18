@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Media;
 using GameEngine.Framework;
 using GameEngine.Systems;
 using GameEngine.Components;
+using ExampleGame.Systems;
+using ExampleGame.Components;
 
 namespace ExampleGame
 {
@@ -20,6 +22,9 @@ namespace ExampleGame
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         MechaSnapperEngine engine;
+
+        CameraSystem cameraSystem;
+        CameraComponent camComp;
 
         public Game1()
         {
@@ -35,6 +40,10 @@ namespace ExampleGame
         protected override void Initialize()
         {
             engine.Initialize();
+
+
+            cameraSystem = new CameraSystem(engine.SceneManager);
+            camComp = new CameraComponent(new Viewport());
             base.Initialize();
         }
 
@@ -44,6 +53,7 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
+
             Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
             Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
             Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(600, 600));
@@ -55,6 +65,8 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
+           // ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
+
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
@@ -85,6 +97,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new AISystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+           // playingState.RegisterSystem(cameraSystem);
 
             engine.RegisterState(playingState);
             engine.RegisterState(new MainMenuState(engine));
@@ -109,7 +122,8 @@ namespace ExampleGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            engine.Update(gameTime);                
+            engine.Update(gameTime);
+            cameraSystem.Update(gameTime); 
             base.Update(gameTime);
         }
 
@@ -124,9 +138,9 @@ namespace ExampleGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             engine.SpriteBatch.Begin();
+           // engine.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camComp.Transform);
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
-
             base.Draw(gameTime);
         }
     }
