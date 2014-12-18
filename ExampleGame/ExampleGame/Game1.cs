@@ -47,13 +47,17 @@ namespace ExampleGame
             Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
             Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
             Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(100, 600));
+            Entity entity4 = EntityFactory.CreateEntity(3, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
 
             AgentComponent agent = new AgentComponent();
             agent.Behaviour = new SimpleAI();
 
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
-            ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(200, 200) });
+            ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
+            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
+
+            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
@@ -68,6 +72,7 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("Right", Keys.Right);
             InputManager.Instance.AddKeyBinding("Up", Keys.Up);
             InputManager.Instance.AddKeyBinding("Down", Keys.Down);
+            InputManager.Instance.AddKeyBinding("Jump", Keys.Space);
             InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);
             InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.D3);
@@ -79,6 +84,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new AISystem(engine.SceneManager));
+            playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
 
             engine.RegisterState(playingState);
             engine.RegisterState(new MainMenuState(engine));

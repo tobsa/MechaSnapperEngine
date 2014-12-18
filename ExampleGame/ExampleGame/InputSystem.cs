@@ -28,26 +28,28 @@ namespace ExampleGame
                 var positionComponent = (TransformComponent)ComponentManager.Instance.GetComponentOfType<TransformComponent>(entities[i]);
                 var velocityComponent = (VelocityComponent)ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entities[i]);
 
-                var move = new Vector2();
+                var move = new Vector2(velocityComponent.Velocity.X,velocityComponent.Velocity.Y);
+                float jumpSpeed = 700;
+                float moveSpeed = 200;
 
+                
                 if (InputManager.Instance.IsKeyDown("Left"))
                 {
-                     move.X -= velocityComponent.Velocity.X;
+                    move.X = -moveSpeed;
                 }
                 if (InputManager.Instance.IsKeyDown("Right"))
                 {
-                    move.X += velocityComponent.Velocity.X;
-                }
-                if (InputManager.Instance.IsKeyDown("Up"))
-                {
-                    move.Y -= velocityComponent.Velocity.Y;
-                }
-                if (InputManager.Instance.IsKeyDown("Down"))
-                {
-                    move.Y += velocityComponent.Velocity.Y;
+                    move.X = moveSpeed;
                 }
 
-                positionComponent.Position += move * dt;
+                if (InputManager.Instance.WasKeyDown("Jump"))
+                {
+                    move.Y -= jumpSpeed;
+                }
+
+                velocityComponent.Velocity = move;
+
+                positionComponent.Position += velocityComponent.Velocity * dt;
             }
         }
     }
