@@ -8,6 +8,6 @@ namespace GameEngine.Framework
 {
     public interface IAnimation
     {
-        int GetCurrentFrame(GameTime gametime);
+        void Update(GameTime gametime, Entity entity);
     }
 }

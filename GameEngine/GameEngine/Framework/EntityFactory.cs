@@ -17,10 +17,9 @@ namespace GameEngine.Framework
         {
             Entity entity = new Entity(id);
 
-            var render = new RenderComponent();
+            var render = new RenderComponent(texture);
             var transform = new TransformComponent();
 
-            render.Texture = texture;
             transform.Position = position;
 
             ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);

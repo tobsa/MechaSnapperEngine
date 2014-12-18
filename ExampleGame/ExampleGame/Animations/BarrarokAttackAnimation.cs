@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GameEngine.Framework;
 using Microsoft.Xna.Framework;
+using GameEngine.Components;
 
 namespace ExampleGame.Animations
 {
@@ -13,7 +14,7 @@ namespace ExampleGame.Animations
         int delay = 100;
         float elapsed;
 
-        public int GetCurrentFrame(GameTime gametime)
+        public void Update(GameTime gametime, Entity entity)
         {
             elapsed += (float)gametime.ElapsedGameTime.TotalMilliseconds;
 
@@ -28,9 +29,11 @@ namespace ExampleGame.Animations
                     frame++;
                 }
                 elapsed = 0;
+
+                var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
+                renderComponent.Frame = frame;
             }
 
-            return frame;
         }
     }
 }

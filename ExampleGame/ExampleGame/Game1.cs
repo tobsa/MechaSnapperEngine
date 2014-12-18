@@ -52,16 +52,14 @@ namespace ExampleGame
 
             Entity entity5 = EntityFactory.CreateEmptyEntity(4, new Vector2(400, 400));
 
+            AnimationComponent barrarokAnim = new AnimationComponent();
+            barrarokAnim.Animation = new BarrarokWalkingAnimation();
+            
+            
+
 
             AgentComponent agent = new AgentComponent();
             agent.Behaviour = new SimpleAI();
-
-            AnimationComponent barrarokAnim = new AnimationComponent();
-            barrarokAnim.FrameHeight = 126;
-            barrarokAnim.FrameWidth = 64;
-            barrarokAnim.Animation = new BarrarokAttackAnimation();
-            barrarokAnim.SpriteSheet = Content.Load<Texture2D>("BarrarokAnim");
-
             
 
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
@@ -70,14 +68,15 @@ namespace ExampleGame
 
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
             ComponentManager.Instance.AddComponent<AnimationComponent>(entity5, barrarokAnim);
+            ComponentManager.Instance.AddComponent<RenderComponent>(entity5, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
 
        
 
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
+            engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity3);
             engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity5);
+            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity5);
 
             engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
 

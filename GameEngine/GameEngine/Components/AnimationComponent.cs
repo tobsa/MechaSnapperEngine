@@ -9,9 +9,6 @@ namespace GameEngine.Components
 {
     public class AnimationComponent : IComponent
     {
-        public Texture2D SpriteSheet { set; get; }
         public IAnimation Animation { set; get; }
-        public int FrameWidth { set; get; }
-        public int FrameHeight { set; get; }
     }
 }

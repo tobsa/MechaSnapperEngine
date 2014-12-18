@@ -9,7 +9,7 @@ using GameEngine.Components;
 
 namespace GameEngine.Systems
 {
-    public class AnimationSystem : EntitySystem, IRenderableSystem
+    public class AnimationSystem : EntitySystem, IUpdateableSystem
     {
         private SpriteBatch spriteBatch;
 
@@ -19,27 +19,16 @@ namespace GameEngine.Systems
             this.spriteBatch = spriteBatch;
         }
 
-        public void Draw(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            var layers = SceneManager.CurrentScene.Layers;
+            var entities = ComponentManager.Instance.GetEntities<AnimationComponent>(SceneManager.CurrentScene.Entities);
 
-            for (int i = 0; i < layers.Count; i++)
+            foreach (var entity in entities)
             {
-                var entities = ComponentManager.Instance.GetEntities<AnimationComponent>(layers[i].Entities);
-                for (int j = 0; j < entities.Count; j++)
-                {
-                    var animComponent = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entities[j]);
-                    var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entities[j]);
-
-                    int currentFrame = animComponent.Animation.GetCurrentFrame(gameTime);
-
-                    // Only works with sprite sheets with 1 row right now
-                    spriteBatch.Draw(animComponent.SpriteSheet, 
-                                     transformComponent.Position, 
-                                     new Rectangle(currentFrame * animComponent.FrameWidth, 0 * animComponent.FrameHeight, animComponent.FrameWidth, animComponent.FrameHeight),
-                                     Color.White);
-                }
+                var animationComponent = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+                animationComponent.Animation.Update(gameTime, entity);
             }
+
         }
     }
 }
