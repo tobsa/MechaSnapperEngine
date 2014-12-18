@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameEngine.Components;
+using GameEngine.Framework;
 
-namespace GameEngine.Framework
+namespace GameEngine.Components
 {
     public class AgentComponent : IComponent
     {

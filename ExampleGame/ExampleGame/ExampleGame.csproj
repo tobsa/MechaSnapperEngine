@@ -107,6 +107,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\BarrarokAttackAnimation.cs" />
+    <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
     <Compile Include="InputSystem.cs" />
     <Compile Include="MainMenuState.cs" />
     <Compile Include="PausedState.cs" />
