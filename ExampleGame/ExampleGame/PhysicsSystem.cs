@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
+using GameEngine.Systems;
 using GameEngine.Framework;
+using Microsoft.Xna.Framework;
 using GameEngine.Components;
 
-namespace GameEngine.Systems
+namespace ExampleGame
 {
     public class PhysicsSystem : EntitySystem, IUpdateableSystem
     {
         public PhysicsSystem(SceneManager sceneManager) :
-            base(sceneManager){}
+            base(sceneManager) { }
 
         public void Update(GameTime gameTime)
         {
@@ -25,20 +26,19 @@ namespace GameEngine.Systems
                 var pos = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
                 var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
 
-                
 
                 if (pos.Position.Y < 700)
                 {
-                    
+
                     vel.Velocity = new Vector2(vel.Velocity.X, vel.Velocity.Y + body.Gravity);
-                    
+
                 }
                 else
                 {
                     pos.Position = new Vector2(pos.Position.X, 700);
                     vel.Velocity = new Vector2(vel.Velocity.X * (1 - body.Friction), 0);
                 }
-                 
+
 
             }
         }

@@ -30,7 +30,12 @@ namespace GameEngine.Framework
 
         public List<GameState> GameStates
         {
-            get { return states.ToList(); }
+            get 
+            {
+                var reversedStates = states.ToList();
+                reversedStates.Reverse();
+                return reversedStates;
+            }
         }
 
         public void PushState(GameState state)

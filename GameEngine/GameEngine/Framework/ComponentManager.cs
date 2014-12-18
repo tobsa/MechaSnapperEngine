@@ -42,11 +42,17 @@ namespace GameEngine.Framework
 
         public List<Entity> GetEntities<T>()
         {
+            if (!components.ContainsKey(typeof(T)))
+                return null;
+
             return components[typeof(T)].Keys.ToList();
         }
 
         public List<Entity> GetEntities<T>(List<Entity> entities)
         {
+            if(!components.ContainsKey(typeof(T)))
+                return null;
+
             return components[typeof(T)].Where(x => entities.Any(y => y.ID == x.Key.ID)).Select(x => x.Key).ToList();
         }
 

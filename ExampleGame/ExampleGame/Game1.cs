@@ -23,7 +23,8 @@ namespace ExampleGame
 
         public Game1()
         {
-            engine = new MechaSnapperEngine(this, 1200, 800, false);
+            engine = new MechaSnapperEngine(this, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
+            engine = new MechaSnapperEngine(this, 1600, 900, false);
         }
 
         /// <summary>
@@ -44,28 +45,35 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
-            Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
-            Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(600, 600));
-            Entity entity4 = EntityFactory.CreateEntity(3, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
+            //Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
+            //Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
+            //Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(600, 600));
+            Entity background = EntityFactory.CreateEntity(-1, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
 
-            AgentComponent agent = new AgentComponent();
-            agent.Behaviour = new SimpleAI();
+            //AgentComponent agent = new AgentComponent();
+            //agent.Behaviour = new SimpleAI();
 
-            ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
-            ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
-            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
-            ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
+            //ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
+            //ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
+            //ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
+            //ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
 
-            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
+            //engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
 
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity3);
-            engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
-            engine.SceneManager.AddEntity("World1.Level2.Room1", 1, entity1);
-            engine.SceneManager.AddEntity("World1.Level2.Room1", 0, entity2);
-            engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+            //engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
+            //engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
+            //engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity3);
+            //engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
+            //engine.SceneManager.AddEntity("World1.Level2.Room1", 1, entity1);
+            //engine.SceneManager.AddEntity("World1.Level2.Room1", 0, entity2);
+            //engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+
+            var entities = TileManager.LoadLevel(Content.Load<Texture2D>("Box64"));
+            foreach (var entity in entities)
+                engine.SceneManager.AddEntity("Level1", 1, entity);
+
+            engine.SceneManager.AddEntity("Level1", 0, background);
+            engine.SceneManager.SetCurrentScene("Level1");
 
             InputManager.Instance.AddKeyBinding("Exit", Keys.Escape);
             InputManager.Instance.AddKeyBinding("Left", Keys.Left);
@@ -83,14 +91,16 @@ namespace ExampleGame
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
-            playingState.RegisterSystem(new AISystem(engine.SceneManager));
-            playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new AISystem(engine.SceneManager));
+            //playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+
+            var mainMenuState = new MainMenuState(engine);
+            mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 
             engine.RegisterState(playingState);
-            engine.RegisterState(new MainMenuState(engine));
+            engine.RegisterState(mainMenuState);
             engine.RegisterState(new PausedState(engine));
 
-            // aksjdhakdj hakdjhakdjhkjhsdkjh
             engine.PushState<MainMenuState>();
         }
 

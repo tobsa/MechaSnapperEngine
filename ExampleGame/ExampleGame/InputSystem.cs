@@ -20,6 +20,8 @@ namespace ExampleGame
         public void Update(GameTime gameTime)
         {
             var entities = ComponentManager.Instance.GetEntities<InputComponent>(SceneManager.CurrentScene.Entities);
+            if (entities == null)
+                return;
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
