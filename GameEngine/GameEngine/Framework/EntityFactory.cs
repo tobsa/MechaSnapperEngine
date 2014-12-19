@@ -90,10 +90,7 @@ namespace GameEngine.Framework
             Entity entity = new Entity();
 
             var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, Math.Abs(frame));
-            var transform = new TransformComponent();
             // TODO: add collider component
-
-            transform.Position = position;
 
             ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
             ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
