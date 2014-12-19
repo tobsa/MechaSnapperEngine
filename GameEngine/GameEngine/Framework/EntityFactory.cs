@@ -8,22 +8,17 @@ using GameEngine.Components;
 
 namespace GameEngine.Framework
 {
-
-
-    // useless comment
     public abstract class EntityFactory
     {
-        private static int _id = 0;
-        public int ID { protected get { return _id++; } set { } }
+        private static int id = 0;
+        public static int GenerateID { get { return id++; } set { } }
 
         public static Entity CreateEntity(int id, Texture2D texture, Vector2 position)
         {
             Entity entity = new Entity(id);
 
             var render = new RenderComponent(texture);
-            var transform = new TransformComponent();
-
-            transform.Position = position;
+            var transform = new TransformComponent(position);
 
             ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
             ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
@@ -35,10 +30,7 @@ namespace GameEngine.Framework
         {
             Entity entity = new Entity(id);
 
-
-            var transform = new TransformComponent();
-
-            transform.Position = position;
+            var transform = new TransformComponent(position);
 
             ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
 
