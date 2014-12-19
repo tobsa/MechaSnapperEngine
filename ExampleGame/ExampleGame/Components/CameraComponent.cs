@@ -15,6 +15,8 @@ namespace ExampleGame.Components
         public Matrix Transform;
         public Viewport Viewport;
         public float Zoom = 1;
+        public float XOffset;
+        public float YOffset;
 
         public CameraComponent(Viewport viewPort)
         {

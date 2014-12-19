@@ -31,6 +31,7 @@ namespace ExampleGame
         public Game1()
         {
             engine = new MechaSnapperEngine(this, 1200, 800, false);
+            
         }
 
         /// <summary>
@@ -45,7 +46,9 @@ namespace ExampleGame
 
 
             cameraSystem = new CameraSystem(engine.SceneManager);
-            camComp = new CameraComponent(new Viewport());
+            camComp = new CameraComponent(GraphicsDevice.Viewport);
+            camComp.XOffset = camComp.Viewport.Width / 2; //Make so that the camera follows the object in the middle of the screen
+
             base.Initialize();
         }
 
@@ -55,7 +58,6 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-
             Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
             Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
             Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(100, 600));
@@ -66,8 +68,6 @@ namespace ExampleGame
             AnimationComponent barrarokAnim = new AnimationComponent();
             barrarokAnim.Animation = new BarrarokWalkingAnimation();
             
-            
-
 
             AgentComponent agent = new AgentComponent();
             agent.Behaviour = new SimpleAI();
@@ -77,8 +77,8 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
 
-           // ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
-            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.1f, Gravity = 32});
+            ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
+           // ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.1f, Gravity = 32});
 
 
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
@@ -123,8 +123,8 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new AISystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
-
-           // playingState.RegisterSystem(cameraSystem);
+            playingState.RegisterSystem(cameraSystem);
+            playingState.RegisterCamera(camComp); //Register cameraComponent for the state
 
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
 
@@ -152,7 +152,6 @@ namespace ExampleGame
         protected override void Update(GameTime gameTime)
         {
             engine.Update(gameTime);
-            cameraSystem.Update(gameTime); 
             base.Update(gameTime);
         }
 
@@ -165,9 +164,12 @@ namespace ExampleGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            engine.SpriteBatch.Begin();
-           // engine.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camComp.Transform);
+            
+           // engine.SpriteBatch.Begin();
+            if(camComp.IsRendering)
+                engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camComp.Transform);
+            else
+                engine.SpriteBatch.Begin();
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
             base.Draw(gameTime);
