@@ -133,10 +133,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Systems\AISystem.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Systems\AnimationSystem.cs" />
->>>>>>> 2f5cf7e7c2fe05df99b8c45467b86da4a6080157
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />

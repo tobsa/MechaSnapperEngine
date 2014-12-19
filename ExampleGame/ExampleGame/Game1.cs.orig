@@ -64,17 +64,15 @@ namespace ExampleGame
 
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
-<<<<<<< HEAD
+
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.1f, Gravity = 32});
-=======
+
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
 
->>>>>>> 2f5cf7e7c2fe05df99b8c45467b86da4a6080157
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
             ComponentManager.Instance.AddComponent<AnimationComponent>(entity5, barrarokAnim);
             ComponentManager.Instance.AddComponent<RenderComponent>(entity5, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
 
-<<<<<<< HEAD
             for (int i = 0; i < 10; i++)
             {
                 Entity tile = EntityFactory.CreateEntity(4 + i, Content.Load<Texture2D>("ship"), new Vector2(i * 32, 700));
@@ -82,9 +80,7 @@ namespace ExampleGame
             }
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
-=======
-       
->>>>>>> 2f5cf7e7c2fe05df99b8c45467b86da4a6080157
+
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);

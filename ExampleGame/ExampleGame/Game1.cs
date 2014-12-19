@@ -11,12 +11,10 @@ using Microsoft.Xna.Framework.Media;
 using GameEngine.Framework;
 using GameEngine.Systems;
 using GameEngine.Components;
-<<<<<<< HEAD
+
 using ExampleGame.Systems;
 using ExampleGame.Components;
-=======
 using ExampleGame.Animations;
->>>>>>> origin/master
 
 namespace ExampleGame
 {
@@ -77,15 +75,11 @@ namespace ExampleGame
 
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
-<<<<<<< HEAD
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
-<<<<<<< HEAD
+
            // ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
-=======
->>>>>>> origin/master
-=======
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.1f, Gravity = 32});
->>>>>>> 35d3cba8e1b035d25402e20285efc96dab1b2013
+
 
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
             ComponentManager.Instance.AddComponent<AnimationComponent>(entity5, barrarokAnim);
@@ -129,11 +123,11 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new AISystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
-<<<<<<< HEAD
+
            // playingState.RegisterSystem(cameraSystem);
-=======
+
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
->>>>>>> origin/master
+
 
             engine.RegisterState(playingState);
             engine.RegisterState(new MainMenuState(engine));
