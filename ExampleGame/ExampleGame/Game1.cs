@@ -11,8 +11,12 @@ using Microsoft.Xna.Framework.Media;
 using GameEngine.Framework;
 using GameEngine.Systems;
 using GameEngine.Components;
+<<<<<<< HEAD
 using ExampleGame.Systems;
 using ExampleGame.Components;
+=======
+using ExampleGame.Animations;
+>>>>>>> origin/master
 
 namespace ExampleGame
 {
@@ -59,22 +63,41 @@ namespace ExampleGame
             Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(600, 600));
             Entity entity4 = EntityFactory.CreateEntity(3, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
 
+            Entity entity5 = EntityFactory.CreateEmptyEntity(4, new Vector2(400, 400));
+
+
             AgentComponent agent = new AgentComponent();
             agent.Behaviour = new SimpleAI();
+
+            AnimationComponent barrarokAnim = new AnimationComponent();
+            barrarokAnim.FrameHeight = 126;
+            barrarokAnim.FrameWidth = 64;
+            barrarokAnim.Animation = new BarrarokAttackAnimation();
+            barrarokAnim.SpriteSheet = Content.Load<Texture2D>("BarrarokAnim");
+
+            
 
             ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
             ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
+<<<<<<< HEAD
            // ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
+=======
+>>>>>>> origin/master
 
             ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
+            ComponentManager.Instance.AddComponent<AnimationComponent>(entity5, barrarokAnim);
 
-            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
+       
 
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity1);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
             engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity3);
+            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
+            engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity5);
+
             engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
+
             engine.SceneManager.AddEntity("World1.Level2.Room1", 1, entity1);
             engine.SceneManager.AddEntity("World1.Level2.Room1", 0, entity2);
             engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
@@ -97,7 +120,11 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new AISystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+<<<<<<< HEAD
            // playingState.RegisterSystem(cameraSystem);
+=======
+            playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
+>>>>>>> origin/master
 
             engine.RegisterState(playingState);
             engine.RegisterState(new MainMenuState(engine));

@@ -1,4 +1,12 @@
 Content\ship.xnb
 Content\ship2.xnb
 Content\Sky.xnb
+<<<<<<< HEAD
 Content\Font.xnb
+=======
+Content\box128.xnb
+Content\box32.xnb
+Content\box64.xnb
+Content\BarrarokAnim.xnb
+Content\UnluckyJack126.xnb
+>>>>>>> origin/master

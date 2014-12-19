@@ -107,8 +107,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
+=======
+    <Compile Include="Animations\BarrarokAttackAnimation.cs" />
+    <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
+>>>>>>> origin/master
     <Compile Include="InputSystem.cs" />
     <Compile Include="MainMenuState.cs" />
     <Compile Include="PausedState.cs" />
