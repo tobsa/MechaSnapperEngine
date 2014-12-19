@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AnimationComponent.cs" />
     <Compile Include="Components\CollisionCircleComponent.cs" />
     <Compile Include="Components\CollisionRectangleComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
@@ -132,11 +133,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Systems\AISystem.cs" />
+    <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
+    <Compile Include="Framework\IAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

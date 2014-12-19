@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 using GameEngine.Framework;
 
 namespace GameEngine.Components
 {
-    public class AgentComponent : IComponent
+    public class AnimationComponent : IComponent
     {
-        public IAgentBehaviour Behaviour { get; set; }
+        public IAnimation Animation { set; get; }
     }
 }
