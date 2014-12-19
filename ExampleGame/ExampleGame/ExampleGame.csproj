@@ -110,6 +110,7 @@
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
     <Compile Include="InputSystem.cs" />
+    <Compile Include="JackInput.cs" />
     <Compile Include="MainMenuState.cs" />
     <Compile Include="PausedState.cs" />
     <Compile Include="PlayingState.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="SimpleAI.cs" />
+    <Compile Include="TileManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

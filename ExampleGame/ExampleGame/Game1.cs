@@ -24,7 +24,7 @@ namespace ExampleGame
 
         public Game1()
         {
-            engine = new MechaSnapperEngine(this, 1200, 800, false);
+            engine = new MechaSnapperEngine(this, 1600, 900, false);
         }
 
         /// <summary>
@@ -45,50 +45,26 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            Entity entity1 = EntityFactory.CreateEntity(0, Content.Load<Texture2D>("ship"), new Vector2(400, 300));
-            Entity entity2 = EntityFactory.CreateEntity(1, Content.Load<Texture2D>("ship2"), new Vector2(100, 100));
-            Entity entity3 = EntityFactory.CreateEntity(2, Content.Load<Texture2D>("ship"), new Vector2(100, 600));
-            Entity entity4 = EntityFactory.CreateEntity(3, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
+            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
+            Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(8 * 64, 10 * 64 + 8));
+            Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 6 * 64));
 
-            Entity entity5 = EntityFactory.CreateEmptyEntity(4, new Vector2(400, 400));
+            ComponentManager.Instance.AddComponent<AnimationComponent>(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
+            ComponentManager.Instance.AddComponent<RenderComponent>(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
 
-            AnimationComponent barrarokAnim = new AnimationComponent();
-            barrarokAnim.Animation = new BarrarokWalkingAnimation();
-            
-            
+            ComponentManager.Instance.AddComponent<InputComponent>(jack, new InputComponent(new JackInput()));
+            ComponentManager.Instance.AddComponent<VelocityComponent>(jack, new VelocityComponent());
+            ComponentManager.Instance.AddComponent<RigidBodyComponent>(jack, new RigidBodyComponent(28f, 0.3f, 0f));
+            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64, 6 * 64, 64, 128)));
 
+            var tiles = TileManager.LoadLevel(Content.Load<Texture2D>("Box64"));
+            foreach (var tile in tiles)
+                engine.SceneManager.AddEntity("Level1", 0, tile);
 
-            AgentComponent agent = new AgentComponent();
-            agent.Behaviour = new SimpleAI();
-            
-
-            ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
-            ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
-            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.1f, Gravity = 32});
-
-            ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
-            ComponentManager.Instance.AddComponent<AnimationComponent>(entity5, barrarokAnim);
-            ComponentManager.Instance.AddComponent<RenderComponent>(entity5, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
-
-            for (int i = 0; i < 10; i++)
-            {
-                Entity tile = EntityFactory.CreateEntity(4 + i, Content.Load<Texture2D>("ship"), new Vector2(i * 32, 700));
-                engine.SceneManager.AddEntity("World1.Level1.Room1", 0, tile);
-            }
-
-       
-
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity1);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 1, entity2);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity3);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
-            engine.SceneManager.AddEntity("World1.Level1.Room1", 0, entity5);
-
-            engine.SceneManager.AddEntity("World1.Level1.Room2", 0, entity1);
-
-            engine.SceneManager.AddEntity("World1.Level2.Room1", 1, entity1);
-            engine.SceneManager.AddEntity("World1.Level2.Room1", 0, entity2);
-            engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+            engine.SceneManager.AddEntity("Level1", 0, background);
+            engine.SceneManager.AddEntity("Level1", 1, barrarok);
+            engine.SceneManager.AddEntity("Level1", 2, jack);
+            engine.SceneManager.SetCurrentScene("Level1");
 
             InputManager.Instance.AddKeyBinding("Exit", Keys.Escape);
             InputManager.Instance.AddKeyBinding("Left", Keys.Left);
@@ -106,7 +82,7 @@ namespace ExampleGame
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
-            playingState.RegisterSystem(new AISystem(engine.SceneManager));
+            //playingState.RegisterSystem(new AISystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
 
