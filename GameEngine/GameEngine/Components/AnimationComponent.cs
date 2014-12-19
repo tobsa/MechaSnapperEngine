@@ -9,6 +9,12 @@ namespace GameEngine.Components
 {
     public class AnimationComponent : IComponent
     {
+        public AnimationComponent() { }
+        public AnimationComponent(IAnimation animation)
+        {
+            Animation = animation;
+        }
+
         public IAnimation Animation { set; get; }
     }
 }

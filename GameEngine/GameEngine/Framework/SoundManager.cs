@@ -14,10 +14,7 @@ namespace GameEngine.Framework
         private Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>(); 
 
         private static SoundManager soundManager;
-        private float masterVolume;
-        private bool isMuted = false;
-        private bool isPaused = false;
-        
+        private float masterVolume;       
 
         private SoundManager() { }
         public static SoundManager Instance

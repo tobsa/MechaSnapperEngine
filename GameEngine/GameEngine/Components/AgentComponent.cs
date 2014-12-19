@@ -8,6 +8,12 @@ namespace GameEngine.Components
 {
     public class AgentComponent : IComponent
     {
+        public AgentComponent() { }
+        public AgentComponent(IAgentBehaviour behaviour)
+        {
+            Behaviour = behaviour;
+        }
+
         public IAgentBehaviour Behaviour { get; set; }
     }
 }
