@@ -69,7 +69,7 @@ namespace GameEngine.Framework
 
         private static Entity CreateTileEntity(int id, Texture2D spriteSheet, Vector2 position, int frame, int tileWidth, int tileHeight)
         {
-            Entity entity = new Entity();
+            Entity entity = new Entity(GenerateID);
 
             var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, frame);
             var transform = new TransformComponent();
@@ -85,7 +85,7 @@ namespace GameEngine.Framework
 
         private static Entity CreateTileEntityWithCollider(int id, Texture2D spriteSheet, Vector2 position, int frame, int tileWidth, int tileHeight)
         {
-            Entity entity = new Entity();
+            Entity entity = new Entity(GenerateID);
 
             var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, Math.Abs(frame));
             var transform = new TransformComponent();
