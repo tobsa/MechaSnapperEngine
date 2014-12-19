@@ -134,7 +134,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Systems\AISystem.cs" />
+<<<<<<< HEAD
+=======
     <Compile Include="Systems\AnimationSystem.cs" />
+>>>>>>> origin/master
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />

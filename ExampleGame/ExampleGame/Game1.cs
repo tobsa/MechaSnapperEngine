@@ -11,7 +11,12 @@ using Microsoft.Xna.Framework.Media;
 using GameEngine.Framework;
 using GameEngine.Systems;
 using GameEngine.Components;
+<<<<<<< HEAD
+using ExampleGame.Systems;
+using ExampleGame.Components;
+=======
 using ExampleGame.Animations;
+>>>>>>> origin/master
 
 namespace ExampleGame
 {
@@ -21,6 +26,9 @@ namespace ExampleGame
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         MechaSnapperEngine engine;
+
+        CameraSystem cameraSystem;
+        CameraComponent camComp;
 
         public Game1()
         {
@@ -36,6 +44,10 @@ namespace ExampleGame
         protected override void Initialize()
         {
             engine.Initialize();
+
+
+            cameraSystem = new CameraSystem(engine.SceneManager);
+            camComp = new CameraComponent(new Viewport());
             base.Initialize();
         }
 
@@ -45,9 +57,17 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
+
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(8 * 64, 10 * 64 + 8));
             Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 6 * 64));
+<<<<<<< HEAD
+            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
+<<<<<<< HEAD
+           // ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
+=======
+>>>>>>> origin/master
+=======
+>>>>>>> 35d3cba8e1b035d25402e20285efc96dab1b2013
 
             ComponentManager.Instance.AddComponent<AnimationComponent>(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent<RenderComponent>(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
@@ -84,7 +104,11 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             //playingState.RegisterSystem(new AISystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+<<<<<<< HEAD
+           // playingState.RegisterSystem(cameraSystem);
+=======
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
+>>>>>>> origin/master
 
             engine.RegisterState(playingState);
             engine.RegisterState(new MainMenuState(engine));
@@ -108,7 +132,8 @@ namespace ExampleGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            engine.Update(gameTime);                
+            engine.Update(gameTime);
+            cameraSystem.Update(gameTime); 
             base.Update(gameTime);
         }
 
@@ -123,9 +148,9 @@ namespace ExampleGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             engine.SpriteBatch.Begin();
+           // engine.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camComp.Transform);
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
-
             base.Draw(gameTime);
         }
     }
