@@ -6,8 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Framework
 {
-    public interface IAnimation
+    public interface IScript
     {
-        void Update(GameTime gametime, Entity entity);
+        void Update(GameTime gameTime, Entity entity);
     }
 }

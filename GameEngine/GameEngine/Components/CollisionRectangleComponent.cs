@@ -8,6 +8,12 @@ namespace GameEngine.Components
 {
     public class CollisionRectangleComponent : IComponent
     {
+        public CollisionRectangleComponent() { }
+        public CollisionRectangleComponent(Rectangle rectangle)
+        {
+            Rectangle = rectangle;
+        }
+
         public Rectangle Rectangle { get; set; }
     }
 }

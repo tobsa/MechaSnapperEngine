@@ -11,16 +11,18 @@ namespace GameEngine.Framework
 
 
     // useless comment
-    public class EntityFactory
+    public abstract class EntityFactory
     {
+        private static int _id = 0;
+        public int ID { protected get { return _id++; } set { } }
+
         public static Entity CreateEntity(int id, Texture2D texture, Vector2 position)
         {
             Entity entity = new Entity(id);
 
-            var render = new RenderComponent();
+            var render = new RenderComponent(texture);
             var transform = new TransformComponent();
 
-            render.Texture = texture;
             transform.Position = position;
 
             ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
