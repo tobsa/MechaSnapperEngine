@@ -27,7 +27,6 @@ namespace ExampleGame
         public Game1()
         {
             engine = new MechaSnapperEngine(this, 1600, 900, false);
-            engine = new MechaSnapperEngine(this, 1600, 900, false);
         }
 
         /// <summary>
@@ -50,27 +49,27 @@ namespace ExampleGame
         {
             int[,] rocks = new int[,] 
             {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 2, 1,-5,-5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 4,-5,-5,-5, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0},
-            {0, 4,-5,-5, 6, 0, 0, 0, 0, 0, 0, 4,-5,-5,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 0}, 
-            {0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0, 8, 8, 7, 5, 5, 9, 0, 2, 2, 2, 2, 2, 2}, 
-            {0, 0, 0, 0, 4,-5, 6, 0, 0, 2, 2, 2, 2, 0, 0, 8, 8, 0, 4,-5,-5,-5,-5,-5,-5}, 
-            {0, 0, 2, 2, 1,-5, 3, 2, 4,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 7,-5,-5,-5, 9, 8}, 
-            {0, 4,-5,-5,-5,-5,-5,-5, 6, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 7,-5, 9, 0, 0}, 
-            {0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}, 
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 2, 1,-5,-5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1,-5,-5,-5, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 4, -5, 9, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 2, 2, 0, 0, 8, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0},
+                {0, 4,-5,-5, 6, 0, 0, 0, 0, 0, 0, 4,-5,-5,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 0}, 
+                {0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0, 8, 8, 7, 5, 5, 9, 0, 2, 2, 2, 2, 2, 2}, 
+                {0, 0, 0, 0, 4,-5, 6, 0, 0, 2, 2, 2, 2, 0, 0, 8, 8, 0, 4,-5,-5,-5,-5,-5,-5}, 
+                {0, 0, 2, 2, 1,-5, 3, 2, 4,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 7,-5,-5,-5, 9, 8}, 
+                {0, 4,-5,-5,-5,-5,-5,-5, 6, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 7,-5, 9, 0, 0}, 
+                {0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}, 
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
             };
 
             List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 64, 64);
 
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
-            Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(8 * 64, 10 * 64 + 8));
-            Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 6 * 64));
+            Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(5 * 64, 7 * 64 + 8));
+            Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 4 * 64));
 
             ComponentManager.Instance.AddComponent<AnimationComponent>(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent<RenderComponent>(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
@@ -78,17 +77,14 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent<InputComponent>(jack, new InputComponent(new JackInput()));
             ComponentManager.Instance.AddComponent<VelocityComponent>(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(jack, new RigidBodyComponent(28f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64, 6 * 64, 128, 128)));
+            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64, 1 * 64, 128, 128)));
 
-            
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 1, barrarok);
             engine.SceneManager.AddEntity("Level1", 2, jack);
             engine.SceneManager.AddEntities("Level1", 1, rockEntities);
             engine.SceneManager.SetCurrentScene("Level1");
 
-
-            engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.SetCurrentScene("Level1");
 
             InputManager.Instance.AddKeyBinding("Exit", Keys.Escape);
@@ -107,11 +103,11 @@ namespace ExampleGame
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
-            //playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+            playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
+
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
-
 
             engine.RegisterState(playingState);
             engine.RegisterState(mainMenuState);
