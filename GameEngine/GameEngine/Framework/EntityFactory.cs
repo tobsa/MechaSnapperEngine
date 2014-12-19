@@ -8,22 +8,17 @@ using GameEngine.Components;
 
 namespace GameEngine.Framework
 {
-
-
-    // useless comment
     public abstract class EntityFactory
     {
-        private static int _id = 0;
-        public int ID { protected get { return _id++; } set { } }
+        private static int id = 0;
+        public static int GenerateID { get { return id++; } set { } }
 
         public static Entity CreateEntity(int id, Texture2D texture, Vector2 position)
         {
             Entity entity = new Entity(id);
 
             var render = new RenderComponent(texture);
-            var transform = new TransformComponent();
-
-            transform.Position = position;
+            var transform = new TransformComponent(position);
 
             ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
             ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
@@ -35,12 +30,74 @@ namespace GameEngine.Framework
         {
             Entity entity = new Entity(id);
 
+            var transform = new TransformComponent(position);
 
+            ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
+
+            return entity;
+        }
+
+
+        
+        public static List<Entity> CreateTileWorld(int[,] world, Texture2D spriteSheet, int tileWidth, int tileHeight)
+        {
+            List<Entity> entities = new List<Entity>();
+            int tempId = 100;
+
+
+            for (int i = 0; i < 14; i++)
+            {
+                for (int j = 0; j < 25; j++)
+                {
+                    if (world[i, j] == 0)
+                    {
+                        continue;
+                    }
+                    else if (world[i, j] < 0)
+                    {
+                        Entity entity = CreateTileEntityWithCollider(tempId + (i * j), spriteSheet, new Vector2(j * tileWidth, i * tileHeight), world[i, j] + 1, tileWidth, tileHeight);
+                        entities.Add(entity);
+                    }
+                    else
+                    {
+                        Entity entity = CreateTileEntity(tempId + (i * j), spriteSheet, new Vector2(j * tileWidth, i * tileHeight), world[i, j] - 1, tileWidth, tileHeight);
+                        entities.Add(entity);
+                    }
+                }
+            }
+
+            return entities;
+        }
+
+        private static Entity CreateTileEntity(int id, Texture2D spriteSheet, Vector2 position, int frame, int tileWidth, int tileHeight)
+        {
+            Entity entity = new Entity();
+
+            var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, frame);
             var transform = new TransformComponent();
 
             transform.Position = position;
 
+            ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
             ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
+
+            return entity;
+        }
+
+
+        private static Entity CreateTileEntityWithCollider(int id, Texture2D spriteSheet, Vector2 position, int frame, int tileWidth, int tileHeight)
+        {
+            Entity entity = new Entity();
+
+            var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, Math.Abs(frame));
+            var transform = new TransformComponent();
+            // TODO: add collider component
+
+            transform.Position = position;
+
+            ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
+            ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
+            // TODO: add collider to manager
 
             return entity;
         }
