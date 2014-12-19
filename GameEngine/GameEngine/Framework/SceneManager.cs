@@ -41,5 +41,18 @@ namespace GameEngine.Framework
 
             scenes[name].AddEntity(layerPriority, entity);
         }
+
+        public void AddEntities(string name, int layerPriority, List<Entity> newEntities)
+        {
+            foreach (Entity entity in newEntities)
+            {
+                entities.Add(entity);
+
+                if (!scenes.ContainsKey(name))
+                    AddScene(new Scene(name));
+
+                scenes[name].AddEntity(layerPriority, entity);
+            }
+        }
     }
 }

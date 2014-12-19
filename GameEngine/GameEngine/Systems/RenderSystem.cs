@@ -30,8 +30,12 @@ namespace GameEngine.Systems
                 {
                     var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entities[j]);
                     var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entities[j]);
-
-                    spriteBatch.Draw(renderComponent.Texture, transformComponent.Position, Color.White);
+                    
+                    spriteBatch.Draw(renderComponent.Texture, 
+                                    transformComponent.Position, 
+                                    new Rectangle(renderComponent.Frame * renderComponent.Width , 0 , renderComponent.Width, renderComponent.Height),
+                                    Color.White);
+                    
                 }
             }
         }

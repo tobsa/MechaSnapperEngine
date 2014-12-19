@@ -41,10 +41,10 @@ namespace ExampleGame
 
         public override void Draw(GameTime gameTime)
         {
-            engine.SpriteBatch.DrawString(font, "Playing\n Press Escape to go back to main menu\n Press Enter to pause/unpause the game", Vector2.Zero, Color.White);
-
             for (int i = 0; i < renderableSystems.Count; i++)
                 renderableSystems[i].Draw(gameTime);
+
+            engine.SpriteBatch.DrawString(font, "Playing\n Press Escape to go back to main menu\n Press Enter to pause/unpause the game", Vector2.Zero, Color.White);
         }
 
         public override void StateChanged(object sender, EventArgs e)

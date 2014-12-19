@@ -8,6 +8,12 @@ namespace GameEngine.Components
 {
     public class VelocityComponent : IComponent
     {
+        public VelocityComponent() { }
+        public VelocityComponent(Vector2 velocity)
+        {
+            Velocity = velocity;
+        }
+
         public Vector2 Velocity { get; set; }
     }
 }
