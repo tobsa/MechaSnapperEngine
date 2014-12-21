@@ -47,6 +47,25 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
+            ComponentManager.Instance.AddComponent<InputComponent>(entity1, new InputComponent());
+            ComponentManager.Instance.AddComponent<VelocityComponent>(entity1, new VelocityComponent() { Velocity = new Vector2(50, -200) });
+
+            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.1f, Gravity = 32});
+
+            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
+
+            ComponentManager.Instance.AddComponent<AgentComponent>(entity3, agent);
+            ComponentManager.Instance.AddComponent<AnimationComponent>(entity5, barrarokAnim);
+            ComponentManager.Instance.AddComponent<RenderComponent>(entity5, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
+
+            for (int i = 0; i < 10; i++)
+            {
+                Entity tile = EntityFactory.CreateEntity(4 + i, Content.Load<Texture2D>("ship"), new Vector2(i * 32, 700));
+                engine.SceneManager.AddEntity("World1.Level1.Room1", 0, tile);
+            }
+
+            engine.SceneManager.AddEntity("World1.Level1.Room1", -1, entity4);
+
             int[,] rocks = new int[,] 
             {
 <<<<<<< HEAD
@@ -109,7 +128,6 @@ namespace ExampleGame
 <<<<<<< HEAD
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(5 * 64, 7 * 64 + 8));
             Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 4 * 64));
-=======
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 6 * 64));
 >>>>>>> 6265317adab0a7fdc7b5002e0c10a8e94f5b33bc
@@ -146,10 +164,11 @@ namespace ExampleGame
 
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
+
+
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
-
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 

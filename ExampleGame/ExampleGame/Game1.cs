@@ -23,7 +23,8 @@ namespace ExampleGame
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         MechaSnapperEngine engine;
-
+        CameraSystem cameraSystem;
+        CameraComponent camComp;
         public Game1()
         {
             engine = new MechaSnapperEngine(this, 1600, 900, false);
@@ -39,6 +40,13 @@ namespace ExampleGame
         protected override void Initialize()
         {
             engine.Initialize();
+
+
+            cameraSystem = new CameraSystem(engine.SceneManager);
+            camComp = new CameraComponent(GraphicsDevice.Viewport);
+            camComp.XOffset = camComp.Viewport.Width / 2; //Make so that the camera follows the object in the middle of the screen
+
+
             base.Initialize();
         }
 
@@ -48,6 +56,7 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
+
             int[,] rocks = new int[,] 
             {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -88,7 +97,7 @@ namespace ExampleGame
             List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 64, 64);
             List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 64, 64);
 
-            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0,0));
+            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 4 * 64));
 
@@ -98,13 +107,14 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent<VelocityComponent>(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(jack, new RigidBodyComponent(28f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 128, 128)));
+            ComponentManager.Instance.AddComponent<CameraComponent>(jack, camComp);
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
-            
+
             engine.SceneManager.SetCurrentScene("Level1");
 
             engine.SceneManager.SetCurrentScene("Level1");
@@ -127,7 +137,8 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
-
+            playingState.RegisterSystem(cameraSystem);
+            playingState.RegisterCamera(camComp);
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 
@@ -166,8 +177,12 @@ namespace ExampleGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            engine.SpriteBatch.Begin();
+            
+           // engine.SpriteBatch.Begin();
+            if(camComp.IsRendering)
+                engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camComp.Transform);
+            else
+                engine.SpriteBatch.Begin();
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
             base.Draw(gameTime);
