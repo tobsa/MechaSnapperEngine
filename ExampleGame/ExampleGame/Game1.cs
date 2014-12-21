@@ -84,7 +84,7 @@ namespace ExampleGame
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(8 * 64, 10 * 64 + 8));
             Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 6 * 64));
 
-            ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
+            //ComponentManager.Instance.AddComponent<RigidBodyComponent>(entity1, new RigidBodyComponent() { Friction = 0.01f, Gravity = 32});
 
            // ComponentManager.Instance.AddComponent<CameraComponent>(entity1, camComp);
 
@@ -100,7 +100,7 @@ namespace ExampleGame
             foreach (var tile in tiles)
                 engine.SceneManager.AddEntity("Level1", 0, tile);
 
-            engine.SceneManager.AddEntity("Level1", 0, background);
+           // engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 1, barrarok);
             engine.SceneManager.AddEntity("Level1", 2, jack);
             engine.SceneManager.SetCurrentScene("Level1");
