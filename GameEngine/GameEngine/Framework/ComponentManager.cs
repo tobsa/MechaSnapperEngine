@@ -32,7 +32,7 @@ namespace GameEngine.Framework
             components[type].Add(entity, component);
         }
 
-        public void RemoveComponent<T>(Entity entity)
+        public void RemoveComponent<T>(Entity entity) where T : IComponent
         {
             Type type = typeof(T);
 
@@ -40,7 +40,7 @@ namespace GameEngine.Framework
                 components[type][entity] = null;
         }
 
-        public List<Entity> GetEntities<T>()
+        public List<Entity> GetEntities<T>() where T : IComponent
         {
             if (!components.ContainsKey(typeof(T)))
                 return null;
@@ -48,12 +48,24 @@ namespace GameEngine.Framework
             return components[typeof(T)].Keys.ToList();
         }
 
-        public List<Entity> GetEntities<T>(List<Entity> entities)
+        public List<Entity> GetEntities<T>(List<Entity> entities) where T : IComponent
         {
             if(!components.ContainsKey(typeof(T)))
                 return null;
 
             return components[typeof(T)].Where(x => entities.Any(y => y.ID == x.Key.ID)).Select(x => x.Key).ToList();
+        }
+
+        public List<Entity> GetEntities(IComponent[] comps)
+        {
+            List<Entity> entities = new List<Entity>();
+
+            foreach (var component in comps)
+            {
+                entities.AddRange(components[component.GetType()].Keys);
+            }
+
+            return entities;
         }
 
         public List<T> GetComponentsOfType<T>() where T : IComponent

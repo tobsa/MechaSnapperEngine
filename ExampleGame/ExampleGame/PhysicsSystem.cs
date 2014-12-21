@@ -19,6 +19,7 @@ namespace ExampleGame
             var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.CurrentScene.Entities);
             var collisionEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.CurrentScene.Entities);
 
+
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (var entity in entities)
@@ -32,7 +33,7 @@ namespace ExampleGame
                 ApplyGravity(velocity, body, dt);
 
                 position.Position += new Vector2(velocity.Velocity.X * dt, 0);
-                box1.Rectangle = new Rectangle((int)position.Position.X, (int)position.Position.Y, box1.Rectangle.Width, box1.Rectangle.Height);
+                UpdateCollisionBox(box1, position.Position + new Vector2(0, 0), box1.Rectangle.Width, box1.Rectangle.Height);
                 foreach (var moveableEntity in collisionEntities)
                 {
                     var box2 = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(moveableEntity);
@@ -48,12 +49,12 @@ namespace ExampleGame
                             position.Position = new Vector2(box2.Rectangle.Right, position.Position.Y);
 
                         velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
-                        box1.Rectangle = new Rectangle((int)position.Position.X, (int)position.Position.Y, box1.Rectangle.Width, box1.Rectangle.Height);
+                        UpdateCollisionBox(box1, position.Position, box1.Rectangle.Width, box1.Rectangle.Height);
                     }
                 }
 
                 position.Position += new Vector2(0, velocity.Velocity.Y * dt);
-                box1.Rectangle = new Rectangle((int)position.Position.X, (int)position.Position.Y, box1.Rectangle.Width, box1.Rectangle.Height);
+                UpdateCollisionBox(box1, position.Position, box1.Rectangle.Width, box1.Rectangle.Height);
 
                 foreach (var moveableEntity in collisionEntities)
                 {
@@ -70,10 +71,15 @@ namespace ExampleGame
                             position.Position = new Vector2(position.Position.X, box2.Rectangle.Bottom);
 
                         velocity.Velocity = new Vector2(velocity.Velocity.X, 0);
-                        box1.Rectangle = new Rectangle((int)position.Position.X, (int)position.Position.Y, box1.Rectangle.Width, box1.Rectangle.Height);
+                        UpdateCollisionBox(box1, position.Position, box1.Rectangle.Width, box1.Rectangle.Height);
                     }                    
                 } 
             }
+        }
+
+        private void UpdateCollisionBox(CollisionRectangleComponent box, Vector2 position, int width, int height)
+        {
+            box.Rectangle = new Rectangle((int)position.X, (int)position.Y, box.Rectangle.Width, box.Rectangle.Height);
         }
 
         private void ApplyFriction(VelocityComponent velocity, RigidBodyComponent body, float dt)

@@ -27,6 +27,7 @@ namespace ExampleGame
         public Game1()
         {
             engine = new MechaSnapperEngine(this, 1600, 900, false);
+            //engine = new MechaSnapperEngine(this, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
         }
 
         /// <summary>
@@ -82,8 +83,7 @@ namespace ExampleGame
             {2, 2, 2, 2, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 2},
             {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
             };
-
-
+            
 
             List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 64, 64);
             List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 64, 64);
@@ -97,7 +97,7 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent<InputComponent>(jack, new InputComponent(new JackInput()));
             ComponentManager.Instance.AddComponent<VelocityComponent>(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent<RigidBodyComponent>(jack, new RigidBodyComponent(28f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64, 1 * 64, 128, 128)));
+            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 128, 128)));
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
