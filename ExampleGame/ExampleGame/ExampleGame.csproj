@@ -119,6 +119,7 @@
     <Compile Include="JackInput.cs" />
     <Compile Include="MainMenuState.cs" />
     <Compile Include="PausedState.cs" />
+    <Compile Include="PhysicsSystem.cs" />
     <Compile Include="PlayingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

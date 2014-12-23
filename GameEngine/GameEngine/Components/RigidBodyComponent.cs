@@ -13,10 +13,12 @@ namespace GameEngine.Components
             Gravity = gravity;
             Friction = friction;
             Mass = mass;
+            OnGround = false;
         }
 
         public float Gravity { get; set; }
         public float Friction { get; set; }
         public float Mass { get; set; }
+        public bool OnGround { get; set; }
     }
 }
