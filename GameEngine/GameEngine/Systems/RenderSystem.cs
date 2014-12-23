@@ -28,6 +28,9 @@ namespace GameEngine.Systems
                 var entities = ComponentManager.Instance.GetEntities<RenderComponent>(layers[i].Entities);
                 for (int j = 0; j < entities.Count; j++)
                 {
+                    if (!entities[j].Visible)
+                        continue;
+
                     var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entities[j]);
                     var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entities[j]);
 

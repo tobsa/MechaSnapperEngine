@@ -31,7 +31,8 @@ namespace ExampleGame
                 var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
 
                 ApplyFriction(velocity, body, dt);
-                Move(position, new Vector2(velocity.Velocity.X * dt, 0), collision);
+                Move(position, new Vector2(velocity.Velocity.X * dt, 0));
+                UpdateCollisionBox(collision, position);
 
                 foreach (var collidableEntity in collidableEntities)
                 {
@@ -42,10 +43,10 @@ namespace ExampleGame
 
                     if (collision.Rectangle.Intersects(otherCollision.Rectangle))
                     {
-                        if (position.Position.X < otherCollision.Rectangle.Left)
-                            position.Position = new Vector2(otherCollision.Rectangle.Left - collision.Rectangle.Width, position.Position.Y);
+                        if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
+                            position.Position = new Vector2(otherCollision.Rectangle.Left - 96, position.Position.Y);
                         else
-                            position.Position = new Vector2(otherCollision.Rectangle.Right, position.Position.Y);
+                            position.Position = new Vector2(otherCollision.Rectangle.Right - 32, position.Position.Y);
 
                         velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
                         UpdateCollisionBox(collision, position);
@@ -55,7 +56,8 @@ namespace ExampleGame
                 if (!body.OnGround)
                 {
                     ApplyGravity(velocity, body, dt);
-                    Move(position, new Vector2(0, velocity.Velocity.Y * dt), collision);
+                    Move(position, new Vector2(0, velocity.Velocity.Y * dt));
+                    UpdateCollisionBox(collision, position);
                 }
 
                 bool onGround = false;
@@ -70,7 +72,10 @@ namespace ExampleGame
                     Point bottomRight = new Point(collision.Rectangle.Right - 1, collision.Rectangle.Bottom + 1);
 
                     if (otherCollision.Rectangle.Contains(bottomLeft) || otherCollision.Rectangle.Contains(bottomRight))
+                    {
                         onGround = true;
+                        velocity.Velocity = new Vector2(velocity.Velocity.X, 0);
+                    }
 
                     if (collision.Rectangle.Intersects(otherCollision.Rectangle))
                     {
@@ -91,15 +96,14 @@ namespace ExampleGame
             }
         }
 
-        private void Move(TransformComponent position, Vector2 velocity, CollisionRectangleComponent collision)
+        private void Move(TransformComponent position, Vector2 velocity)
         {
             position.Position += velocity;
-            UpdateCollisionBox(collision, position);
         }
 
         private void UpdateCollisionBox(CollisionRectangleComponent collision, TransformComponent position)
         {
-            collision.Rectangle = new Rectangle((int)position.Position.X, (int)position.Position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+            collision.Rectangle = new Rectangle((int)position.Position.X + 32, (int)position.Position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
         }
 
         private void ApplyFriction(VelocityComponent velocity, RigidBodyComponent body, float dt)

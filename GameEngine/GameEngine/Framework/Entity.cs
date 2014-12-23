@@ -11,9 +11,12 @@ namespace GameEngine.Framework
 
         public Entity() { }
 
+        public bool Visible { get; set; }
+
         public Entity(int ID)
         {
             this.ID = ID;
+            Visible = true;
         }
     }
 }

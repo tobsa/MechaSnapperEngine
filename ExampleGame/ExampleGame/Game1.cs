@@ -100,17 +100,21 @@ namespace ExampleGame
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("UnluckyJack126"), new Vector2(2 * 64, 4 * 64));
 
-            ComponentManager.Instance.AddComponent<AnimationComponent>(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
-            ComponentManager.Instance.AddComponent<RenderComponent>(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
-            ComponentManager.Instance.AddComponent<InputComponent>(jack, new InputComponent(new JackInput()));
-            ComponentManager.Instance.AddComponent<VelocityComponent>(jack, new VelocityComponent());
-            ComponentManager.Instance.AddComponent<RigidBodyComponent>(jack, new RigidBodyComponent(40f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(jack, new CollisionRectangleComponent(new Rectangle(2 * 64, 1 * 64, 128, 128)));
-            //ComponentManager.Instance.AddComponent<CameraComponent>(jack, camComp);
+            ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
+            ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
+
+            ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
+            ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
+            ComponentManager.Instance.AddComponent(jack, new RigidBodyComponent(32f, 0.3f, 0f));
+            ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
+            //ComponentManager.Instance.AddComponent(jack, camComp);
+
+            //ComponentManager.Instance.AddComponent
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
+
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
 
@@ -124,6 +128,8 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("Up", Keys.Up);
             InputManager.Instance.AddKeyBinding("Down", Keys.Down);
             InputManager.Instance.AddKeyBinding("Jump", Keys.Space);
+            InputManager.Instance.AddKeyBinding("Shoot", Keys.F);
+
             InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);
             InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.D3);

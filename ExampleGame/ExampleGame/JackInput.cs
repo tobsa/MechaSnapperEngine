@@ -5,20 +5,20 @@ using System.Text;
 using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using GameEngine.Components;
+using ExampleGame.Components;
 
 namespace ExampleGame
 {
     public class JackInput : IScript
     {
         private float maxVelocity = 350;
-        private float jumpStrength = 810;
+        private float jumpStrength = 720;
 
         public void Update(GameTime gameTime, Entity entity)
         {
             var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
-            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
-
+            
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             var p = position.Position;
@@ -38,8 +38,12 @@ namespace ExampleGame
 
             if (InputManager.Instance.WasKeyDown("Jump"))
             {
-                newVelocity.Y = -jumpStrength;
-                body.OnGround = false;
+                var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+                //if (body.OnGround)
+                {
+                    newVelocity.Y = -jumpStrength;
+                    body.OnGround = false;
+                }
             }
 
             velocity.Velocity = newVelocity;
