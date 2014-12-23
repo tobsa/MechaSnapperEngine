@@ -107,6 +107,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\JackFallingAnimation.cs" />
+    <Compile Include="Animations\JackIdleAnimation.cs" />
+    <Compile Include="Animations\JackJumpingAnimation.cs" />
+    <Compile Include="Animations\JackRunningAnimation.cs" />
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />

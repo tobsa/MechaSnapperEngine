@@ -115,8 +115,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dot.png">
-      <Name>Dot</Name>
+    <Compile Include="UnluckyJackAnim.PNG">
+      <Name>UnluckyJackAnim</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
