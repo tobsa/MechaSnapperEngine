@@ -1,15 +1,17 @@
 Content\ship.xnb
 Content\ship2.xnb
+Content\Font.xnb
 Content\Sky.xnb
 Content\box128.xnb
 Content\box32.xnb
 Content\box64.xnb
-Content\UnluckyJack126.xnb
 Content\BarrarokAnim.xnb
-Content\Rocks_BG_64x64.xnb
+Content\UnluckyJack126.xnb
 Content\Rocks_FG_64x64.xnb
-Content\Font.xnb
+Content\Rocks_BG_64x64.xnb
+<<<<<<< HEAD
+Content\UnluckyJackAnim.xnb
 =======
-Content\Rocks_FG_64x64.xnb
-Content\Rocks_BG_64x64.xnb
->>>>>>> 6265317adab0a7fdc7b5002e0c10a8e94f5b33bc
+Content\Font.xnb
+Content\Dot.xnb
+>>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
