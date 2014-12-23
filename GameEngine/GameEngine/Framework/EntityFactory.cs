@@ -20,8 +20,8 @@ namespace GameEngine.Framework
             var render = new RenderComponent(texture);
             var transform = new TransformComponent(position);
 
-            ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
-            ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
+            ComponentManager.Instance.AddComponent(entity, render);
+            ComponentManager.Instance.AddComponent(entity, transform);
 
             return entity;
         }
@@ -32,7 +32,7 @@ namespace GameEngine.Framework
 
             var transform = new TransformComponent(position);
 
-            ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
+            ComponentManager.Instance.AddComponent(entity, transform);
 
             return entity;
         }
@@ -76,8 +76,8 @@ namespace GameEngine.Framework
 
             transform.Position = position;
 
-            ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
-            ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
+            ComponentManager.Instance.AddComponent(entity, render);
+            ComponentManager.Instance.AddComponent(entity, transform);
 
             return entity;
         }
@@ -93,9 +93,9 @@ namespace GameEngine.Framework
 
             transform.Position = position;
 
-            ComponentManager.Instance.AddComponent<RenderComponent>(entity, render);
-            ComponentManager.Instance.AddComponent<TransformComponent>(entity, transform);
-            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(entity, collisionRec);
+            ComponentManager.Instance.AddComponent(entity, render);
+            ComponentManager.Instance.AddComponent(entity, transform);
+            ComponentManager.Instance.AddComponent(entity, collisionRec);
 
             return entity;
         }

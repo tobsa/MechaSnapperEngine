@@ -41,7 +41,7 @@ namespace ExampleGame
         {
             Entity entity = EntityFactory.CreateEntity(EntityFactory.GenerateID, texture, new Vector2(x, y));
 
-            ComponentManager.Instance.AddComponent<CollisionRectangleComponent>(entity, new CollisionRectangleComponent(new Rectangle(x, y, texture.Width, texture.Height)));
+            ComponentManager.Instance.AddComponent(entity, new CollisionRectangleComponent(new Rectangle(x, y, texture.Width, texture.Height)));
 
             return entity;
         }

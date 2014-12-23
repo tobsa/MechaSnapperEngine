@@ -12,7 +12,7 @@ namespace ExampleGame
     public class JackInput : IScript
     {
         private float maxVelocity = 350;
-        private float jumpStrength = 810;
+        private float jumpStrength = 720;
         private IAnimation idleAnim = new JackIdleAnimation();
         private IAnimation runningAnim = new JackRunningAnimation();
         private IAnimation fallingAnim = new JackFallingAnimation();
@@ -26,13 +26,12 @@ namespace ExampleGame
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
-            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
-
+            
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            var p = position.Position;
+            var p = transform.Position;
             p.X = (float)Math.Round(p.X);
-            position.Position = p;
+            transform.Position = p;
 
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
@@ -44,6 +43,7 @@ namespace ExampleGame
                     Vector2 newScale = flip(transform.Scale);
                     transform.Scale = newScale;
                 }
+
                 newVelocity.X = -maxVelocity;
                 anim.Animation = runningAnim;
             }
@@ -60,8 +60,12 @@ namespace ExampleGame
 
             if (InputManager.Instance.WasKeyDown("Jump"))
             {
-                newVelocity.Y = -jumpStrength;
-                body.OnGround = false;
+                var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+                //if (body.OnGround)
+                {
+                    newVelocity.Y = -jumpStrength;
+                    body.OnGround = false;
+                }
             }
 
 

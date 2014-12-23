@@ -5,6 +5,9 @@ using System.Text;
 using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using GameEngine.Components;
+<<<<<<< HEAD
+using ExampleGame.Components;
+=======
 using ExampleGame.Animations;
 
 namespace ExampleGame
@@ -13,7 +16,9 @@ namespace ExampleGame
     {
         private float maxVelocity = 350;
 <<<<<<< HEAD
-        private float jumpStrength = 680;
+        private float jumpStrength = 720;
+=======
+        private float jumpStrength = 810;
         private IAnimation idleAnim = new JackIdleAnimation();
         private IAnimation runningAnim = new JackRunningAnimation();
         private IAnimation fallingAnim = new JackFallingAnimation();
@@ -30,10 +35,10 @@ namespace ExampleGame
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
 <<<<<<< HEAD
-            var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+            
 =======
+            var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
->>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -67,8 +72,12 @@ namespace ExampleGame
 
             if (InputManager.Instance.WasKeyDown("Jump"))
             {
-                newVelocity.Y = -jumpStrength;
-                body.OnGround = false;
+                var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+                //if (body.OnGround)
+                {
+                    newVelocity.Y = -jumpStrength;
+                    body.OnGround = false;
+                }
             }
 
 

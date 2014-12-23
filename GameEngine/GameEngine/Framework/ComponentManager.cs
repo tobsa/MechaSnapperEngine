@@ -22,9 +22,9 @@ namespace GameEngine.Framework
             }
         }
 
-        public void AddComponent<T>(Entity entity, IComponent component)
+        public void AddComponent(Entity entity, IComponent component)
         {
-            Type type = typeof(T);
+            Type type = component.GetType();
 
             if (!components.ContainsKey(type))
                 components.Add(type, new Dictionary<Entity, IComponent>());
@@ -70,11 +70,19 @@ namespace GameEngine.Framework
 
         public List<T> GetComponentsOfType<T>() where T : IComponent
         {
+            if(!components.ContainsKey(typeof(T)))
+                return null;
+
             return components[typeof(T)].Values.Select(x => (T)x).ToList();
         }
 
         public T GetComponentOfType<T>(Entity entity) where T : IComponent
         {
+            if(!components.ContainsKey(typeof(T)))
+                return default(T);
+            if (!components[typeof(T)].ContainsKey(entity))
+                return default(T);
+
             return (T)components[typeof(T)][entity];
         }
     }
