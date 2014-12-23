@@ -5,33 +5,46 @@ using System.Text;
 using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using GameEngine.Components;
+<<<<<<< HEAD
+using ExampleGame.Components;
+=======
 using ExampleGame.Animations;
+>>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
 
 namespace ExampleGame
 {
     public class JackInput : IScript
     {
         private float maxVelocity = 350;
+<<<<<<< HEAD
         private float jumpStrength = 720;
+=======
+        private float jumpStrength = 810;
         private IAnimation idleAnim = new JackIdleAnimation();
         private IAnimation runningAnim = new JackRunningAnimation();
         private IAnimation fallingAnim = new JackFallingAnimation();
         private IAnimation jumpingAnim = new JackJumpingAnimation();
         private bool facingRight = true;
         
+>>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
 
         public void Update(GameTime gameTime, Entity entity)
         {
             // FIX : set transform component in order to get flip to work
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
-            var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+<<<<<<< HEAD
             
+=======
+            var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+
+>>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            var p = transform.Position;
+            var p = position.Position;
             p.X = (float)Math.Round(p.X);
-            transform.Position = p;
+            position.Position = p;
 
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
@@ -43,7 +56,6 @@ namespace ExampleGame
                     Vector2 newScale = flip(transform.Scale);
                     transform.Scale = newScale;
                 }
-
                 newVelocity.X = -maxVelocity;
                 anim.Animation = runningAnim;
             }

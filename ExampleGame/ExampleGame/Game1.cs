@@ -102,11 +102,14 @@ namespace ExampleGame
 
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
-            ComponentManager.Instance.AddComponent<RenderComponent>(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim"), 128, 128, 0));
-            ComponentManager.Instance.AddComponent<AnimationComponent>(jack, new AnimationComponent(new JackIdleAnimation()));
-
+            
+            ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim"), 128, 128, 0));
+            ComponentManager.Instance.AddComponent(jack, new AnimationComponent(new JackIdleAnimation()));
             ComponentManager.Instance.AddComponent(jack, new RigidBodyComponent(32f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
+            ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
+            ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
+
             //ComponentManager.Instance.AddComponent(jack, camComp);
 
             //ComponentManager.Instance.AddComponent
