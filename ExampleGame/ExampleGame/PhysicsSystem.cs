@@ -12,13 +12,14 @@ namespace ExampleGame
     public class PhysicsSystem : EntitySystem, IUpdateableSystem
     {
         public PhysicsSystem(SceneManager sceneManager) :
-            base(sceneManager) { }
+            base(sceneManager) 
+        {
+        }
 
         public void Update(GameTime gameTime)
         {
             var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.CurrentScene.Entities);
-            var collisionEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.CurrentScene.Entities);
-
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.CurrentScene.Entities);
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -27,59 +28,78 @@ namespace ExampleGame
                 var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
                 var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
                 var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
-                var box1 = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+                var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
 
                 ApplyFriction(velocity, body, dt);
-                ApplyGravity(velocity, body, dt);
+                Move(position, new Vector2(velocity.Velocity.X * dt, 0), collision);
 
-                position.Position += new Vector2(velocity.Velocity.X * dt, 0);
-                UpdateCollisionBox(box1, position.Position + new Vector2(0, 0), box1.Rectangle.Width, box1.Rectangle.Height);
-                foreach (var moveableEntity in collisionEntities)
+                foreach (var collidableEntity in collidableEntities)
                 {
-                    var box2 = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(moveableEntity);
+                    var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
 
-                    if (box1 == box2)
+                    if (collision == otherCollision)
                         continue;
 
-                    if (box1.Rectangle.Intersects(box2.Rectangle))
+                    if (collision.Rectangle.Intersects(otherCollision.Rectangle))
                     {
-                        if(position.Position.X < box2.Rectangle.Left)
-                            position.Position = new Vector2(box2.Rectangle.Left - box1.Rectangle.Width, position.Position.Y);
+                        if (position.Position.X < otherCollision.Rectangle.Left)
+                            position.Position = new Vector2(otherCollision.Rectangle.Left - collision.Rectangle.Width, position.Position.Y);
                         else
-                            position.Position = new Vector2(box2.Rectangle.Right, position.Position.Y);
+                            position.Position = new Vector2(otherCollision.Rectangle.Right, position.Position.Y);
 
                         velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
-                        UpdateCollisionBox(box1, position.Position, box1.Rectangle.Width, box1.Rectangle.Height);
+                        UpdateCollisionBox(collision, position);
                     }
                 }
 
-                position.Position += new Vector2(0, velocity.Velocity.Y * dt);
-                UpdateCollisionBox(box1, position.Position, box1.Rectangle.Width, box1.Rectangle.Height);
-
-                foreach (var moveableEntity in collisionEntities)
+                if (!body.OnGround)
                 {
-                    var box2 = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(moveableEntity);
+                    ApplyGravity(velocity, body, dt);
+                    Move(position, new Vector2(0, velocity.Velocity.Y * dt), collision);
+                }
 
-                    if (box1 == box2)
+                bool onGround = false;
+                foreach (var collidableEntity in collidableEntities)
+                {
+                    var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                    if (collision == otherCollision)
                         continue;
 
-                    if (box1.Rectangle.Intersects(box2.Rectangle))
-                    {
-                        if(position.Position.Y < box2.Rectangle.Top)
-                            position.Position = new Vector2(position.Position.X, box2.Rectangle.Top - box1.Rectangle.Height);
-                        else
-                            position.Position = new Vector2(position.Position.X, box2.Rectangle.Bottom);
+                    Point bottomLeft  = new Point(collision.Rectangle.Left + 1, collision.Rectangle.Bottom + 1);
+                    Point bottomRight = new Point(collision.Rectangle.Right - 1, collision.Rectangle.Bottom + 1);
 
+                    if (otherCollision.Rectangle.Contains(bottomLeft) || otherCollision.Rectangle.Contains(bottomRight))
+                        onGround = true;
+
+                    if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                    {
+                        if (position.Position.Y < otherCollision.Rectangle.Top)
+                        {
+                            position.Position = new Vector2(position.Position.X, otherCollision.Rectangle.Top - collision.Rectangle.Height);
+                            body.OnGround = true;
+                        }
+                        else
+                            position.Position = new Vector2(position.Position.X, otherCollision.Rectangle.Bottom);
+
+                        UpdateCollisionBox(collision, position);
                         velocity.Velocity = new Vector2(velocity.Velocity.X, 0);
-                        UpdateCollisionBox(box1, position.Position, box1.Rectangle.Width, box1.Rectangle.Height);
-                    }                    
-                } 
+                    }
+                }
+
+                body.OnGround = onGround;
             }
         }
 
-        private void UpdateCollisionBox(CollisionRectangleComponent box, Vector2 position, int width, int height)
+        private void Move(TransformComponent position, Vector2 velocity, CollisionRectangleComponent collision)
         {
-            box.Rectangle = new Rectangle((int)position.X, (int)position.Y, box.Rectangle.Width, box.Rectangle.Height);
+            position.Position += velocity;
+            UpdateCollisionBox(collision, position);
+        }
+
+        private void UpdateCollisionBox(CollisionRectangleComponent collision, TransformComponent position)
+        {
+            collision.Rectangle = new Rectangle((int)position.Position.X, (int)position.Position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
         }
 
         private void ApplyFriction(VelocityComponent velocity, RigidBodyComponent body, float dt)

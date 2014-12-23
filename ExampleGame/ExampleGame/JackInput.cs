@@ -11,14 +11,19 @@ namespace ExampleGame
     public class JackInput : IScript
     {
         private float maxVelocity = 350;
-        private float jumpStrength = 680;
+        private float jumpStrength = 810;
 
         public void Update(GameTime gameTime, Entity entity)
         {
             var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
+            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            var p = position.Position;
+            p.X = (float)Math.Round(p.X);
+            position.Position = p;
 
             Vector2 newVelocity = velocity.Velocity;
 
@@ -34,6 +39,7 @@ namespace ExampleGame
             if (InputManager.Instance.WasKeyDown("Jump"))
             {
                 newVelocity.Y = -jumpStrength;
+                body.OnGround = false;
             }
 
             velocity.Velocity = newVelocity;
