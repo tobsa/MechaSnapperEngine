@@ -112,6 +112,8 @@
     <Compile Include="Animations\JackJumpingAnimation.cs" />
     <Compile Include="Animations\JackRunningAnimation.cs" />
     <Compile Include="Components\CameraComponent.cs" />
+    <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\TeleportComponent.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
@@ -125,6 +127,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="SimpleAI.cs" />
+    <Compile Include="Systems\HealthSystem.cs" />
+    <Compile Include="Systems\TeleportSystem.cs" />
     <Compile Include="TileManager.cs" />
   </ItemGroup>
   <ItemGroup>

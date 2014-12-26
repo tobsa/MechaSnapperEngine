@@ -9,7 +9,7 @@ using GameEngine.Components;
 
 namespace ExampleGame
 {
-    public class PhysicsSystem : EntitySystem, IUpdateableSystem
+    public class PhysicsSystem : EntitySystem, IUpdatableSystem
     {
         public PhysicsSystem(SceneManager sceneManager) :
             base(sceneManager) 

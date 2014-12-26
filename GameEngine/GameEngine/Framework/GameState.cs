@@ -11,7 +11,7 @@ namespace GameEngine.Framework
     {
         protected MechaSnapperEngine engine;
 
-        protected List<IUpdateableSystem> updateableSystems = new List<IUpdateableSystem>();
+        protected List<IUpdatableSystem> updateableSystems = new List<IUpdatableSystem>();
         protected List<IRenderableSystem> renderableSystems = new List<IRenderableSystem>();
 
         public GameState(MechaSnapperEngine engine)
@@ -34,8 +34,8 @@ namespace GameEngine.Framework
 
         public void RegisterSystem(EntitySystem system)
         {
-            if (system is IUpdateableSystem)
-                updateableSystems.Add(system as IUpdateableSystem);
+            if (system is IUpdatableSystem)
+                updateableSystems.Add(system as IUpdatableSystem);
 
             if (system is IRenderableSystem)
                 renderableSystems.Add(system as IRenderableSystem);
@@ -43,8 +43,8 @@ namespace GameEngine.Framework
 
         public void UnregisterSystem(EntitySystem system)
         {
-            if (system is IUpdateableSystem)
-                updateableSystems.Remove(system as IUpdateableSystem);
+            if (system is IUpdatableSystem)
+                updateableSystems.Remove(system as IUpdatableSystem);
 
             if (system is IRenderableSystem)
                 renderableSystems.Remove(system as IRenderableSystem);

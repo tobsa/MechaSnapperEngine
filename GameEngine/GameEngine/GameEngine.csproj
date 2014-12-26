@@ -137,7 +137,7 @@
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
-    <Compile Include="Systems\IUpdateableSystem.cs" />
+    <Compile Include="Systems\IUpdatableSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Framework\IAnimation.cs" />
   </ItemGroup>

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 
 namespace ExampleGame.Systems {
-    class TeleportSystem : EntitySystem, IUpdateableSystem {
+    class TeleportSystem : EntitySystem, IUpdatableSystem {
         public TeleportSystem(SceneManager manager)
             : base(manager) {
 
@@ -38,8 +38,10 @@ namespace ExampleGame.Systems {
         private void InChamber() {
 
         }
+
         private void CalculatePosition(TeleportComponent teleport, TransformComponent transform) {
             float positionX, positionY, deltaTime;
+            deltaTime = 0;
             teleport.VelocityX = teleport.VelocityX * (float)Math.Cos(teleport.ElevationDegree);
             teleport.VelocityY = teleport.VelocityY * (float)Math.Sin(teleport.ElevationDegree);
             positionX = transform.Position.X + teleport.VelocityX * deltaTime;

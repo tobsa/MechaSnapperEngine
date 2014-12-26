@@ -9,7 +9,7 @@ using GameEngine.Components;
 
 namespace GameEngine.Systems
 {
-    public class AnimationSystem : EntitySystem, IUpdateableSystem
+    public class AnimationSystem : EntitySystem, IUpdatableSystem
     {
         private SpriteBatch spriteBatch;
 

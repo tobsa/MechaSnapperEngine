@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ExampleGame.Components {
     class TeleportComponent : IComponent{
-        public static const int InChamber = 0;
-        public static const int OnAir = 1;
-        public static const int OnGround = 2;
+        public const int InChamber = 0;
+        public const int OnAir = 1;
+        public const int OnGround = 2;
         public int State { get; set; }
         public float ElevationDegree { get; set;}
         public float Velocity { get; set; }
