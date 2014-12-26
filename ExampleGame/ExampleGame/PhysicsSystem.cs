@@ -99,6 +99,10 @@ namespace ExampleGame
         private void Move(TransformComponent position, Vector2 velocity)
         {
             position.Position += velocity;
+            //For the camera, we need to put Jack at a pixel and not in between. Which means that we can't have it at x.xx, need it at x.00
+            var p = position.Position;
+            p.X = (float)Math.Round(p.X);
+            position.Position = p;
         }
 
         private void UpdateCollisionBox(CollisionRectangleComponent collision, TransformComponent position)

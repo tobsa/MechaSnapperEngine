@@ -29,10 +29,6 @@ namespace ExampleGame
             
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            var p = transform.Position;
-            p.X = (float)Math.Round(p.X);
-            transform.Position = p;
-
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
 
@@ -68,7 +64,6 @@ namespace ExampleGame
                 }
             }
 
-
             velocity.Velocity = newVelocity;
 
             // set animaiton based on movement
@@ -80,6 +75,8 @@ namespace ExampleGame
             {
                 anim.Animation = jumpingAnim;
             }
+
+
         }
 
         private Vector2 flip(Vector2 scale)
