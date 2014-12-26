@@ -111,7 +111,7 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
             ComponentManager.Instance.AddComponent(jack, camComp);
-
+            SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);

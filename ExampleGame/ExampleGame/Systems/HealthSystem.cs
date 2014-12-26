@@ -22,7 +22,12 @@ namespace ExampleGame.Systems
 
             foreach (Entity entity in entities)
             {
-                //Playa sound om död
+                HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
+                if (!health.IsJack) return;
+                if (!health.IsAlive)
+                {
+
+                }
             }
 
         }

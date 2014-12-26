@@ -62,6 +62,7 @@ namespace ExampleGame
                     newVelocity.Y = -jumpStrength;
                     body.OnGround = false;
                 }
+                SoundManager.Instance.PlaySong("JackJump");
             }
 
             velocity.Velocity = newVelocity;
