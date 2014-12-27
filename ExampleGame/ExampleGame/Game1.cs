@@ -27,7 +27,7 @@ namespace ExampleGame
         CameraComponent camComp;
         public Game1()
         {
-            engine = new MechaSnapperEngine(this, 1600, 900, false);
+            engine = new MechaSnapperEngine(this, 1366, 768, false);
             //engine = new MechaSnapperEngine(this, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
         }
 
@@ -99,6 +99,7 @@ namespace ExampleGame
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
+            Entity teleport = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
 
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
@@ -110,9 +111,9 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
+            //ComponentManager.Instance(teleport, new TeleportComponent());
+            //ComponentManager.Instance(teleport, new TransformComponent());
             //ComponentManager.Instance.AddComponent(jack, camComp);
-
-            //ComponentManager.Instance.AddComponent
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
@@ -145,6 +146,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
+            //playingState.RegisterSystem(new TeleportSystem(engine.SceneManager));
             //playingState.RegisterSystem(cameraSystem);
             //playingState.RegisterCamera(camComp);
             var mainMenuState = new MainMenuState(engine);
@@ -190,8 +192,7 @@ namespace ExampleGame
             //if (camComp.IsRendering)
             //    engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
             //else
-                engine.SpriteBatch.Begin();
-
+            engine.SpriteBatch.Begin();
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
 
