@@ -13,8 +13,7 @@ namespace GameEngine.Components
         {
             Position = position;
         }
-
-
+        public Vector2 RotationOrigin { get; set; }
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }
         public Vector2 Scale { get; set; }
