@@ -66,6 +66,7 @@ namespace ExampleGame
                     body.OnGround = false;
                     anim.Animation = jumpingAnim;
                 }
+
                 SoundManager.Instance.PlaySong("JackJump");
             }
 
