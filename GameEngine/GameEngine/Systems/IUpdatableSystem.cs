@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Systems
 {
-    public interface IUpdateableSystem
+    public interface IUpdatableSystem
     {
         void Update(GameTime gameTime);
     }

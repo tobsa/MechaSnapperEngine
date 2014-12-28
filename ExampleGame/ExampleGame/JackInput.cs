@@ -30,10 +30,6 @@ namespace ExampleGame
             
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            var p = transform.Position;
-            p.X = (float)Math.Round(p.X);
-            transform.Position = p;
-
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
 
@@ -66,8 +62,8 @@ namespace ExampleGame
                     newVelocity.Y = -jumpStrength;
                     body.OnGround = false;
                 }
+                SoundManager.Instance.PlaySong("JackJump");
             }
-
 
             velocity.Velocity = newVelocity;
 
@@ -80,6 +76,8 @@ namespace ExampleGame
             {
                 anim.Animation = fallingAnim;
             }
+
+
         }
 
         private Vector2 flip(Vector2 scale)

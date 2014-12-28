@@ -115,10 +115,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JackDeath.mp3">
+      <Name>JackDeath</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     <Compile Include="PortalGun.png">
       <Name>PortalGun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JackJump.mp3">
+      <Name>JackJump</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

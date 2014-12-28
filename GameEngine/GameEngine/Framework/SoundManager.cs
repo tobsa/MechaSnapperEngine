@@ -45,7 +45,6 @@ namespace GameEngine.Framework
             MediaPlayer.Pause();
         }
 
-
         public void ResumeSong()
         {
             MediaPlayer.Resume();

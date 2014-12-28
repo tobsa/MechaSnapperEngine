@@ -50,7 +50,7 @@ namespace ExampleGame
 
         public override void Draw(GameTime gameTime)
         {
-            //if (IsCameraRendering())
+            if (IsCameraRendering())
             {
                 for (int i = 0; i < renderableSystems.Count; i++)
                     renderableSystems[i].Draw(gameTime);
