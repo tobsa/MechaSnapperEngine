@@ -119,6 +119,7 @@
       <Name>JackDeath</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+    </Compile>
     <Compile Include="PortalGun.png">
       <Name>PortalGun</Name>
       <Importer>TextureImporter</Importer>

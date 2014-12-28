@@ -111,8 +111,9 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
-
+            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
             ComponentManager.Instance.AddComponent(jack, camComp);
+
             SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
@@ -121,8 +122,6 @@ namespace ExampleGame
 
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
-
-            engine.SceneManager.SetCurrentScene("Level1");
 
             engine.SceneManager.SetCurrentScene("Level1");
 
@@ -148,6 +147,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
             playingState.RegisterCamera(camComp);
+
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 
@@ -187,10 +187,9 @@ namespace ExampleGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
-            if (camComp.IsRendering)
-                engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
-            else
+            //if (camComp.IsRendering)
+            //    engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
+            //else
                 engine.SpriteBatch.Begin();
 
             engine.Draw(gameTime);
