@@ -8,7 +8,7 @@ using GameEngine.Components;
 
 namespace GameEngine.Systems
 {
-    public class AISystem : EntitySystem, IUpdateableSystem
+    public class AISystem : EntitySystem, IUpdatableSystem
     {
         public AISystem(SceneManager sceneManager) :
             base(sceneManager)

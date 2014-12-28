@@ -9,7 +9,7 @@ using GameEngine.Components;
 
 namespace ExampleGame
 {
-    public class InputSystem : EntitySystem, IUpdateableSystem 
+    public class InputSystem : EntitySystem, IUpdatableSystem 
     {
         public InputSystem(SceneManager sceneManager) :
             base (sceneManager)

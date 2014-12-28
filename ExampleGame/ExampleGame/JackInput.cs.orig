@@ -9,7 +9,6 @@ using GameEngine.Components;
 using ExampleGame.Components;
 =======
 using ExampleGame.Animations;
->>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
 
 namespace ExampleGame
 {
@@ -26,7 +25,9 @@ namespace ExampleGame
         private IAnimation jumpingAnim = new JackJumpingAnimation();
         private bool facingRight = true;
         
->>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
+=======
+        private float jumpStrength = 810;
+>>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
 
         public void Update(GameTime gameTime, Entity entity)
         {
@@ -39,7 +40,6 @@ namespace ExampleGame
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
 
->>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             var p = position.Position;

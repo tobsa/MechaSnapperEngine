@@ -6,8 +6,9 @@ Content\box128.xnb
 Content\box32.xnb
 Content\box64.xnb
 Content\BarrarokAnim.xnb
-<<<<<<< HEAD
-=======
+Content\Rocks_BG_64x64.xnb
+Content\Rocks_FG_64x64.xnb
+Content\Font.xnb
 Content\UnluckyJack126.xnb
 >>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
 Content\Rocks_FG_64x64.xnb
@@ -16,3 +17,5 @@ Content\UnluckyJackAnim.xnb
 Content\Dot.xnb
 Content\Projectile.xnb
 Content\CollisionBox.xnb
+Content\Dot.xnb
+>>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
