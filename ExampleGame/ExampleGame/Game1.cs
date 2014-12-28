@@ -99,6 +99,8 @@ namespace ExampleGame
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
+            Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+
 
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
@@ -110,6 +112,8 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
+            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -47, -32));
+
             //ComponentManager.Instance.AddComponent(jack, camComp);
 
             //ComponentManager.Instance.AddComponent
@@ -117,6 +121,7 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
+            engine.SceneManager.AddEntity("Level1", 4, portalGun);
 
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
@@ -145,6 +150,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
+            playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
             //playingState.RegisterSystem(cameraSystem);
             //playingState.RegisterCamera(camComp);
             var mainMenuState = new MainMenuState(engine);
