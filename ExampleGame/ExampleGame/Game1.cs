@@ -112,8 +112,6 @@ namespace ExampleGame
 
             //ComponentManager.Instance.AddComponent(jack, camComp);
 
-            //ComponentManager.Instance.AddComponent
-
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);

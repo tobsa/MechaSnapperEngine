@@ -13,7 +13,6 @@ namespace ExampleGame.Systems
 {
     public class CameraSystem : EntitySystem, IUpdateableSystem
     {
-
         public CameraSystem(SceneManager sceneManager) :
             base(sceneManager)
         {
