@@ -5,30 +5,68 @@ using System.Text;
 using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using GameEngine.Components;
+<<<<<<< HEAD
 using ExampleGame.Animations;
+=======
+<<<<<<< HEAD
+using ExampleGame.Components;
+=======
+using ExampleGame.Animations;
+>>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
+>>>>>>> 26f0c148706d14a3b0da7118bb4801b2da81433d
 
 namespace ExampleGame
 {
     public class JackInput : IScript
     {
         private float maxVelocity = 350;
+<<<<<<< HEAD
+<<<<<<< HEAD
+        private float jumpStrength = 680;
+=======
         private float jumpStrength = 720;
+=======
+        private float jumpStrength = 810;
+>>>>>>> 26f0c148706d14a3b0da7118bb4801b2da81433d
         private IAnimation idleAnim = new JackIdleAnimation();
         private IAnimation runningAnim = new JackRunningAnimation();
         private IAnimation fallingAnim = new JackFallingAnimation();
         private IAnimation jumpingAnim = new JackJumpingAnimation();
         private bool facingRight = true;
         
+<<<<<<< HEAD
+=======
+        private float jumpStrength = 810;
+>>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
+=======
+>>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
+>>>>>>> 26f0c148706d14a3b0da7118bb4801b2da81433d
 
         public void Update(GameTime gameTime, Entity entity)
         {
             // FIX : set transform component in order to get flip to work
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
+<<<<<<< HEAD
+<<<<<<< HEAD
+            var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+=======
+            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+>>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
+
+=======
+            
+=======
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
-            
+
+>>>>>>> c32dc35d58bfb48eb92b1fec89a13edba15c4c82
+>>>>>>> 26f0c148706d14a3b0da7118bb4801b2da81433d
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            var p = position.Position;
+            p.X = (float)Math.Round(p.X);
+            position.Position = p;
 
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
@@ -40,10 +78,7 @@ namespace ExampleGame
                     Vector2 newScale = flip(transform.Scale);
                     transform.Scale = newScale;
                 }
-
                 newVelocity.X = -maxVelocity;
-
-
                 anim.Animation = runningAnim;
             }
             if (InputManager.Instance.IsKeyDown("Right"))
@@ -53,36 +88,37 @@ namespace ExampleGame
                     Vector2 newScale = flip(transform.Scale);
                     transform.Scale = newScale;
                 }
-
                 newVelocity.X = +maxVelocity;
                 anim.Animation = runningAnim;
             }
 
             if (InputManager.Instance.WasKeyDown("Jump"))
             {
-                if (body.OnGround)
+<<<<<<< HEAD
+                newVelocity.Y = -jumpStrength;
+                body.OnGround = false;
+=======
+                var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+                //if (body.OnGround)
                 {
                     newVelocity.Y = -jumpStrength;
                     body.OnGround = false;
-                    anim.Animation = jumpingAnim;
                 }
-
-                SoundManager.Instance.PlaySong("JackJump");
+>>>>>>> 26f0c148706d14a3b0da7118bb4801b2da81433d
             }
+
 
             velocity.Velocity = newVelocity;
 
             // set animaiton based on movement
-            if (velocity.Velocity.Y < 0)
+            if (velocity.Velocity.Y > 5)
+            {
+                //anim.Animation = fallingAnim;
+            }
+            else if (velocity.Velocity.Y < 0)
             {
                 anim.Animation = jumpingAnim;
             }
-            else if (body.OnGround == false)
-            {
-                anim.Animation = fallingAnim;
-            }
-
-
         }
 
         private Vector2 flip(Vector2 scale)
