@@ -120,14 +120,13 @@ namespace ExampleGame
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
            // ComponentManager.Instance.AddComponent(jack, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
-            ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("heart"), 64, 64, 0));
+            ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
             //Add Camera to Jack
+            ComponentManager.Instance.AddComponent(jack, camComp);
 
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
 
-            ComponentManager.Instance.AddComponent(jack, camComp);
-
-
+            
             SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
 
             engine.SceneManager.AddEntity("Level1", 0, background);
@@ -168,6 +167,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
+            playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
 
             playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
@@ -214,9 +214,9 @@ namespace ExampleGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //if (camComp.IsRendering)
-            //    engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
-            //else
+            if (camComp.IsRendering)
+                engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
+            else
                 engine.SpriteBatch.Begin();
 
             engine.Draw(gameTime);

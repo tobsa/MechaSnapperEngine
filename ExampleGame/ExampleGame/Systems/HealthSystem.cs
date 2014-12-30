@@ -28,6 +28,7 @@ namespace ExampleGame.Systems
 
                 var cameraComponent = ComponentManager.Instance.GetComponentsOfType<CameraComponent>();
                 var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+                
                 //Position the health
                 Vector2 newPosition = transformComponent.Position;
                 newPosition.X = -cameraComponent[0].Transform.M41;
@@ -44,8 +45,9 @@ namespace ExampleGame.Systems
             {
                 HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
                 if (!health.IsJack || !health.IsAlive || health.CurrentHP == 0) return;
+                var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
 
-                //TODO: Change number of hearts. Or do this in the Update
+                renderComponent.Frame = health.CurrentHP - 1;
             }
         }
     }
