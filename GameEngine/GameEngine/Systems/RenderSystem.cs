@@ -38,7 +38,7 @@ namespace GameEngine.Systems
                                     transformComponent.Position, 
                                     new Rectangle(renderComponent.Frame * renderComponent.Width , 0 , renderComponent.Width, renderComponent.Height),
                                     Color.White, transformComponent.Rotation, transformComponent.RotationOrigin, 
-                                    transformComponent.Scale, SpriteEffects.None, 0f);
+                                    transformComponent.Scale, renderComponent.Effect, 0f);
                 }
             }
         }
