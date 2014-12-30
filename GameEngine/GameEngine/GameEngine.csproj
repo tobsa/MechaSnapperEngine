@@ -112,6 +112,7 @@
     <Compile Include="Components\CollisionRectangleComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\ParentComponent.cs" />
     <Compile Include="Framework\IScript.cs" />
     <Compile Include="Components\RenderComponent.cs" />
     <Compile Include="Components\RigidBodyComponent.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdatableSystem.cs" />
+    <Compile Include="Systems\ParentSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Framework\IAnimation.cs" />
   </ItemGroup>

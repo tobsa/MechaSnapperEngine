@@ -99,7 +99,11 @@ namespace ExampleGame
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
+
             Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
+
+            Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+
 
 
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
@@ -111,14 +115,18 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
+
             //Add Jack Health
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
            // ComponentManager.Instance.AddComponent(jack, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("heart"), 64, 64, 0));
             //Add Camera to Jack
+
+            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
+
             ComponentManager.Instance.AddComponent(jack, camComp);
-            SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
+
 
             SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
 
@@ -127,10 +135,15 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
 
+            SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
+            engine.SceneManager.AddEntity("Level1", 0, background);
+            engine.SceneManager.AddEntity("Level1", 3, barrarok);
+            engine.SceneManager.AddEntity("Level1", 3, jack);
+            engine.SceneManager.AddEntity("Level1", 4, portalGun);
+
+
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
-
-            engine.SceneManager.SetCurrentScene("Level1");
 
             engine.SceneManager.SetCurrentScene("Level1");
 
@@ -154,9 +167,13 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
-            playingState.RegisterSystem(cameraSystem);
+            playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
             playingState.RegisterCamera(camComp);
+
             playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
+
+
+
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 
@@ -197,10 +214,9 @@ namespace ExampleGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
-            if (camComp.IsRendering)
-                engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
-            else
+            //if (camComp.IsRendering)
+            //    engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
+            //else
                 engine.SpriteBatch.Begin();
 
             engine.Draw(gameTime);
