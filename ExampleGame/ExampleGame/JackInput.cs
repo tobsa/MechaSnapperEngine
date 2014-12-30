@@ -68,7 +68,7 @@ namespace ExampleGame
                     anim.Animation = jumpingAnim;
                 }
 
-                SoundManager.Instance.PlaySong("JackJump");
+                SoundManager.Instance.PlaySoundEffect("JackJump");
             }
 
             velocity.Velocity = newVelocity;
@@ -85,7 +85,12 @@ namespace ExampleGame
 
 
         }
+        private void MoveArms() {
 
+        }
+        private void Shoot() {
+
+        }
         private Vector2 flip(Vector2 scale)
         {
             //TODO Checka här!!!!

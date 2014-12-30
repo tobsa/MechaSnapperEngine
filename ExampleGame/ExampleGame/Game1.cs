@@ -117,10 +117,10 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
             //Add Jack Health
-            HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
+            //HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
            // ComponentManager.Instance.AddComponent(jack, jackHealthComp);
-            ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
-            ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
+            //ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
+            //ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
             //Add Camera to Jack
             ComponentManager.Instance.AddComponent(jack, camComp);
 
@@ -134,7 +134,7 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
 
-            SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
+            SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("JackJump"));
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
@@ -170,7 +170,7 @@ namespace ExampleGame
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
 
-            playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
 
 
 
