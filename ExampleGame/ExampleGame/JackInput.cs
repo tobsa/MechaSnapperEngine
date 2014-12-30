@@ -26,12 +26,9 @@ namespace ExampleGame
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
             
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            var p = transform.Position;
-            p.X = (float)Math.Round(p.X);
-            transform.Position = p;
 
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
@@ -45,6 +42,8 @@ namespace ExampleGame
                 }
 
                 newVelocity.X = -maxVelocity;
+
+
                 anim.Animation = runningAnim;
             }
             if (InputManager.Instance.IsKeyDown("Right"))
@@ -54,32 +53,36 @@ namespace ExampleGame
                     Vector2 newScale = flip(transform.Scale);
                     transform.Scale = newScale;
                 }
+
                 newVelocity.X = +maxVelocity;
                 anim.Animation = runningAnim;
             }
 
             if (InputManager.Instance.WasKeyDown("Jump"))
             {
-                var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
-                //if (body.OnGround)
+                if (body.OnGround)
                 {
                     newVelocity.Y = -jumpStrength;
                     body.OnGround = false;
+                    anim.Animation = jumpingAnim;
                 }
-            }
 
+                SoundManager.Instance.PlaySong("JackJump");
+            }
 
             velocity.Velocity = newVelocity;
 
             // set animaiton based on movement
-            if (velocity.Velocity.Y > 5)
-            {
-                //anim.Animation = fallingAnim;
-            }
-            else if (velocity.Velocity.Y < 0)
+            if (velocity.Velocity.Y < 0)
             {
                 anim.Animation = jumpingAnim;
             }
+            else if (body.OnGround == false)
+            {
+                anim.Animation = fallingAnim;
+            }
+
+
         }
 
         private Vector2 flip(Vector2 scale)

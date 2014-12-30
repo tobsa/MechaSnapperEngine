@@ -118,6 +118,7 @@ namespace GameEngine.Framework
             foreach (var state in stateManager.GameStates)
             {
                 if(state.Visible)
+                    
                     state.Draw(gameTime);
             }
         }

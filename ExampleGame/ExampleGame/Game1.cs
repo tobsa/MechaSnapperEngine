@@ -27,7 +27,7 @@ namespace ExampleGame
         CameraComponent camComp;
         public Game1()
         {
-            engine = new MechaSnapperEngine(this, 1366, 768, false);
+            engine = new MechaSnapperEngine(this, 1600, 900, false);
             //engine = new MechaSnapperEngine(this, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
         }
 
@@ -99,7 +99,12 @@ namespace ExampleGame
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
             Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
-            Entity teleport = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
+
+            Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
+
+            Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+
+
 
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
@@ -111,18 +116,34 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
-            //ComponentManager.Instance(teleport, new TeleportComponent());
-            //ComponentManager.Instance(teleport, new TransformComponent());
-            //ComponentManager.Instance.AddComponent(jack, camComp);
+            //Add Jack Health
+            HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
+           // ComponentManager.Instance.AddComponent(jack, jackHealthComp);
+            ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
+            ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("heart"), 64, 64, 0));
+            //Add Camera to Jack
+
+            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
+
+            ComponentManager.Instance.AddComponent(jack, camComp);
+
+
+            SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
+            engine.SceneManager.AddEntity("Level1", 3, jackHealth);
+
+            SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
+            engine.SceneManager.AddEntity("Level1", 0, background);
+            engine.SceneManager.AddEntity("Level1", 3, barrarok);
+            engine.SceneManager.AddEntity("Level1", 3, jack);
+            engine.SceneManager.AddEntity("Level1", 4, portalGun);
+
 
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
-
-            engine.SceneManager.SetCurrentScene("Level1");
 
             engine.SceneManager.SetCurrentScene("Level1");
 
@@ -146,9 +167,13 @@ namespace ExampleGame
             playingState.RegisterSystem(new InputSystem(engine.SceneManager));
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
-            //playingState.RegisterSystem(new TeleportSystem(engine.SceneManager));
-            //playingState.RegisterSystem(cameraSystem);
-            //playingState.RegisterCamera(camComp);
+            playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
+            playingState.RegisterCamera(camComp);
+
+            playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
+
+
+
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 
@@ -158,6 +183,7 @@ namespace ExampleGame
 
             engine.PushState<MainMenuState>();
         }
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -188,11 +214,11 @@ namespace ExampleGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //engine.SpriteBatch.Begin();
             //if (camComp.IsRendering)
             //    engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
             //else
-            engine.SpriteBatch.Begin();
+                engine.SpriteBatch.Begin();
+
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
 

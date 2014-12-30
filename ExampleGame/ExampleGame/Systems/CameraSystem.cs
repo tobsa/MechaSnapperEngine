@@ -11,9 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ExampleGame.Systems
 {
-    public class CameraSystem : EntitySystem, IUpdateableSystem
+    public class CameraSystem : EntitySystem, IUpdatableSystem
     {
-
         public CameraSystem(SceneManager sceneManager) :
             base(sceneManager)
         {

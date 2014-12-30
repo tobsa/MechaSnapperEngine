@@ -20,7 +20,7 @@ namespace ExampleGame.Animations
 
             if (elapsed > delay)
             {
-                frame = 5;
+                frame = 4;
 
                 var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
                 renderComponent.Frame = frame;

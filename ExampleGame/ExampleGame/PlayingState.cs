@@ -28,11 +28,17 @@ namespace ExampleGame
         {
             SetCameraToRendering();
             if (InputManager.Instance.WasKeyDown("ChangeScene1"))
+            {
                 engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+            }
             if (InputManager.Instance.WasKeyDown("ChangeScene2"))
+            {
                 engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
+            }
             if (InputManager.Instance.WasKeyDown("ChangeScene3"))
+            {
                 engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
+            }
 
             if (InputManager.Instance.WasKeyDown("MainMenu"))
             {
@@ -51,13 +57,13 @@ namespace ExampleGame
         public override void Draw(GameTime gameTime)
         {
             //if (IsCameraRendering())
-            {
+            //{
                 for (int i = 0; i < renderableSystems.Count; i++)
                     renderableSystems[i].Draw(gameTime);
 
                 engine.SpriteBatch.DrawString(font, "Playing\n Press Escape to go back to main menu\n Press Enter to pause/unpause the game", Vector2.Zero, Color.White);
 
-            }
+            //}
         }
 
         public override void StateChanged(object sender, EventArgs e)

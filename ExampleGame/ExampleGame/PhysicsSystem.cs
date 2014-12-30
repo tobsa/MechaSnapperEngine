@@ -9,7 +9,7 @@ using GameEngine.Components;
 
 namespace ExampleGame
 {
-    public class PhysicsSystem : EntitySystem, IUpdateableSystem
+    public class PhysicsSystem : EntitySystem, IUpdatableSystem
     {
         public PhysicsSystem(SceneManager sceneManager) :
             base(sceneManager) 
@@ -38,15 +38,15 @@ namespace ExampleGame
                 {
                     var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
 
-                    if (collision == otherCollision)
+                    if (collision == otherCollision || collision.Category != otherCollision.Category)
                         continue;
 
                     if (collision.Rectangle.Intersects(otherCollision.Rectangle))
                     {
                         if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
-                            position.Position = new Vector2(otherCollision.Rectangle.Left - 96, position.Position.Y);
+                            position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
                         else
-                            position.Position = new Vector2(otherCollision.Rectangle.Right - 32, position.Position.Y);
+                            position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y);
 
                         velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
                         UpdateCollisionBox(collision, position);
@@ -99,6 +99,10 @@ namespace ExampleGame
         private void Move(TransformComponent position, Vector2 velocity)
         {
             position.Position += velocity;
+            //For the camera, we need to put Jack at a pixel and not in between. Which means that we can't have it at x.xx, need it at x.00
+            var p = position.Position;
+            p.X = (float)Math.Round(p.X);
+            position.Position = p;
         }
 
         private void UpdateCollisionBox(CollisionRectangleComponent collision, TransformComponent position)
