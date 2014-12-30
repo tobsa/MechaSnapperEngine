@@ -37,8 +37,8 @@ namespace ExampleGame
             {
                 if (facingRight)
                 {
-                    Vector2 newScale = flip(transform.Scale);
-                    transform.Scale = newScale;
+                    Vector2 newScale = flip(transform.Position);
+                    transform.Position = newScale;
                     render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipHorizontally;
                 }
 
@@ -50,8 +50,8 @@ namespace ExampleGame
             {
                 if (!facingRight)
                 {
-                    Vector2 newScale = flip(transform.Scale);
-                    transform.Scale = newScale;
+                    Vector2 newScale = flip(transform.Position);
+                    transform.Position = newScale;
                     render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
                 }
 
@@ -67,7 +67,6 @@ namespace ExampleGame
                     body.OnGround = false;
                     anim.Animation = jumpingAnim;
                 }
-
                 SoundManager.Instance.PlaySoundEffect("JackJump");
             }
 
@@ -96,6 +95,7 @@ namespace ExampleGame
             //TODO Checka här!!!!
             facingRight = !facingRight;
             Vector2 newScale = scale;
+
             return newScale;
         }
 
