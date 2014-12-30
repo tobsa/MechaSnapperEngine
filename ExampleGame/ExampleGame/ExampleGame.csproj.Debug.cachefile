@@ -1,4 +1,6 @@
 Content\Font.xnb
+Content\ship.xnb
+Content\ship2.xnb
 Content\Sky.xnb
 Content\box128.xnb
 Content\box32.xnb
@@ -18,3 +20,7 @@ Content\hearts.xnb
 Content\JackDeath.wma
 Content\JackJump.wma
 Content\Latin_Industries.wma
+Content\Font.xnb
+Content\Projectile.xnb
+Content\CollisionBox.xnb
+Content\UnluckyJackAnim.xnb

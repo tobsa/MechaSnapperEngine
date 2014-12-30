@@ -37,7 +37,8 @@ namespace GameEngine.Systems
                     spriteBatch.Draw(renderComponent.Texture, 
                                     transformComponent.Position, 
                                     new Rectangle(renderComponent.Frame * renderComponent.Width , 0 , renderComponent.Width, renderComponent.Height),
-                                    Color.White);
+                                    Color.White, transformComponent.Rotation, transformComponent.RotationOrigin, 
+                                    transformComponent.Scale, SpriteEffects.None, 0f);
                 }
             }
         }
