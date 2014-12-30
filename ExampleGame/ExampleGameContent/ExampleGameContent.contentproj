@@ -118,7 +118,7 @@
     <Compile Include="JackDeath.mp3">
       <Name>JackDeath</Name>
       <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
     <Compile Include="PortalGun.png">
       <Name>PortalGun</Name>
@@ -130,7 +130,7 @@
     <Compile Include="JackJump.mp3">
       <Name>JackJump</Name>
       <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
