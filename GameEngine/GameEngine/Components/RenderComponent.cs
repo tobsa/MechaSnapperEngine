@@ -12,13 +12,14 @@ namespace GameEngine.Components
         public int Width { set; get; }
         public int Height { set; get; }
         public int Frame { set; get; }
-
+        public SpriteEffects Effect { get; set; }
         public RenderComponent(Texture2D Texture)
         {
             this.Texture = Texture;
             this.Width = Texture.Width;
             this.Height = Texture.Width;
             this.Frame = 0;
+            Effect = SpriteEffects.None;
         }
 
         // Constructor for Animation
@@ -28,6 +29,7 @@ namespace GameEngine.Components
             this.Width = Width;
             this.Height = Height;
             this.Frame = Frame;
+            Effect = SpriteEffects.None;
         }
     }
 }

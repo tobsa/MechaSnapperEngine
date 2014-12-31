@@ -27,7 +27,7 @@ namespace ExampleGame
         CameraComponent camComp;
         public Game1()
         {
-            engine = new MechaSnapperEngine(this, 1600, 900, false);
+            engine = new MechaSnapperEngine(this, 1280, 720, false);
             //engine = new MechaSnapperEngine(this, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
         }
 
@@ -103,6 +103,7 @@ namespace ExampleGame
             Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
 
             Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+            Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
 
 
 
@@ -115,6 +116,9 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
+
+            //Teleport Components
+            ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
 
             //Add Jack Health
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
@@ -134,7 +138,7 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
 
-            SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
+            SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("JackJump"));
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
@@ -167,19 +171,21 @@ namespace ExampleGame
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
+            playingState.RegisterSystem(new TeleportSystem(engine.SceneManager));
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
 
-            playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new HealthSystem(engine.SceneManager))
 
-
+            var pausedState = new PausedState(engine);
+            pausedState.CameraComponent = camComp;
 
             var mainMenuState = new MainMenuState(engine);
             mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
 
             engine.RegisterState(playingState);
             engine.RegisterState(mainMenuState);
-            engine.RegisterState(new PausedState(engine));
+            engine.RegisterState(pausedState);
 
             engine.PushState<MainMenuState>();
         }
