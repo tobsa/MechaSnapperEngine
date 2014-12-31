@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 
 namespace ExampleGame.Systems {
-    class TeleportSystem : EntitySystem, IUpdateableSystem {
+    class TeleportSystem : EntitySystem, IUpdatableSystem {
         public TeleportSystem(SceneManager manager)
             : base(manager) {
 
