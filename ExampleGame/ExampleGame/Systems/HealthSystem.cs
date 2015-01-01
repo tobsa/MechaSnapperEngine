@@ -24,7 +24,7 @@ namespace ExampleGame.Systems
             foreach (Entity entity in entities)
             {
                 HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
-                if (!health.IsJack || !health.IsAlive || health.CurrentHP == 0) return;
+                if (!health.IsJack) return;
 
                 var cameraComponent = ComponentManager.Instance.GetComponentsOfType<CameraComponent>();
                 var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
@@ -33,6 +33,12 @@ namespace ExampleGame.Systems
                 Vector2 newPosition = transformComponent.Position;
                 newPosition.X = -cameraComponent[0].Transform.M41;
                 transformComponent.Position = newPosition;
+
+                if (health.CurrentHP <= 0 && health.IsAlive)
+                {
+                    health.IsAlive = false;
+                    SoundManager.Instance.PlaySoundEffect("JackDeath");
+                }
             }
 
         }
@@ -44,10 +50,11 @@ namespace ExampleGame.Systems
             foreach (Entity entity in entities)
             {
                 HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
-                if (!health.IsJack || !health.IsAlive || health.CurrentHP == 0) return;
+                if (!health.IsJack) return;
+                if (health.CurrentHP < 0) health.CurrentHP = 0;
                 var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
 
-                renderComponent.Frame = health.CurrentHP - 1;
+                renderComponent.Frame = health.CurrentHP;
             }
         }
     }

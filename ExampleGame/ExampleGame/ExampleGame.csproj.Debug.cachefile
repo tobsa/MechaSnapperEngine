@@ -9,12 +9,11 @@ Content\Rocks_FG_64x64.xnb
 Content\Rocks_BG_64x64.xnb
 Content\UnluckyJackAnim.xnb
 Content\Projectile.xnb
-Content\JackDeath.xnb
-Content\JackJump.xnb
-Content\heart.xnb
 Content\Latin_Industries.xnb
 Content\PortalGun.xnb
 Content\hearts.xnb
-Content\JackDeath.wma
-Content\JackJump.wma
+Content\JackDeath.xnb
+Content\JackJump.xnb
+Content\punch.xnb
+Content\punch2.xnb
 Content\Latin_Industries.wma

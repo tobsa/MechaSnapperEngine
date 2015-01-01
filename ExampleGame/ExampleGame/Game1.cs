@@ -14,6 +14,7 @@ using GameEngine.Components;
 using ExampleGame.Systems;
 using ExampleGame.Components;
 using ExampleGame.Animations;
+using ExampleGame.Enemies;
 
 namespace ExampleGame
 {
@@ -97,8 +98,8 @@ namespace ExampleGame
             List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 64, 64);
 
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
-            Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64 + 8));
-            Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 64));
+            Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64));
+            Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 80));
 
             Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
 
@@ -106,10 +107,13 @@ namespace ExampleGame
             Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
 
 
-
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
-            
+            ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
+            ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(32, 32, 32, 128))); 
+            ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
+            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new BarrockAI(engine.SceneManager) });
+
             ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim"), 128, 128, 0));
             ComponentManager.Instance.AddComponent(jack, new AnimationComponent(new JackIdleAnimation()));
             ComponentManager.Instance.AddComponent(jack, new RigidBodyComponent(32f, 0.3f, 0f));
@@ -122,16 +126,16 @@ namespace ExampleGame
 
             //Add Jack Health
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
-           // ComponentManager.Instance.AddComponent(jack, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
             //Add Camera to Jack
             ComponentManager.Instance.AddComponent(jack, camComp);
-
+            //Add Gun to Jack
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
 
             
             SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
+          //  SoundManager.Instance.PlaySong("GameSong"); //Måste spela om den när den är klar
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
@@ -139,6 +143,9 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
 
             SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("JackJump"));
+            SoundManager.Instance.LoadSoundEffect("JackDeath", Content.Load<SoundEffect>("JackDeath"));
+            SoundManager.Instance.LoadSoundEffect("Punch", Content.Load<SoundEffect>("punch"));
+            SoundManager.Instance.LoadSoundEffect("Punch2", Content.Load<SoundEffect>("punch2"));
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
@@ -174,8 +181,9 @@ namespace ExampleGame
             playingState.RegisterSystem(new TeleportSystem(engine.SceneManager));
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
+            playingState.RegisterSystem(new AISystem(engine.SceneManager));
 
-            //playingState.RegisterSystem(new HealthSystem(engine.SceneManager))
+            playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
 
             var pausedState = new PausedState(engine);
             pausedState.CameraComponent = camComp;

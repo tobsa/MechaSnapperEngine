@@ -59,6 +59,7 @@ namespace ExampleGame
                     Move(position, new Vector2(0, velocity.Velocity.Y * dt));
                     UpdateCollisionBox(collision, position);
                 }
+                
 
                 bool onGround = false;
                 foreach (var collidableEntity in collidableEntities)
@@ -68,7 +69,7 @@ namespace ExampleGame
                     if (collision == otherCollision)
                         continue;
 
-                    Point bottomLeft  = new Point(collision.Rectangle.Left + 1, collision.Rectangle.Bottom + 1);
+                    Point bottomLeft = new Point(collision.Rectangle.Left + 1, collision.Rectangle.Bottom + 1);
                     Point bottomRight = new Point(collision.Rectangle.Right - 1, collision.Rectangle.Bottom + 1);
 
                     if (otherCollision.Rectangle.Contains(bottomLeft) || otherCollision.Rectangle.Contains(bottomRight))
