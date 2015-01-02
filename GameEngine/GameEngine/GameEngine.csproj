@@ -113,6 +113,8 @@
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\ParentComponent.cs" />
+    <Compile Include="Components\StringRenderComponent.cs" />
+    <Compile Include="Framework\FontManager.cs" />
     <Compile Include="Framework\IScript.cs" />
     <Compile Include="Components\RenderComponent.cs" />
     <Compile Include="Components\RigidBodyComponent.cs" />

@@ -16,7 +16,9 @@ namespace GameEngine.Framework
         private static SoundManager soundManager;
         private float masterVolume;       
 
-        private SoundManager() { }
+        private SoundManager() {
+            MediaPlayer.IsRepeating = true;
+        }
         public static SoundManager Instance
         {
             get

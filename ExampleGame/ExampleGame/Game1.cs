@@ -46,7 +46,6 @@ namespace ExampleGame
             camComp = new CameraComponent(GraphicsDevice.Viewport);
             camComp.XOffset = camComp.Viewport.Width / 2; //Make so that the camera follows the object in the middle of the screen
 
-
             base.Initialize();
         }
 
@@ -105,6 +104,7 @@ namespace ExampleGame
 
             Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
             Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+            Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
 
 
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
@@ -121,6 +121,9 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
+            ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(200));
+            ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
+
             //Teleport Components
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
 
@@ -133,9 +136,10 @@ namespace ExampleGame
             //Add Gun to Jack
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
 
-            
+            FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
+           
             SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
-          //  SoundManager.Instance.PlaySong("GameSong"); //Måste spela om den när den är klar
+            //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
@@ -150,7 +154,7 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 4, portalGun);
-
+            engine.SceneManager.AddEntity("Level1", 5, time);
 
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);
@@ -179,6 +183,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
             playingState.RegisterSystem(new TeleportSystem(engine.SceneManager));
+            playingState.RegisterSystem(new TimeSystem(engine.SceneManager));
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
             playingState.RegisterSystem(new AISystem(engine.SceneManager));

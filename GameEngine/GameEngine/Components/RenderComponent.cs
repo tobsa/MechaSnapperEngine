@@ -21,7 +21,6 @@ namespace GameEngine.Components
             this.Frame = 0;
             Effect = SpriteEffects.None;
         }
-
         // Constructor for Animation
         public RenderComponent(Texture2D Texture, int Width, int Height, int Frame)
         {
