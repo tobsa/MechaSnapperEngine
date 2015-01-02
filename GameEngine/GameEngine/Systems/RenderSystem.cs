@@ -32,15 +32,15 @@ namespace GameEngine.Systems {
 
                 var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entities[j]);
                 var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entities[j]);
-                spriteBatch.Draw(renderComponent.Texture,
-                                transformComponent.Position,
-                                new Rectangle(renderComponent.Frame * renderComponent.Width, 0, renderComponent.Width, renderComponent.Height),
-                                Color.White, transformComponent.Rotation, transformComponent.RotationOrigin,
-                                transformComponent.Scale, renderComponent.Effect, 0f);
-            }
-        }
-        private void DrawString(Layer layer) {
-            var entities = ComponentManager.Instance.GetEntities<StringRenderComponent>(layer.Entities);
+                    spriteBatch.Draw(renderComponent.Texture,
+                                    transformComponent.Position,
+                                    new Rectangle(renderComponent.Frame * renderComponent.Width, 0, renderComponent.Width, renderComponent.Height),
+                                    Color.White,
+                                    transformComponent.Rotation,
+                                    transformComponent.Origin,
+                                    transformComponent.Scale,
+                                    renderComponent.SpriteEffect,
+                                    0);
             if (entities != null) {
                 for (int j = 0; j < entities.Count; j++) {
                     if (!entities[j].Visible)

@@ -6,6 +6,7 @@ using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using GameEngine.Components;
 using ExampleGame.Animations;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ExampleGame
 {
@@ -34,12 +35,14 @@ namespace ExampleGame
 
             if (InputManager.Instance.IsKeyDown("Left"))
             {
-                if (facingRight)
-                {
+
+                render.SpriteEffect = SpriteEffects.FlipHorizontally;
                     Vector2 newScale = flip(transform.Position);
                     transform.Position = newScale;
                     render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipHorizontally;
-                }
+                //    Vector2 newScale = flip(transform.Scale);
+                //    transform.Scale = newScale;
+                //}
 
                 newVelocity.X = -maxVelocity;
 
@@ -47,13 +50,13 @@ namespace ExampleGame
             }
             if (InputManager.Instance.IsKeyDown("Right"))
             {
-                if (!facingRight)
-                {
+                //if (!facingRight)
+                //{
                     Vector2 newScale = flip(transform.Position);
                     transform.Position = newScale;
                     render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
-                }
 
+                render.SpriteEffect = SpriteEffects.None;
                 newVelocity.X = +maxVelocity;
                 anim.Animation = runningAnim;
             }
@@ -65,8 +68,8 @@ namespace ExampleGame
                     newVelocity.Y = -jumpStrength;
                     body.OnGround = false;
                     anim.Animation = jumpingAnim;
+                    SoundManager.Instance.PlaySoundEffect("JackJump");
                 }
-                SoundManager.Instance.PlaySoundEffect("JackJump");
             }
 
             velocity.Velocity = newVelocity;

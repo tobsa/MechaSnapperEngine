@@ -134,10 +134,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jump.wav">
+      <Name>Jump</Name>
+      <Importer>WavImporter</Importer>
     <Compile Include="Latin_Industries.mp3">
       <Name>Latin_Industries</Name>
       <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

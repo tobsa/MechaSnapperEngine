@@ -14,6 +14,7 @@ using GameEngine.Components;
 using ExampleGame.Systems;
 using ExampleGame.Components;
 using ExampleGame.Animations;
+using ExampleGame.Scripts;
 using ExampleGame.Enemies;
 
 namespace ExampleGame
@@ -112,14 +113,14 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
             ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new BarrockAI(engine.SceneManager) });
 
-            ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim"), 128, 128, 0));
+            ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim2"), 128, 128, 0));
             ComponentManager.Instance.AddComponent(jack, new AnimationComponent(new JackIdleAnimation()));
             ComponentManager.Instance.AddComponent(jack, new RigidBodyComponent(32f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
-
-            //ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(200));
+            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
+            ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
 
             //Teleport Components
@@ -139,7 +140,7 @@ namespace ExampleGame
             SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
             //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
-            engine.SceneManager.AddEntity("Level1", 0, background);
+            SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("Jump"));
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
@@ -232,7 +233,7 @@ namespace ExampleGame
             if (camComp.IsRendering)
                 engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
             else
-                engine.SpriteBatch.Begin();
+            engine.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             engine.Draw(gameTime);
             engine.SpriteBatch.End();
