@@ -7,11 +7,15 @@ using Microsoft.Xna.Framework;
 using GameEngine.Components;
 using ExampleGame.Animations;
 using Microsoft.Xna.Framework.Graphics;
+using ExampleGame.Components;
 
 namespace ExampleGame
 {
     public class JackInput : IScript
     {
+        private Entity portalGun;
+        private Entity portalBullet;
+        
         private float maxVelocity = 350;
         private float jumpStrength = 720;
         private IAnimation idleAnim = new JackIdleAnimation();
@@ -19,15 +23,23 @@ namespace ExampleGame
         private IAnimation fallingAnim = new JackFallingAnimation();
         private IAnimation jumpingAnim = new JackJumpingAnimation();
         private bool facingRight = true;
+        private bool latestFacingRight = true;
+
+        public JackInput(Entity portalGun, Entity portalBullet)
+        {
+            this.portalGun = portalGun;
+            this.portalBullet = portalBullet;
+        }
         
         public void Update(GameTime gameTime, Entity entity)
         {
-            // FIX : set transform component in order to get flip to work
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
             var render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
+            var gunRender = ComponentManager.Instance.GetComponentOfType<RenderComponent>(portalGun);
+            var gunTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalGun);
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Vector2 newVelocity = velocity.Velocity;
@@ -35,28 +47,24 @@ namespace ExampleGame
 
             if (InputManager.Instance.IsKeyDown("Left"))
             {
-
                 render.SpriteEffect = SpriteEffects.FlipHorizontally;
-                    Vector2 newScale = flip(transform.Position);
-                    transform.Position = newScale;
-                    render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipHorizontally;
-                //    Vector2 newScale = flip(transform.Scale);
-                //    transform.Scale = newScale;
-                //}
-
+                gunRender.Effect = SpriteEffects.FlipHorizontally;
+                gunRender.SpriteEffect = SpriteEffects.FlipHorizontally;
+                transform.Position = transform.Position;
+                facingRight = false;
+                render.Effect = SpriteEffects.FlipHorizontally;
                 newVelocity.X = -maxVelocity;
-
                 anim.Animation = runningAnim;
             }
+
             if (InputManager.Instance.IsKeyDown("Right"))
             {
-                //if (!facingRight)
-                //{
-                    Vector2 newScale = flip(transform.Position);
-                    transform.Position = newScale;
-                    render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
-
+                facingRight = true;
+                transform.Position = transform.Position;
+                render.Effect = SpriteEffects.None;
                 render.SpriteEffect = SpriteEffects.None;
+                gunRender.Effect = SpriteEffects.None;
+                gunRender.SpriteEffect = SpriteEffects.None;
                 newVelocity.X = +maxVelocity;
                 anim.Animation = runningAnim;
             }
@@ -72,9 +80,77 @@ namespace ExampleGame
                 }
             }
 
+            float rightLowLimit = 0.8f;
+            float rightHighLimit = -0.8f;
+            float leftLowLimit = -0.8f;
+            float leftHighLimit = 0.8f;
+
+            if (InputManager.Instance.IsKeyDown("Up"))
+            {
+                if (facingRight)
+                {
+                    if (gunTransform.Rotation > rightHighLimit)
+                        gunTransform.Rotation -= 0.1f;
+                }
+                else
+                {
+                    if (gunTransform.Rotation < leftHighLimit)
+                        gunTransform.Rotation += 0.1f;
+                }
+            }
+
+            if (InputManager.Instance.IsKeyDown("Down"))
+            {
+                if (facingRight)
+                {
+                    if (gunTransform.Rotation < rightLowLimit)
+                        gunTransform.Rotation += 0.1f;
+                }
+                else
+                {
+                    if (gunTransform.Rotation > leftLowLimit)
+                        gunTransform.Rotation -= 0.1f;
+                }
+            }
+
+            if (InputManager.Instance.WasKeyDown("Shoot"))
+            {
+                if (portalBullet.Visible)
+                {
+                    portalBullet.Visible = false;
+
+                    var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+                    transform.Position = bulletTransform.Position - new Vector2(64, 84);
+                }
+                else
+                {
+                    portalBullet.Visible = true;
+
+                    var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+                    var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
+
+                    bulletTransform.Position = transform.Position + new Vector2(64, 84);
+                    teleportComponent.Rotation = gunTransform.Rotation;
+                    teleportComponent.Velocity = facingRight ? 600 : -600;
+                }
+            }
+
+            if (portalBullet.Visible)
+            {
+                var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+                var bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
+                var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
+
+                float rotation = teleportComponent.Rotation * 65;
+
+                float vx = (float)Math.Cos(MathHelper.ToRadians(rotation));
+                float vy = (float)Math.Sin(MathHelper.ToRadians(rotation));
+
+                bulletTransform.Position += new Vector2(vx, vy) * dt * teleportComponent.Velocity;
+            }
+
             velocity.Velocity = newVelocity;
 
-            // set animaiton based on movement
             if (velocity.Velocity.Y < 0)
             {
                 anim.Animation = jumpingAnim;
@@ -84,22 +160,12 @@ namespace ExampleGame
                 anim.Animation = fallingAnim;
             }
 
+            if (latestFacingRight != facingRight)
+            {
+                gunTransform.Rotation = -gunTransform.Rotation;
+            }
 
+            latestFacingRight = facingRight;
         }
-        private void MoveArms() {
-
-        }
-        private void Shoot() {
-
-        }
-        private Vector2 flip(Vector2 scale)
-        {
-            //TODO Checka här!!!!
-            facingRight = !facingRight;
-            Vector2 newScale = scale;
-
-            return newScale;
-        }
-
     }
 }

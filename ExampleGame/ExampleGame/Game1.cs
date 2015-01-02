@@ -56,7 +56,6 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-
             int[,] rocks = new int[,] 
             {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -72,7 +71,7 @@ namespace ExampleGame
                 {0, 0, 2, 2, 1,-5, 3, 2, 4,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 7,-5,-5,-5, 9, 8}, 
                 {0, 4,-5,-5,-5,-5,-5,-5, 6, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 7,-5, 9, 0, 0}, 
                 {0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}, 
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+                {-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5}, 
             };
 
             int[,] rocksBG = new int[,] 
@@ -103,7 +102,8 @@ namespace ExampleGame
             Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
 
             Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
-            Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+            Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
+            portalBullet.Visible = false;
             Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
             
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
@@ -118,9 +118,9 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new RigidBodyComponent(32f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
-            ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
+            ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
-            ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
+            //ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
 
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
@@ -139,6 +139,7 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
             engine.SceneManager.AddEntity("Level1", 4, portalGun);
+            engine.SceneManager.AddEntity("Level1", 4, portalBullet);
             engine.SceneManager.AddEntity("Level1", 5, time);
             engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             engine.SceneManager.AddEntities("Level1", 2, rockEntities);

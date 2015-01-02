@@ -14,15 +14,15 @@ namespace ExampleGame.Scripts
         {
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
 
-            if(InputManager.Instance.IsKeyDown("Up"))
+            if (InputManager.Instance.IsKeyDown("Up"))
             {
-                if (transform.Rotation > - 0.8f)
+                if (transform.Rotation > -0.8f)
                     transform.Rotation -= 0.1f;
             }
             if (InputManager.Instance.IsKeyDown("Down"))
             {
                 if (transform.Rotation < 0.8f)
-                transform.Rotation += 0.1f;
+                    transform.Rotation += 0.1f;
             }
         }
     }
