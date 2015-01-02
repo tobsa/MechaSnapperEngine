@@ -121,7 +121,7 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
-            ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(200));
+            //ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(200));
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
 
             //Teleport Components

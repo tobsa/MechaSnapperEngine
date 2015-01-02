@@ -114,7 +114,6 @@
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\TeleportComponent.cs" />
-    <Compile Include="Components\CountdownTimeComponent.cs" />
     <Compile Include="Enemies\BarrockAI.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
