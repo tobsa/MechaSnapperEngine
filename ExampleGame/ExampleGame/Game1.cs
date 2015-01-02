@@ -92,7 +92,6 @@ namespace ExampleGame
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
             };
             
-
             List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 64, 64);
             List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 64, 64);
 
@@ -105,8 +104,7 @@ namespace ExampleGame
             Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
             Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
             Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
-
-
+            
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
@@ -145,19 +143,15 @@ namespace ExampleGame
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
+            engine.SceneManager.AddEntity("Level1", 4, portalGun);
+            engine.SceneManager.AddEntity("Level1", 5, time);
+            engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
+            engine.SceneManager.AddEntities("Level1", 2, rockEntities);
 
             SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("JackJump"));
             SoundManager.Instance.LoadSoundEffect("JackDeath", Content.Load<SoundEffect>("JackDeath"));
             SoundManager.Instance.LoadSoundEffect("Punch", Content.Load<SoundEffect>("punch"));
             SoundManager.Instance.LoadSoundEffect("Punch2", Content.Load<SoundEffect>("punch2"));
-            engine.SceneManager.AddEntity("Level1", 0, background);
-            engine.SceneManager.AddEntity("Level1", 3, barrarok);
-            engine.SceneManager.AddEntity("Level1", 3, jack);
-            engine.SceneManager.AddEntity("Level1", 4, portalGun);
-            engine.SceneManager.AddEntity("Level1", 5, time);
-
-            engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
-            engine.SceneManager.AddEntities("Level1", 2, rockEntities);
 
             engine.SceneManager.SetCurrentScene("Level1");
 
@@ -168,6 +162,8 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("Down", Keys.Down);
             InputManager.Instance.AddKeyBinding("Jump", Keys.Space);
             InputManager.Instance.AddKeyBinding("Shoot", Keys.F);
+            InputManager.Instance.AddKeyBinding("RotateGunUp", Keys.Up);
+            InputManager.Instance.AddKeyBinding("RotateGunDown", Keys.Down);
 
             InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);

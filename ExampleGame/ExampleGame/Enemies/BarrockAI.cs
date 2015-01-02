@@ -19,7 +19,6 @@ namespace ExampleGame.Enemies
         {
         }
 
-
         public void Update(GameTime gameTime, Entity entity)
         {
             var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
@@ -63,7 +62,7 @@ namespace ExampleGame.Enemies
             {
                 var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
 
-                if (temp == otherCollision || temp.Category != otherCollision.Category)
+                if (temp == otherCollision)
                     continue;
 
                 if (temp.Rectangle.Intersects(otherCollision.Rectangle))

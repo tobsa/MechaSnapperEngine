@@ -19,7 +19,6 @@ namespace ExampleGame
         private IAnimation jumpingAnim = new JackJumpingAnimation();
         private bool facingRight = true;
         
-
         public void Update(GameTime gameTime, Entity entity)
         {
             // FIX : set transform component in order to get flip to work

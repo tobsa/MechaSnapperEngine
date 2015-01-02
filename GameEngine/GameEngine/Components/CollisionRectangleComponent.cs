@@ -13,10 +13,10 @@ namespace GameEngine.Components
         public CollisionRectangleComponent(Rectangle rectangle)
         {
             Rectangle = rectangle;
-            Category = 0;
         }
 
         public Rectangle Rectangle { get; set; }
-        public int Category { get; set; }
+
+        public event EventHandler OnCollision;
     }
 }

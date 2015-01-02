@@ -38,7 +38,7 @@ namespace ExampleGame
                 {
                     var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
 
-                    if (collision == otherCollision || collision.Category != otherCollision.Category)
+                    if (collision == otherCollision)
                         continue;
 
                     if (collision.Rectangle.Intersects(otherCollision.Rectangle))
