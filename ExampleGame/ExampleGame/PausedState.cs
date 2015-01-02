@@ -5,12 +5,14 @@ using System.Text;
 using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ExampleGame.Components;
 
 namespace ExampleGame
 {
     public class PausedState : GameState
     {
         SpriteFont font;
+        public CameraComponent CameraComponent { get; set; }
 
         public PausedState(MechaSnapperEngine engine) :
             base(engine)
@@ -27,7 +29,9 @@ namespace ExampleGame
 
         public override void Draw(GameTime gameTime)
         {
-            engine.SpriteBatch.DrawString(font, "- Paused -", new Vector2(550, 350), Color.White);
+            if(CameraComponent != null)
+                engine.SpriteBatch.DrawString(font, "- Paused -",
+                    new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, Matrix.Invert(CameraComponent.Transform).Translation.Y + 360), Color.White);
         }
     }
 }

@@ -115,6 +115,7 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\TeleportComponent.cs" />
     <Compile Include="Scripts\PortalScript.cs" />
+    <Compile Include="Enemies\BarrockAI.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="SimpleAI.cs" />
     <Compile Include="Systems\HealthSystem.cs" />
     <Compile Include="Systems\TeleportSystem.cs" />
+    <Compile Include="Systems\TimeSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

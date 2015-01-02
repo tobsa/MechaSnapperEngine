@@ -29,7 +29,6 @@ namespace ExampleGame
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
             var render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
-            
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Vector2 newVelocity = velocity.Velocity;
@@ -39,15 +38,14 @@ namespace ExampleGame
             {
 
                 render.SpriteEffect = SpriteEffects.FlipHorizontally;
-                //if (facingRight)
-                //{
-                    
+                    Vector2 newScale = flip(transform.Position);
+                    transform.Position = newScale;
+                    render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipHorizontally;
                 //    Vector2 newScale = flip(transform.Scale);
                 //    transform.Scale = newScale;
                 //}
 
                 newVelocity.X = -maxVelocity;
-
 
                 anim.Animation = runningAnim;
             }
@@ -55,9 +53,9 @@ namespace ExampleGame
             {
                 //if (!facingRight)
                 //{
-                //    Vector2 newScale = flip(transform.Scale);
-                //    transform.Scale = newScale;
-                //}
+                    Vector2 newScale = flip(transform.Position);
+                    transform.Position = newScale;
+                    render.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
 
                 render.SpriteEffect = SpriteEffects.None;
                 newVelocity.X = +maxVelocity;
@@ -89,12 +87,18 @@ namespace ExampleGame
 
 
         }
+        private void MoveArms() {
 
+        }
+        private void Shoot() {
+
+        }
         private Vector2 flip(Vector2 scale)
         {
+            //TODO Checka här!!!!
             facingRight = !facingRight;
             Vector2 newScale = scale;
-            newScale.X *= -1;
+
             return newScale;
         }
 

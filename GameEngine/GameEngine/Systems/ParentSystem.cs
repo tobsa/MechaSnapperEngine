@@ -26,8 +26,11 @@ namespace GameEngine.Systems
                 var parentRenderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(parentComponent.Parent);
 
                 var childTransformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+                var parentRenderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(parentComponent.Parent);
+                var childRenderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
 
                 childTransformComponent.Position = parentTransformComponent.Position + new Vector2(parentComponent.XoffSet, parentComponent.YoffSet);
+                childRenderComponent.Effect = parentRenderComponent.Effect;
             }
         }
     }

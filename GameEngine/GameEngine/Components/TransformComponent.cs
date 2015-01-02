@@ -9,18 +9,17 @@ namespace GameEngine.Components
 {
     public class TransformComponent : IComponent
     {
-
-        public Vector2 Position { get; set; }
-        public float Rotation { get; set; }
+        public TransformComponent() {
+            Scale = new Vector2(1, 1);
+        }
         public Vector2 Scale { get; set; }
         public Vector2 Origin { set; get; }
 
-        public TransformComponent() { }
         public TransformComponent(Vector2 position)
         {
             Position = position;
+            Scale = new Vector2(1,1);
         }
-
-
+        public Vector2 RotationOrigin { get; set; }
     }
 }

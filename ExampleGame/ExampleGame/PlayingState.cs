@@ -28,11 +28,17 @@ namespace ExampleGame
         {
             SetCameraToRendering();
             if (InputManager.Instance.WasKeyDown("ChangeScene1"))
+            {
                 engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+            }
             if (InputManager.Instance.WasKeyDown("ChangeScene2"))
+            {
                 engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
+            }
             if (InputManager.Instance.WasKeyDown("ChangeScene3"))
+            {
                 engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
+            }
 
             if (InputManager.Instance.WasKeyDown("MainMenu"))
             {
