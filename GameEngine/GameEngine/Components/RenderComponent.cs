@@ -9,6 +9,7 @@ namespace GameEngine.Components
     public class RenderComponent : IComponent
     {
         public Texture2D Texture { get; set; }
+        public SpriteEffects SpriteEffect;
         public int Width { set; get; }
         public int Height { set; get; }
         public int Frame { set; get; }

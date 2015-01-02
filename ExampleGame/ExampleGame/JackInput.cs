@@ -6,6 +6,7 @@ using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using GameEngine.Components;
 using ExampleGame.Animations;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ExampleGame
 {
@@ -27,6 +28,7 @@ namespace ExampleGame
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+            var render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
             
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -35,11 +37,14 @@ namespace ExampleGame
 
             if (InputManager.Instance.IsKeyDown("Left"))
             {
-                if (facingRight)
-                {
-                    Vector2 newScale = flip(transform.Scale);
-                    transform.Scale = newScale;
-                }
+
+                render.SpriteEffect = SpriteEffects.FlipHorizontally;
+                //if (facingRight)
+                //{
+                    
+                //    Vector2 newScale = flip(transform.Scale);
+                //    transform.Scale = newScale;
+                //}
 
                 newVelocity.X = -maxVelocity;
 
@@ -48,12 +53,13 @@ namespace ExampleGame
             }
             if (InputManager.Instance.IsKeyDown("Right"))
             {
-                if (!facingRight)
-                {
-                    Vector2 newScale = flip(transform.Scale);
-                    transform.Scale = newScale;
-                }
+                //if (!facingRight)
+                //{
+                //    Vector2 newScale = flip(transform.Scale);
+                //    transform.Scale = newScale;
+                //}
 
+                render.SpriteEffect = SpriteEffects.None;
                 newVelocity.X = +maxVelocity;
                 anim.Animation = runningAnim;
             }
@@ -65,9 +71,8 @@ namespace ExampleGame
                     newVelocity.Y = -jumpStrength;
                     body.OnGround = false;
                     anim.Animation = jumpingAnim;
+                    SoundManager.Instance.PlaySoundEffect("JackJump");
                 }
-
-                SoundManager.Instance.PlaySong("JackJump");
             }
 
             velocity.Velocity = newVelocity;

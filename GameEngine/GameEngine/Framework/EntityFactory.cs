@@ -19,9 +19,13 @@ namespace GameEngine.Framework
 
             var render = new RenderComponent(texture);
             var transform = new TransformComponent(position);
+            transform.Scale = new Vector2(1, 1);
+            transform.Origin = new Vector2(texture.Width / 2, texture.Height / 2);
 
             ComponentManager.Instance.AddComponent(entity, render);
             ComponentManager.Instance.AddComponent(entity, transform);
+
+           
 
             return entity;
         }
@@ -31,6 +35,7 @@ namespace GameEngine.Framework
             Entity entity = new Entity(id);
 
             var transform = new TransformComponent(position);
+            transform.Scale = new Vector2(1, 1);
 
             ComponentManager.Instance.AddComponent(entity, transform);
 
@@ -73,7 +78,7 @@ namespace GameEngine.Framework
 
             var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, frame);
             var transform = new TransformComponent();
-
+            transform.Scale = new Vector2(1, 1);
             transform.Position = position;
 
             ComponentManager.Instance.AddComponent(entity, render);
@@ -90,6 +95,7 @@ namespace GameEngine.Framework
             var render = new RenderComponent(spriteSheet, tileWidth, tileHeight, Math.Abs(frame));
             var transform = new TransformComponent();
             var collisionRec = new CollisionRectangleComponent(new Rectangle((int)position.X,(int)position.Y, tileWidth, tileHeight));
+            transform.Scale = new Vector2(1, 1);
 
             transform.Position = position;
 
