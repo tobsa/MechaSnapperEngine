@@ -61,11 +61,15 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="box32.png">
       <Name>box32</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="box64.png">
       <Name>box64</Name>
       <Importer>TextureImporter</Importer>
@@ -120,6 +124,8 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="PortalGun.png">
       <Name>PortalGun</Name>
       <Importer>TextureImporter</Importer>
@@ -134,9 +140,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Jump.wav">
-      <Name>Jump</Name>
-      <Importer>WavImporter</Importer>
     <Compile Include="Latin_Industries.mp3">
       <Name>Latin_Industries</Name>
       <Importer>Mp3Importer</Importer>
@@ -162,6 +165,13 @@
       <Name>punch2</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UnluckyJackAnim2.png">
+      <Name>UnluckyJackAnim2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

@@ -123,24 +123,18 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
 
-            //Teleport Components
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
-
-            //Add Jack Health
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
             ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
-            //Add Camera to Jack
             ComponentManager.Instance.AddComponent(jack, camComp);
-            //Add Gun to Jack
-            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, -46, -32));
 
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
            
-            SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
+            //SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
             //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
-            SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("Jump"));
+            engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);

@@ -12,6 +12,9 @@ namespace GameEngine.Components
         public TransformComponent() {
             Scale = new Vector2(1, 1);
         }
+
+        public Vector2 Position { get; set; }
+        public float Rotation { get; set; }
         public Vector2 Scale { get; set; }
         public Vector2 Origin { set; get; }
 
