@@ -99,6 +99,7 @@ namespace ExampleGame
 
             Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64));
+            Entity barrarok2 = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(16 * 64, 10 * 64));
             Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 80));
 
             Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
@@ -111,10 +112,19 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(32, 32, 32, 128))); 
+            ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(0, 0, 32, 124))); 
             ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
-            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingWorldPlayerState(engine.SceneManager) });
+            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState(engine.SceneManager) });
             ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());
+
+            ComponentManager.Instance.AddComponent(barrarok2, new AnimationComponent(new BarrarokWalkingAnimation()));
+            ComponentManager.Instance.AddComponent(barrarok2, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
+            ComponentManager.Instance.AddComponent(barrarok2, new RigidBodyComponent(32f, 0.3f, 0f));
+            ComponentManager.Instance.AddComponent(barrarok2, new CollisionRectangleComponent(new Rectangle(0, 0, 32, 124)));
+            ComponentManager.Instance.AddComponent(barrarok2, new VelocityComponent());
+            ComponentManager.Instance.AddComponent(barrarok2, new AgentComponent() { Behaviour = new WalkingState(engine.SceneManager) });
+            ComponentManager.Instance.AddComponent(barrarok2, new EnemySelectComponent());
+
 
             ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim2"), 128, 128, 0));
             ComponentManager.Instance.AddComponent(jack, new AnimationComponent(new JackIdleAnimation()));
@@ -147,6 +157,7 @@ namespace ExampleGame
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);
+            engine.SceneManager.AddEntity("Level1", 3, barrarok2);
             engine.SceneManager.AddEntity("Level1", 3, jack);
             engine.SceneManager.AddEntity("Level1", 3, jackHealth);
             engine.SceneManager.AddEntity("Level1", 4, portalGun);
@@ -162,25 +173,7 @@ namespace ExampleGame
 
             engine.SceneManager.SetCurrentScene("Level1");
 
-            InputManager.Instance.AddKeyBinding("Exit", Keys.Escape);
-            InputManager.Instance.AddKeyBinding("Left", Keys.Left);
-            InputManager.Instance.AddKeyBinding("Right", Keys.Right);
-            InputManager.Instance.AddKeyBinding("Up", Keys.Up);
-            InputManager.Instance.AddKeyBinding("Down", Keys.Down);
-            InputManager.Instance.AddKeyBinding("Jump", Keys.Space);
-            InputManager.Instance.AddKeyBinding("Shoot", Keys.F);
-            InputManager.Instance.AddKeyBinding("RotateGunUp", Keys.Up);
-            InputManager.Instance.AddKeyBinding("RotateGunDown", Keys.Down);
-
-            InputManager.Instance.AddKeyBinding("Left2", Keys.A);
-            InputManager.Instance.AddKeyBinding("Right2", Keys.D);
-
-            InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
-            InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);
-            InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.D3);
-            InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.NumPad1);
-            InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.NumPad2);
-            InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.NumPad3);
+            AddKeyBindings();
 
             var playingState = new PlayingState(engine);
             playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
@@ -207,6 +200,33 @@ namespace ExampleGame
             engine.RegisterState(pausedState);
 
             engine.PushState<MainMenuState>();
+        }
+
+        private void AddKeyBindings()
+        {
+            InputManager.Instance.AddKeyBinding("Exit", Keys.Escape);
+            InputManager.Instance.AddKeyBinding("Left", Keys.Left);
+            InputManager.Instance.AddKeyBinding("Right", Keys.Right);
+            InputManager.Instance.AddKeyBinding("Up", Keys.Up);
+            InputManager.Instance.AddKeyBinding("Down", Keys.Down);
+            InputManager.Instance.AddKeyBinding("Jump", Keys.Space);
+            InputManager.Instance.AddKeyBinding("Shoot", Keys.F);
+            InputManager.Instance.AddKeyBinding("RotateGunUp", Keys.Up);
+            InputManager.Instance.AddKeyBinding("RotateGunDown", Keys.Down);
+
+            InputManager.Instance.AddKeyBinding("Left2", Keys.A);
+            InputManager.Instance.AddKeyBinding("Right2", Keys.D);
+
+            InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
+            InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);
+            InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.D3);
+            InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.NumPad1);
+            InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.NumPad2);
+            InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.NumPad3);
+
+            //Worldplayer change character
+            InputManager.Instance.AddKeyBinding("LB", Microsoft.Xna.Framework.Input.Keys.P);
+            InputManager.Instance.AddKeyBinding("LT", Microsoft.Xna.Framework.Input.Keys.O);
         }
 
         EnemySelectSystem enemySelectSystem;

@@ -69,8 +69,7 @@ namespace ExampleGame.Enemies
                 {
                     try
                     {
-                        var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
-                        var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+                        var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(collidableEntity);
                         healthComponent.CurrentHP--;
                         SoundManager.Instance.PlaySoundEffect("Punch2");
                     }

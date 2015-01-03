@@ -86,8 +86,7 @@ namespace ExampleGame.Enemies
                         //Prevent spamming hits
                         if (hitClock >= hitCD)
                         {
-                            var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
-                            var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+                            var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(collidableEntity);
                             healthComponent.CurrentHP--;
                             SoundManager.Instance.PlaySoundEffect("Punch2");
                             hitClock = 0;

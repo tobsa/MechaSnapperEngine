@@ -12,7 +12,12 @@ namespace ExampleGame.Components
         /*
          * Set to true if this object has been tagged with a button
          */
-        public bool tagged { get; set; }
+        public bool buttonTagged { get; set; }
+
+        /*
+         * Set to true if this object has been tagged by a player
+         */
+        public bool playerTagged { get; set; }
 
         /*
          * Button to be drawn
