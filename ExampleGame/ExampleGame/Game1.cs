@@ -121,7 +121,9 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
             //ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
+
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
+            ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(500));
 
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
@@ -174,7 +176,6 @@ namespace ExampleGame
             playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
             playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
             playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
-            playingState.RegisterSystem(new TeleportSystem(engine.SceneManager));
             playingState.RegisterSystem(new TimeSystem(engine.SceneManager));
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
