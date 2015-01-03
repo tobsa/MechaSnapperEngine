@@ -127,12 +127,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="SimpleAI.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Systems\HealthSystem.cs" />
     <Compile Include="Systems\TeleportSystem.cs" />
     <Compile Include="TileManager.cs" />
->>>>>>> 80cf3d44224ef9763f475439660f2879ba510bd4
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

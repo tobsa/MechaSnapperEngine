@@ -15,7 +15,7 @@ namespace ExampleGame
     {
         private Entity portalGun;
         private Entity portalBullet;
-        
+
         private float maxVelocity = 350;
         private float jumpStrength = 720;
         private IAnimation idleAnim = new JackIdleAnimation();
@@ -30,7 +30,7 @@ namespace ExampleGame
             this.portalGun = portalGun;
             this.portalBullet = portalBullet;
         }
-        
+
         public void Update(GameTime gameTime, Entity entity)
         {
             var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);

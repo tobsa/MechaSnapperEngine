@@ -42,6 +42,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bumper_left.png">
+      <Name>bumper_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="bumper_right.png">
+      <Name>bumper_right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="button_a.png">
+      <Name>button_a</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="button_b.png">
+      <Name>button_b</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="button_x.png">
+      <Name>button_x</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="button_y.png">
+      <Name>button_y</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Font.spritefont">
       <Name>Font</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -77,6 +107,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="trigger_left.png">
+      <Name>trigger_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="trigger_right.png">
+      <Name>trigger_right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="UnluckyJack126.png">
       <Name>UnluckyJack126</Name>
       <Importer>TextureImporter</Importer>

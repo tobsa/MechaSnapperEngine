@@ -115,13 +115,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="UnluckyJackAnim.PNG">
       <Name>UnluckyJackAnim</Name>
-=======
+    </Compile>
     <Compile Include="Dot.png">
       <Name>Dot</Name>
->>>>>>> ab7d467b9a01440f22183b3562bd3a772a328958
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

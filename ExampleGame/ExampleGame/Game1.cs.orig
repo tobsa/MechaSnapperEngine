@@ -110,12 +110,12 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput()));
 
-<<<<<<< HEAD
+
             //ComponentManager.Instance.AddComponent(jack, camComp);
-=======
+
             ComponentManager.Instance.AddComponent(jack, camComp);
             SoundManager.Instance.LoadSong("JackJump", Content.Load<Song>("JackJump"));
->>>>>>> 80cf3d44224ef9763f475439660f2879ba510bd4
+
 
             engine.SceneManager.AddEntity("Level1", 0, background);
             engine.SceneManager.AddEntity("Level1", 3, barrarok);

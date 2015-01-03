@@ -10,11 +10,11 @@ using ExampleGame.Components;
 
 namespace ExampleGame.Enemies
 {
-    public class BarrockAI : EntitySystem, IAgentBehaviour
+    public class WalkingState : EntitySystem, IAgentBehaviour
     {
         public float barrarokSpeed = 50;
 
-        public BarrockAI(SceneManager sceneManager) :
+        public WalkingState(SceneManager sceneManager) :
             base(sceneManager) 
         {
         }
@@ -37,7 +37,7 @@ namespace ExampleGame.Enemies
 
             if (!body.OnGround || Collided(entity, temp))
             {
-                //Only change position in here. Position is changed in PhysicsSystem
+                //Only change position in here. Position is changed in PhysicsSystem. We only want to move the object back
                 //Move object back if it is falling or it has collided
                 v.X = -v.X; //Turn velocity
                 futurePosition.X += v.X * dt; //Move back

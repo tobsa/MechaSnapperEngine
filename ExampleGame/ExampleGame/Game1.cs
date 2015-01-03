@@ -91,6 +91,8 @@ namespace ExampleGame
                 {2, 2, 2, 2, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 2},
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
             };
+
+            LoadEnemySelectSystem();
             
             List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 64, 64);
             List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 64, 64);
@@ -111,7 +113,8 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(32, 32, 32, 128))); 
             ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
-            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new BarrockAI(engine.SceneManager) });
+            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingWorldPlayerState(engine.SceneManager) });
+            ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());
 
             ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim2"), 128, 128, 0));
             ComponentManager.Instance.AddComponent(jack, new AnimationComponent(new JackIdleAnimation()));
@@ -119,8 +122,11 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
+            
+            //ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(200));
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
             //ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
+
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
 
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
@@ -131,6 +137,10 @@ namespace ExampleGame
 
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
            
+
+            //SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
+            //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
+
             //SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
             //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
@@ -161,6 +171,9 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("RotateGunUp", Keys.Up);
             InputManager.Instance.AddKeyBinding("RotateGunDown", Keys.Down);
 
+            InputManager.Instance.AddKeyBinding("Left2", Keys.A);
+            InputManager.Instance.AddKeyBinding("Right2", Keys.D);
+
             InputManager.Instance.AddKeyBinding("ChangeScene1", Keys.D1);
             InputManager.Instance.AddKeyBinding("ChangeScene2", Keys.D2);
             InputManager.Instance.AddKeyBinding("ChangeScene3", Keys.D3);
@@ -179,6 +192,7 @@ namespace ExampleGame
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
             playingState.RegisterSystem(new AISystem(engine.SceneManager));
+            playingState.RegisterSystem(enemySelectSystem);
 
             playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
 
@@ -195,6 +209,15 @@ namespace ExampleGame
             engine.PushState<MainMenuState>();
         }
 
+        EnemySelectSystem enemySelectSystem;
+        private void LoadEnemySelectSystem()
+        {
+            enemySelectSystem = new EnemySelectSystem(engine.SceneManager, engine.SpriteBatch);
+            enemySelectSystem.AddButton("LB", Content.Load<Texture2D>("bumper_left"));
+            enemySelectSystem.AddButton("LT", Content.Load<Texture2D>("trigger_left"));
+            enemySelectSystem.AddButton("RB", Content.Load<Texture2D>("bumper_right"));
+            enemySelectSystem.AddButton("RT", Content.Load<Texture2D>("trigger_right"));
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
