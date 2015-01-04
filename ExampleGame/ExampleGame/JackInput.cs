@@ -80,6 +80,8 @@ namespace ExampleGame
                 }
             }
 
+            
+
             float rightLowLimit = 0.8f;
             float rightHighLimit = -0.8f;
             float leftLowLimit = -0.8f;
@@ -149,6 +151,9 @@ namespace ExampleGame
                 bulletTransform.Position += new Vector2(vx, vy) * dt * teleportComponent.Velocity;
             }
 
+
+          //  PhysicsManager.Instance.CollidedWithEnemy(entity, sceneManager);
+
             velocity.Velocity = newVelocity;
 
             if (velocity.Velocity.Y < 0)
@@ -167,5 +172,8 @@ namespace ExampleGame
 
             latestFacingRight = facingRight;
         }
+
+
+        
     }
 }

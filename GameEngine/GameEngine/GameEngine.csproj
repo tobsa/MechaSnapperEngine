@@ -132,6 +132,7 @@
     <Compile Include="Framework\EntityFactory.cs" />
     <Compile Include="Framework\InputManager.cs" />
     <Compile Include="Framework\Layer.cs" />
+    <Compile Include="Framework\PhysicsManager.cs" />
     <Compile Include="Framework\Scene.cs" />
     <Compile Include="Framework\SceneManager.cs" />
     <Compile Include="Framework\SoundManager.cs" />

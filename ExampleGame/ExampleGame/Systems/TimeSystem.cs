@@ -29,8 +29,8 @@ namespace ExampleGame.Systems {
                     }
                     else if (time.State == CountdownTimeComponent.Running) {
                         time.TimeSeconds = time.BeginTime - ((int)gameTime.TotalGameTime.TotalSeconds - time.BeginTimeReal);
-                        if (time.TimeSeconds < 0)
-                            ;//Döda/starta om spelet
+                        //if (time.TimeSeconds < 0)
+                        //    ;//Döda/starta om spelet
                         stringRender.Text = time.TimeSeconds.ToString();
                     }
                 }
