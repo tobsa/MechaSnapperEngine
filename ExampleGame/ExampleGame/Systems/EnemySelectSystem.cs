@@ -10,28 +10,23 @@ using GameEngine.Components;
 using Microsoft.Xna.Framework.Graphics;
 using ExampleGame.Enemies;
 
-namespace ExampleGame.Systems
-{
-    public class EnemySelectSystem : EntitySystem, IRenderableSystem, IUpdatableSystem
-    {
+namespace ExampleGame.Systems {
+    public class EnemySelectSystem : EntitySystem, IRenderableSystem, IUpdatableSystem {
         private List<Button> availableButton;
         private int xOffset = 20;
         private SpriteBatch spriteBatch;
         public EnemySelectSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
-            base(sceneManager)
-        {
+            base(sceneManager) {
             this.spriteBatch = spriteBatch;
-            
+
             availableButton = new List<Button>();
         }
 
-        public void AddButton(String buttonName, Texture2D buttonTexture)
-        {
+        public void AddButton(String buttonName, Texture2D buttonTexture) {
             availableButton.Add(new Button { buttonName = buttonName, buttonTexture = buttonTexture, available = true });
         }
 
-        public void Update(GameTime gameTime)
-        {
+        public void Update(GameTime gameTime) {
             List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.CurrentScene.Entities);
             List<Entity> camera = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.CurrentScene.Entities);
 
@@ -40,59 +35,52 @@ namespace ExampleGame.Systems
 
             Vector2 left = Vector2.Zero;
             Vector2 right = Vector2.Zero;
-            
+
             left.X = jackTransform.Position.X - camComp.Viewport.Width / 2 - xOffset;
             right.X = jackTransform.Position.X + camComp.Viewport.Width / 2 + xOffset;
+            if (list != null) {
+                foreach (Entity entity in list) {
+                    EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
+                    TransformComponent transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
 
-            foreach (Entity entity in list)
-            {
-                EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
-                TransformComponent transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+                    //Check if the entity is within the bounds of the camera and that it is not tagged. If true, set a button to it
+                    if (transform.Position.X > left.X && transform.Position.X < right.X && !selectComponent.buttonTagged) {
+                        Button b = GetAvailableButton();
+                        if (b == null) continue;
+                        selectComponent.buttonName = b.buttonName;
+                        selectComponent.buttonTexture = b.buttonTexture;
+                        selectComponent.buttonTagged = true;
+                        b.available = false;
 
-                //Check if the entity is within the bounds of the camera and that it is not tagged. If true, set a button to it
-                if (transform.Position.X > left.X && transform.Position.X < right.X && !selectComponent.buttonTagged) 
-                {
-                    Button b = GetAvailableButton();
-                    if (b == null) continue;
-                    selectComponent.buttonName = b.buttonName;
-                    selectComponent.buttonTexture = b.buttonTexture;
-                    selectComponent.buttonTagged = true;
-                    b.available = false;
-
-                }
+                    }
                     //Remove tagged entity if it is outside the bounds
-                else if ((transform.Position.X < left.X || transform.Position.X > right.X) && selectComponent.buttonTagged)
-                {
-                    SetAvailableButton(selectComponent.buttonName);
-                    selectComponent.buttonName = "";
-                    selectComponent.buttonTagged = false;
-                }
+                    else if ((transform.Position.X < left.X || transform.Position.X > right.X) && selectComponent.buttonTagged) {
+                        SetAvailableButton(selectComponent.buttonName);
+                        selectComponent.buttonName = "";
+                        selectComponent.buttonTagged = false;
+                    }
 
+                }
+                Select(list);
             }
-            Select(list);
         }
 
-        private void Select(List<Entity> selectComponentEntities)
-        {
+        private void Select(List<Entity> selectComponentEntities) {
             string pressed = "";
-            if (InputManager.Instance.IsKeyDown("LB"))
-            {
+            if (InputManager.Instance.IsKeyDown("LB")) {
                 pressed = "LB";
             }
-            if (InputManager.Instance.IsKeyDown("LT"))
-            {
+            if (InputManager.Instance.IsKeyDown("LT")) {
                 pressed = "LT";
             }
 
-            
+
 
             if (pressed.Equals("")) return;
-            foreach (Entity entity in selectComponentEntities)
-            {
+            foreach (Entity entity in selectComponentEntities) {
                 EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
 
-                if (selectComponent.buttonTagged && !selectComponent.playerTagged && selectComponent.buttonName.Equals(pressed))
-                {
+                if (selectComponent.buttonTagged && !selectComponent.playerTagged && selectComponent.buttonName.Equals(pressed)) {
                     RemoveTagged(selectComponentEntities);
                     selectComponent.playerTagged = true;
                     AgentComponent agentComp = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);
@@ -101,14 +89,11 @@ namespace ExampleGame.Systems
             }
         }
 
-        private void RemoveTagged(List<Entity> selectComponentEntities)
-        {
-            foreach (Entity entity in selectComponentEntities)
-            {
+        private void RemoveTagged(List<Entity> selectComponentEntities) {
+            foreach (Entity entity in selectComponentEntities) {
                 EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
 
-                if (selectComponent.playerTagged)
-                {
+                if (selectComponent.playerTagged) {
                     selectComponent.playerTagged = false;
                     AgentComponent agentComp = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);
                     agentComp.Behaviour = new WalkingState(SceneManager);
@@ -116,11 +101,9 @@ namespace ExampleGame.Systems
             }
         }
 
-        public void Draw(GameTime gameTime)
-        {
+        public void Draw(GameTime gameTime) {
             List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.CurrentScene.Entities);
-            foreach (Entity entity in list)
-            {
+            foreach (Entity entity in list) {
                 EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
                 if (!selectComponent.buttonTagged) continue;
 
@@ -136,30 +119,25 @@ namespace ExampleGame.Systems
             }
 
         }
-        
 
-        private Button GetAvailableButton()
-        {
-            try
-            {
+
+        private Button GetAvailableButton() {
+            try {
                 return availableButton.Find(x => x.available == true);
             }
-            catch (Exception)
-            {
+            catch (Exception) {
             }
             return null;
         }
 
-        private void SetAvailableButton(string buttonName)
-        {
+        private void SetAvailableButton(string buttonName) {
             Button b = availableButton.Find(x => x.buttonName.Equals(buttonName));
             b.available = true;
         }
 
-        
 
-        class Button
-        {
+
+        class Button {
             public Texture2D buttonTexture { get; set; }
             public string buttonName { get; set; }
             public bool available { get; set; }

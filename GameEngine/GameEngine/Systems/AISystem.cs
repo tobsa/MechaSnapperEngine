@@ -19,14 +19,14 @@ namespace GameEngine.Systems
         {
             var entities = ComponentManager.Instance.GetEntities<AgentComponent>(SceneManager.CurrentScene.Entities);
 
-            foreach (var entity in entities)
-            {
-                var agentComponent = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);
-                agentComponent.Behaviour.Update(gameTime, entity);
+            if (entities != null) {
+                foreach (var entity in entities) {
+                    var agentComponent = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);
+                    agentComponent.Behaviour.Update(gameTime, entity);
+                }
+                //var components = ComponentManager.Instance.GetComponentsOfType<AgentComponent>();
+                //components.ForEach(x => x.Behaviour.Update(gameTime));
             }
-
-            //var components = ComponentManager.Instance.GetComponentsOfType<AgentComponent>();
-            //components.ForEach(x => x.Behaviour.Update(gameTime));
         }
     }
 }

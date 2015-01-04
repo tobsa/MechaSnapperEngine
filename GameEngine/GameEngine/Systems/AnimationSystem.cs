@@ -23,12 +23,12 @@ namespace GameEngine.Systems
         {
             var entities = ComponentManager.Instance.GetEntities<AnimationComponent>(SceneManager.CurrentScene.Entities);
 
-            foreach (var entity in entities)
-            {
-                var animationComponent = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
-                animationComponent.Animation.Update(gameTime, entity);
+            if (entities != null) {
+                foreach (var entity in entities) {
+                    var animationComponent = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+                    animationComponent.Animation.Update(gameTime, entity);
+                }
             }
-
         }
     }
 }

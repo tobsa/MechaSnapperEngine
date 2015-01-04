@@ -21,15 +21,15 @@ namespace ExampleGame.Systems
         {
             List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
 
-            foreach (Entity entity in entities)
-            {
-                HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
-                if (!health.IsJack) return;
+            if (entities != null) {
+                foreach (Entity entity in entities) {
+                    HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
+                    if (!health.IsJack) return;
 
-                if (health.CurrentHP <= 0 && health.IsAlive)
-                {
-                    health.IsAlive = false;
-                    SoundManager.Instance.PlaySoundEffect("JackDeath");
+                    if (health.CurrentHP <= 0 && health.IsAlive) {
+                        health.IsAlive = false;
+                        SoundManager.Instance.PlaySoundEffect("JackDeath");
+                    }
                 }
             }
 
@@ -39,14 +39,15 @@ namespace ExampleGame.Systems
         {
             List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
 
-            foreach (Entity entity in entities)
-            {
-                HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
-                if (!health.IsJack) return;
-                if (health.CurrentHP < 0) health.CurrentHP = 0;
-                var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
+            if (entities != null) {
+                foreach (Entity entity in entities) {
+                    HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
+                    if (!health.IsJack) return;
+                    if (health.CurrentHP < 0) health.CurrentHP = 0;
+                    var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
 
-                renderComponent.Frame = health.CurrentHP;
+                    renderComponent.Frame = health.CurrentHP;
+                }
             }
         }
     }
