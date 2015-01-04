@@ -29,12 +29,12 @@ namespace ExampleGame.Systems {
                     time.State = CountdownTimeComponent.Running;
                 }
                 else if (time.State == CountdownTimeComponent.Running) {
-                    time.TimeSeconds = time.BeginTime - (gameTime.TotalGameTime.Seconds - time.BeginTimeReal);
+                    time.TimeSeconds = time.BeginTime - ((int)gameTime.TotalGameTime.TotalSeconds - time.BeginTimeReal);
+                    if (time.TimeSeconds < 0)
+                        ;//Döda/starta om spelet
                     stringRender.Text = time.TimeSeconds.ToString();
                 }
-
             }
-
         }
     }
 }

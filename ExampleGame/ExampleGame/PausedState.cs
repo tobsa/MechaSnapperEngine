@@ -6,6 +6,7 @@ using GameEngine.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ExampleGame.Components;
+using GameEngine.Components;
 
 namespace ExampleGame
 {

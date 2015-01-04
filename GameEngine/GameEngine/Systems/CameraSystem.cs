@@ -6,11 +6,9 @@ using GameEngine.Systems;
 using Microsoft.Xna.Framework;
 using GameEngine.Framework;
 using GameEngine.Components;
-using ExampleGame.Components;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ExampleGame.Systems
-{
+namespace GameEngine.Systems{
     public class CameraSystem : EntitySystem, IUpdatableSystem
     {
         public CameraSystem(SceneManager sceneManager) :

@@ -108,10 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\AnimationComponent.cs" />
+    <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\CollisionCircleComponent.cs" />
     <Compile Include="Components\CollisionRectangleComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\IsFixedComponent.cs" />
     <Compile Include="Components\ParentComponent.cs" />
     <Compile Include="Components\StringRenderComponent.cs" />
     <Compile Include="Framework\FontManager.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
+    <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Systems\IRenderableSystem.cs" />
     <Compile Include="Systems\IUpdatableSystem.cs" />

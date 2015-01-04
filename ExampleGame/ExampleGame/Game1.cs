@@ -56,59 +56,29 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            int[,] rocks = new int[,] 
-            {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 2, 1,-5,-5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1,-5,-5,-5, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 4,-5, 9, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 2, 2, 0, 0, 8, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0},
-                {0, 4,-5,-5, 6, 0, 0, 0, 0, 0, 0, 4,-5,-5,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 0}, 
-                {0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0, 8, 8, 7,-5,-5, 9, 0, 2, 2, 2, 2, 2, 2}, 
-                {0, 0, 0, 0, 4,-5, 6, 0, 0, 2, 2, 2, 2, 0, 0, 8, 8, 0, 4,-5,-5,-5,-5,-5,-5}, 
-                {0, 0, 2, 2, 1,-5, 3, 2, 4,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 7,-5,-5,-5, 9, 8}, 
-                {0, 4,-5,-5,-5,-5,-5,-5, 6, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 7,-5, 9, 0, 0}, 
-                {0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}, 
-                {-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5}, 
-            };
+            int[,] rocks = LoadRocks();
 
-            int[,] rocksBG = new int[,] 
-            {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 3, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 5, 5, 3, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 5, 5, 6, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 3, 2, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 3, 0, 0},
-                {0, 0, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 6, 0, 0, 2, 1, 5, 5, 5, 5, 5, 5, 6, 0},
-                {0, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 5, 9, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
-                {2, 2, 2, 2, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 2},
-                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-            };
+            int[,] rocksBG = LoadRocksBG();
 
             LoadEnemySelectSystem();
             
             List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 64, 64);
             List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 64, 64);
 
-            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(0, 0));
+            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), new Vector2(350, 0));
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(10 * 64, 8 * 64));
             Entity barrarok2 = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(16 * 64, 10 * 64));
             Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(2 * 64, 4 * 80));
 
-            Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
+            Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(0, 0));
 
             Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
             Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
             portalBullet.Visible = false;
-            Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(camComp.XOffset, camComp.YOffset));
-            
+            Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, new Vector2(1200, 0));
+
+            ComponentManager.Instance.AddComponent(background, new IsFixedComponent(camComp));
+
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
             ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
@@ -133,24 +103,23 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
             ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
             
-            //ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(200));
             ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
             //ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
 
             ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
             ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(500));
+            ComponentManager.Instance.AddComponent(time, new IsFixedComponent(camComp));
 
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
             HealthComponent jackHealthComp = new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 };
             ComponentManager.Instance.AddComponent(jackHealth, jackHealthComp);
             ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
+            ComponentManager.Instance.AddComponent(jackHealth, new IsFixedComponent(camComp));
+
             ComponentManager.Instance.AddComponent(jack, camComp);
 
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
            
-
-            //SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
-            //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
             //SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
             //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
@@ -239,6 +208,50 @@ namespace ExampleGame
             enemySelectSystem.AddButton("RT", Content.Load<Texture2D>("trigger_right"));
         }
 
+        private int[,] LoadRocks() {
+            int[,] rocks = new int[,] 
+            {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 2, 1,-5,-5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1,-5,-5,-5, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 4,-5, 9, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 2, 2, 0, 0, 8, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0},
+                {0, 4,-5,-5, 6, 0, 0, 0, 0, 0, 0, 4,-5,-5,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 0}, 
+                {0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0, 8, 8, 7,-5,-5, 9, 0, 2, 2, 2, 2, 2, 2}, 
+                {0, 0, 0, 0, 4,-5, 6, 0, 0, 2, 2, 2, 2, 0, 0, 8, 8, 0, 4,-5,-5,-5,-5,-5,-5}, 
+                {0, 0, 2, 2, 1,-5, 3, 2, 4,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 7,-5,-5,-5, 9, 8}, 
+                {0, 4,-5,-5,-5,-5,-5,-5, 6, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 7,-5, 9, 0, 0}, 
+                {0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}, 
+                {-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5}, 
+            };
+
+            return rocks;
+        }
+
+        private int[,] LoadRocksBG() {
+            int[,] rocksBG = new int[,] 
+            {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 3, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 5, 5, 3, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 5, 5, 6, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 3, 2, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 3, 0, 0},
+                {0, 0, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 6, 0, 0, 2, 1, 5, 5, 5, 5, 5, 5, 6, 0},
+                {0, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 5, 9, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
+                {2, 2, 2, 2, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 2},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+            };
+
+            return rocksBG;
+        }
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -257,8 +270,6 @@ namespace ExampleGame
             engine.Update(gameTime);
             base.Update(gameTime);
         }
-
-        
 
         /// <summary>
         /// This is called when the game should draw itself.

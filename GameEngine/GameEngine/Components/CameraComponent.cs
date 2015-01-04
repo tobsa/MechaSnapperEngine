@@ -6,8 +6,7 @@ using GameEngine.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ExampleGame.Components
-{
+namespace GameEngine.Components {
     public class CameraComponent : IComponent
     {
         public bool IsRendering;

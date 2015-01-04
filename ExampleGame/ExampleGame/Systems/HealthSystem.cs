@@ -26,14 +26,6 @@ namespace ExampleGame.Systems
                 HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
                 if (!health.IsJack) return;
 
-                var cameraComponent = ComponentManager.Instance.GetComponentsOfType<CameraComponent>();
-                var transformComponent = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-                
-                //Position the health
-                Vector2 newPosition = transformComponent.Position;
-                newPosition.X = -cameraComponent[0].Transform.M41;
-                transformComponent.Position = newPosition;
-
                 if (health.CurrentHP <= 0 && health.IsAlive)
                 {
                     health.IsAlive = false;
