@@ -13,15 +13,21 @@ namespace GameEngine.Systems
     {
         private SpriteBatch spriteBatch;
 
-        public RenderSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
-            base(sceneManager)
+        //public RenderSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
+        //    base(sceneManager)
+        //{
+        //    this.spriteBatch = spriteBatch;
+        //}
+
+        public RenderSystem(SpriteBatch spriteBatch)
         {
             this.spriteBatch = spriteBatch;
         }
 
         public void Draw(GameTime gameTime)
         {
-            var layers = SceneManager.CurrentScene.Layers;
+           // var layers = SceneManager.CurrentScene.Layers;
+            var layers = SceneManager.Instance.CurrentScene.Layers;
 
             for (int i = 0; i < layers.Count; i++)
             {

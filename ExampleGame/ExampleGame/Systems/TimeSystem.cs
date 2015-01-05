@@ -12,11 +12,13 @@ namespace ExampleGame.Systems {
 
     public class TimeSystem : EntitySystem, IUpdatableSystem {
 
-        public TimeSystem(SceneManager manager) : base(manager) { }
+        public TimeSystem() { }
+        //public TimeSystem(SceneManager manager) : base(manager) { }
 
         public void Update(Microsoft.Xna.Framework.GameTime gameTime) {
 
-            List<Entity> entities = ComponentManager.Instance.GetEntities<CountdownTimeComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> entities = ComponentManager.Instance.GetEntities<CountdownTimeComponent>(SceneManager.CurrentScene.Entities);
+            List<Entity> entities = ComponentManager.Instance.GetEntities<CountdownTimeComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (entities != null) {
                 foreach (Entity entity in entities) {

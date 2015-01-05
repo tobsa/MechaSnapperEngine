@@ -10,14 +10,15 @@ namespace GameEngine.Systems
 {
     public class ParentSystem : EntitySystem, IUpdatableSystem
     {
-        public ParentSystem(SceneManager sceneManager) :
-            base(sceneManager)
-        {
-        }
+        //public ParentSystem(SceneManager sceneManager) :
+        //    base(sceneManager)
+        //{
+        //}
 
         public void Update(GameTime gameTime)
         {
-            var entities = ComponentManager.Instance.GetEntities<ParentComponent>(SceneManager.CurrentScene.Entities);
+            //var entities = ComponentManager.Instance.GetEntities<ParentComponent>(SceneManager.CurrentScene.Entities);
+            var entities = ComponentManager.Instance.GetEntities<ParentComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (entities != null) {
                 foreach (var entity in entities) {

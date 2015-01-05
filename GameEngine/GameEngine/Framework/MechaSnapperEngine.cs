@@ -17,7 +17,7 @@ namespace GameEngine.Framework
         private SpriteBatch spriteBatch;
 
         private GameStateManager stateManager = new GameStateManager();
-        private SceneManager sceneManager = new SceneManager();
+      //  private SceneManager sceneManager = new SceneManager();
 
         public MechaSnapperEngine(Game game, int width, int height, bool fullscreen)
         {
@@ -33,10 +33,10 @@ namespace GameEngine.Framework
             spriteBatch = new SpriteBatch(graphicsDevice);
         }
 
-        public SceneManager SceneManager
-        {
-            get { return sceneManager; }
-        }
+        //public SceneManager SceneManager
+        //{
+        //    get { return sceneManager; }
+        //}
 
         #region XNA Game Properties
         public ContentManager Content

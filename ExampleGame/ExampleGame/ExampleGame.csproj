@@ -120,12 +120,12 @@
     <Compile Include="Scripts\PortalScript.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
-    <Compile Include="InputSystem.cs" />
+    <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="JackInput.cs" />
-    <Compile Include="MainMenuState.cs" />
-    <Compile Include="PausedState.cs" />
-    <Compile Include="PhysicsSystem.cs" />
-    <Compile Include="PlayingState.cs" />
+    <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="States\PausedState.cs" />
+    <Compile Include="Systems\PhysicsSystem.cs" />
+    <Compile Include="States\PlayingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

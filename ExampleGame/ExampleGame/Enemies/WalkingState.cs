@@ -14,10 +14,12 @@ namespace ExampleGame.Enemies
     {
         public float barrarokSpeed = 50;
 
-        public WalkingState(SceneManager sceneManager) :
-            base(sceneManager) 
-        {
-        }
+        public WalkingState() { }
+
+        //public WalkingState(SceneManager sceneManager) :
+        //    base(sceneManager) 
+        //{
+        //}
 
         public void Update(GameTime gameTime, Entity entity)
         {
@@ -25,64 +27,44 @@ namespace ExampleGame.Enemies
             var velocityComponent = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
 
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             Vector2 futurePosition = transformComponent.Position;
-            Vector2 temp = transformComponent.Position;
-            Vector2 v = velocityComponent.Velocity;
-            Vector2 tempV = velocityComponent.Velocity;
+            Vector2 tempPosition = transformComponent.Position;
+            Vector2 futureVelocity = velocityComponent.Velocity;
 
-            tempV.X *= (1 - body.Friction); //Apply friction
-            temp.X += tempV.X  * dt;    //Move
+            if (futureVelocity.X < 0) tempPosition.X -= 1;
+            else tempPosition.X += 1;
 
-            if (!body.OnGround || Collided(entity, temp))
+            Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocityComponent.Velocity, body, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            Vector2 collisionPosition = PhysicsManager.Instance.Move(tempPosition, new Vector2(collisionVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
+
+            if (!body.OnGround || PhysicsManager.Instance.Collided(entity, collisionPosition))
             {
-                //Only change position in here. Position is changed in PhysicsSystem. We only want to move the object back
-                //Move object back if it is falling or it has collided
-                v.X = -v.X; //Turn velocity
-                futurePosition.X += v.X * dt; //Move back
-                barrarokSpeed = -barrarokSpeed; //Change speed +/-
-            }
-
-            v.X += barrarokSpeed;
-            velocityComponent.Velocity = v;
-            transformComponent.Position = futurePosition;
-            
-        }
-        //Borde ej finnas här.
-        public bool Collided(Entity entity, Vector2 position)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.CurrentScene.Entities);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            CollisionRectangleComponent temp = collision;
-
-            temp.Rectangle = new Rectangle((int)position.X + 32, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
-
-            foreach (var collidableEntity in collidableEntities)
-            {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (temp == otherCollision)
-                    continue;
-
-                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
+                if (PhysicsManager.Instance.CollidedWithJack(entity, collisionPosition))
                 {
-                    try
+                    var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                    var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+
+                    if (healthComponent.hitClock >= healthComponent.hitCoolDown)
                     {
-                        var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
-                        var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
                         healthComponent.CurrentHP--;
                         SoundManager.Instance.PlaySoundEffect("Punch2");
+                        healthComponent.hitClock = 0;
                     }
-                    catch (Exception)
-                    {
-                    }
-
-                    return true;
                 }
-            }
 
-            return false;
+                //Only change position in here. Position is changed in PhysicsSystem. We only want to move the object back
+                //Move object back if it is falling or it has collided
+                futureVelocity.X = -futureVelocity.X; //Turn velocity
+                futurePosition.X += futureVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds; //Move back
+                barrarokSpeed = -barrarokSpeed; //Change speed +/-
+
+
+            }
+           
+            futureVelocity.X += barrarokSpeed;
+            velocityComponent.Velocity = futureVelocity;
+            transformComponent.Position = futurePosition;
+            
         }
     }
 }

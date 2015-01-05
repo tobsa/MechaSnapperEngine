@@ -13,5 +13,7 @@ namespace ExampleGame.Components
         public Int16 MaxHP { get; set; }
         public bool IsAlive { get; set; }
         public bool IsJack { get; set; }
+        public float hitCoolDown { get; set; }
+        public float hitClock { get; set; }
     }
 }

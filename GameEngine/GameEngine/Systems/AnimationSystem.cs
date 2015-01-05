@@ -13,15 +13,21 @@ namespace GameEngine.Systems
     {
         private SpriteBatch spriteBatch;
 
-        public AnimationSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
-            base(sceneManager)
+        public AnimationSystem(SpriteBatch spriteBatch)
         {
             this.spriteBatch = spriteBatch;
         }
 
+        //public AnimationSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
+        //    base(sceneManager)
+        //{
+        //    this.spriteBatch = spriteBatch;
+        //}
+
         public void Update(GameTime gameTime)
         {
-            var entities = ComponentManager.Instance.GetEntities<AnimationComponent>(SceneManager.CurrentScene.Entities);
+            //var entities = ComponentManager.Instance.GetEntities<AnimationComponent>(SceneManager.CurrentScene.Entities);
+            var entities = ComponentManager.Instance.GetEntities<AnimationComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (entities != null) {
                 foreach (var entity in entities) {

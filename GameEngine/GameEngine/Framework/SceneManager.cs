@@ -10,7 +10,19 @@ namespace GameEngine.Framework
         private List<Entity> entities = new List<Entity>();
         private Dictionary<string, Scene> scenes = new Dictionary<string, Scene>();
         private Scene currentScene;
+        private static SceneManager manager;
 
+        public static SceneManager Instance 
+        { 
+            get 
+            {
+                if (manager == null)
+                    manager = new SceneManager();
+                return manager;
+            } 
+        }
+
+        private SceneManager() { }
         public Scene CurrentScene
         {
             get { return currentScene; }

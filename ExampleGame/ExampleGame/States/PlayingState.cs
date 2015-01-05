@@ -30,15 +30,18 @@ namespace ExampleGame
             SetCameraToRendering();
             if (InputManager.Instance.WasKeyDown("ChangeScene1"))
             {
-                engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+                //engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+                SceneManager.Instance.SetCurrentScene("World1.Level1.Room1");
             }
             if (InputManager.Instance.WasKeyDown("ChangeScene2"))
             {
-                engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
+                //engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
+                SceneManager.Instance.SetCurrentScene("World1.Level1.Room2");
             }
             if (InputManager.Instance.WasKeyDown("ChangeScene3"))
             {
-                engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
+               // engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
+                SceneManager.Instance.SetCurrentScene("World1.Level2.Room1");
             }
 
             if (InputManager.Instance.WasKeyDown("MainMenu"))
@@ -79,27 +82,18 @@ namespace ExampleGame
 
         private void SetCameraToNotRendering()
         {
-            //List<Entity> list = ComponentManager.Instance.GetEntities<CameraComponent>(engine.SceneManager.CurrentScene.Entities);
-            //CameraComponent camera = ComponentManager.Instance.GetComponentOfType<CameraComponent>(list[0]);
-            //camera.IsRendering = false;
             if (cameraComponent != null)
                 cameraComponent.IsRendering = false;
         }
 
         private void SetCameraToRendering()
         {
-            //List<Entity> list = ComponentManager.Instance.GetEntities<CameraComponent>(engine.SceneManager.CurrentScene.Entities);
-            //CameraComponent camera = ComponentManager.Instance.GetComponentOfType<CameraComponent>(list[0]);
-            //camera.IsRendering = true;
             if (cameraComponent != null)
                 cameraComponent.IsRendering = true;
         }
 
         private bool IsCameraRendering()
         {
-            //List<Entity> list = ComponentManager.Instance.GetEntities<CameraComponent>(engine.SceneManager.CurrentScene.Entities);
-            //CameraComponent camera = ComponentManager.Instance.GetComponentOfType<CameraComponent>(list[0]);
-            //return camera.IsRendering;
             if (cameraComponent != null)
                 return cameraComponent.IsRendering;
             return false;

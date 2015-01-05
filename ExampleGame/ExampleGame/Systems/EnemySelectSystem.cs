@@ -11,12 +11,21 @@ using Microsoft.Xna.Framework.Graphics;
 using ExampleGame.Enemies;
 
 namespace ExampleGame.Systems {
-    public class EnemySelectSystem : EntitySystem, IRenderableSystem, IUpdatableSystem {
+    public class EnemySelectSystem : EntitySystem, IRenderableSystem, IUpdatableSystem 
+    {
         private List<Button> availableButton;
         private int xOffset = 20;
         private SpriteBatch spriteBatch;
-        public EnemySelectSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
-            base(sceneManager) {
+
+        //public EnemySelectSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
+        //    base(sceneManager) {
+        //    this.spriteBatch = spriteBatch;
+
+        //    availableButton = new List<Button>();
+        //}
+
+        public EnemySelectSystem(SpriteBatch spriteBatch)
+        {
             this.spriteBatch = spriteBatch;
 
             availableButton = new List<Button>();
@@ -27,8 +36,11 @@ namespace ExampleGame.Systems {
         }
 
         public void Update(GameTime gameTime) {
-            List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.CurrentScene.Entities);
-            List<Entity> camera = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> camera = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.CurrentScene.Entities);
+
+            List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.Instance.CurrentScene.Entities);
+            List<Entity> camera = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             var jackTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(camera[0]);
             CameraComponent camComp = ComponentManager.Instance.GetComponentOfType<CameraComponent>(camera[0]);
@@ -74,8 +86,6 @@ namespace ExampleGame.Systems {
                 pressed = "LT";
             }
 
-
-
             if (pressed.Equals("")) return;
             foreach (Entity entity in selectComponentEntities) {
                 EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
@@ -84,7 +94,7 @@ namespace ExampleGame.Systems {
                     RemoveTagged(selectComponentEntities);
                     selectComponent.playerTagged = true;
                     AgentComponent agentComp = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);
-                    agentComp.Behaviour = new WalkingWorldPlayerState(SceneManager);
+                    agentComp.Behaviour = new WalkingWorldPlayerState();
                 }
             }
         }
@@ -96,13 +106,15 @@ namespace ExampleGame.Systems {
                 if (selectComponent.playerTagged) {
                     selectComponent.playerTagged = false;
                     AgentComponent agentComp = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);
-                    agentComp.Behaviour = new WalkingState(SceneManager);
+                    agentComp.Behaviour = new WalkingState();
                 }
             }
         }
 
         public void Draw(GameTime gameTime) {
-            List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.CurrentScene.Entities);
+            List<Entity> list = ComponentManager.Instance.GetEntities<EnemySelectComponent>(SceneManager.Instance.CurrentScene.Entities);
+
             foreach (Entity entity in list) {
                 EnemySelectComponent selectComponent = ComponentManager.Instance.GetComponentOfType<EnemySelectComponent>(entity);
                 if (!selectComponent.buttonTagged) continue;

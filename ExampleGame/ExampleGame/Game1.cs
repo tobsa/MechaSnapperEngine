@@ -43,7 +43,8 @@ namespace ExampleGame
         {
             engine.Initialize();
 
-            cameraSystem = new CameraSystem(engine.SceneManager);
+            //cameraSystem = new CameraSystem(engine.SceneManager);
+            cameraSystem = new CameraSystem();
             camComp = new CameraComponent(GraphicsDevice.Viewport);
             camComp.XOffset = camComp.Viewport.Width / 2; //Make so that the camera follows the object in the middle of the screen
 
@@ -67,7 +68,9 @@ namespace ExampleGame
 
             Entity background = CreateBackground(new Vector2(350, 0));
             Entity barrarok = CreateBarrarok(new Vector2(10 * 64, 8 * 64));
-            Entity barrarok2 = CreateBarrarok(new Vector2(16 * 64, 10 * 64));
+            Entity barrarok4 = CreateBarrarok(new Vector2(10 * 64 + 32, 8 * 64));
+            Entity barrarok2 = CreateBarrarok(new Vector2(14 * 64, 4 * 64));
+            Entity barrarok3 = CreateBarrarok(new Vector2(20 * 64, 4 * 64));
             Entity jack = CreateJack(new Vector2(2 * 64, 4 * 80));
             Entity jackHealth = CreateJackHealth();
             Entity time = CreateTime(new Vector2(1200, 0), 500);
@@ -99,41 +102,56 @@ namespace ExampleGame
             //engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             //engine.SceneManager.AddEntities("Level1", 2, rockEntities);
 
-            engine.SceneManager.AddEntity("Level1", 0, background);
-            engine.SceneManager.AddEntity("Level1", 3, barrarok);
-            engine.SceneManager.AddEntity("Level1", 3, barrarok2);
-            engine.SceneManager.AddEntity("Level1", 4, jack);
-            engine.SceneManager.AddEntity("Level1", 4, jackHealth);
-            engine.SceneManager.AddEntity("Level1", 4, portalGun);
-            engine.SceneManager.AddEntity("Level1", 4, portalBullet);
-            engine.SceneManager.AddEntity("Level1", 5, time);
-            engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
-            engine.SceneManager.AddEntities("Level1", 2, rockEntities);
+            SceneManager.Instance.AddEntity("Level1", 0, background);
+            SceneManager.Instance.AddEntity("Level1", 3, barrarok);
+            SceneManager.Instance.AddEntity("Level1", 3, barrarok2);
+            SceneManager.Instance.AddEntity("Level1", 3, barrarok3);
+            SceneManager.Instance.AddEntity("Level1", 3, barrarok4);
+            SceneManager.Instance.AddEntity("Level1", 4, jack);
+            SceneManager.Instance.AddEntity("Level1", 4, jackHealth);
+            SceneManager.Instance.AddEntity("Level1", 4, portalGun);
+            SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
+            SceneManager.Instance.AddEntity("Level1", 5, time);
+            SceneManager.Instance.AddEntities("Level1", 1, rockBGEntities);
+            SceneManager.Instance.AddEntities("Level1", 2, rockEntities);
 
 
-            engine.SceneManager.SetCurrentScene("Level1");
+            SceneManager.Instance.SetCurrentScene("Level1");
 
             AddSoundEffects();
             AddKeyBindings();
 
             var playingState = new PlayingState(engine);
-            playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
-            playingState.RegisterSystem(new InputSystem(engine.SceneManager));
-            playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
-            playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
-            playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
-            playingState.RegisterSystem(new TimeSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
+            //playingState.RegisterSystem(new InputSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
+            //playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
+            //playingState.RegisterSystem(new TimeSystem(engine.SceneManager));
+            //playingState.RegisterSystem(cameraSystem);
+            //playingState.RegisterCamera(camComp);
+            //playingState.RegisterSystem(new AISystem(engine.SceneManager));
+            //playingState.RegisterSystem(enemySelectSystem);
+            //playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
+
+            playingState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
+            playingState.RegisterSystem(new InputSystem());
+            playingState.RegisterSystem(new PhysicsSystem());
+            playingState.RegisterSystem(new AnimationSystem(engine.SpriteBatch));
+            playingState.RegisterSystem(new ParentSystem());
+            playingState.RegisterSystem(new TimeSystem());
             playingState.RegisterSystem(cameraSystem);
             playingState.RegisterCamera(camComp);
-            playingState.RegisterSystem(new AISystem(engine.SceneManager));
+            playingState.RegisterSystem(new AISystem());
             playingState.RegisterSystem(enemySelectSystem);
-            playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
+            playingState.RegisterSystem(new HealthSystem());
 
             var pausedState = new PausedState(engine);
             pausedState.CameraComponent = camComp;
 
             var mainMenuState = new MainMenuState(engine);
-            mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
+            //mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
+            mainMenuState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
 
             engine.RegisterState(playingState);
             engine.RegisterState(mainMenuState);
@@ -172,7 +190,8 @@ namespace ExampleGame
         EnemySelectSystem enemySelectSystem;
         private void LoadEnemySelectSystem()
         {
-            enemySelectSystem = new EnemySelectSystem(engine.SceneManager, engine.SpriteBatch);
+            //enemySelectSystem = new EnemySelectSystem(engine.SceneManager, engine.SpriteBatch);
+            enemySelectSystem = new EnemySelectSystem(engine.SpriteBatch);
             enemySelectSystem.AddButton("LB", Content.Load<Texture2D>("bumper_left"));
             enemySelectSystem.AddButton("LT", Content.Load<Texture2D>("trigger_left"));
             enemySelectSystem.AddButton("RB", Content.Load<Texture2D>("bumper_right"));
@@ -261,7 +280,7 @@ namespace ExampleGame
         {
             Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, Vector2.Zero);
 
-            ComponentManager.Instance.AddComponent(jackHealth, new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3 });
+            ComponentManager.Instance.AddComponent(jackHealth, new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3, hitCoolDown = 3000 });
             ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
             ComponentManager.Instance.AddComponent(jackHealth, new IsFixedComponent(camComp));
 
@@ -277,7 +296,8 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(0, 0, 32, 124)));
             ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
-            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState(engine.SceneManager) });
+            //ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState(engine.SceneManager) });
+            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState() });
             ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());
 
             return barrarok;

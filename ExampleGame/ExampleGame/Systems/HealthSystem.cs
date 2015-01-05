@@ -12,20 +12,24 @@ namespace ExampleGame.Systems
 {
     public class HealthSystem : EntitySystem, IUpdatableSystem, IRenderableSystem
     {
-        public HealthSystem(SceneManager manager)
-            : base(manager) {
+        
 
-        }
+        //public HealthSystem(SceneManager manager)
+        //    : base(manager) {
+
+        //}
 
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
+            List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (entities != null) {
                 foreach (Entity entity in entities) {
                     HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
                     if (!health.IsJack) return;
 
+                    health.hitClock += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (health.CurrentHP <= 0 && health.IsAlive) {
                         health.IsAlive = false;
                         SoundManager.Instance.PlaySoundEffect("JackDeath");
@@ -37,7 +41,8 @@ namespace ExampleGame.Systems
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
+            List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (entities != null) {
                 foreach (Entity entity in entities) {

@@ -11,15 +11,16 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameEngine.Systems{
     public class CameraSystem : EntitySystem, IUpdatableSystem
     {
-        public CameraSystem(SceneManager sceneManager) :
-            base(sceneManager)
-        {
+        //public CameraSystem(SceneManager sceneManager) :
+        //    base(sceneManager)
+        //{
 
-        }
+        //}
 
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            List<Entity> list = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.CurrentScene.Entities);
+            //List<Entity> list = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.CurrentScene.Entities);
+            List<Entity> list = ComponentManager.Instance.GetEntities<CameraComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (list != null) {
                 foreach (Entity entity in list) {

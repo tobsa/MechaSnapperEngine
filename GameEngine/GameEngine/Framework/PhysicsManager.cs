@@ -10,7 +10,6 @@ namespace GameEngine.Framework
     public class PhysicsManager
     {
         private static PhysicsManager manager;
-        private SceneManager sceneManager;
         public static PhysicsManager Instance
         {
             get
@@ -25,48 +24,33 @@ namespace GameEngine.Framework
         {
         }
 
-        PhysicsManager(SceneManager manager) 
+        public bool Collided(Entity entity)
         {
-            sceneManager = manager;
-        }
-
-        //public bool CollidedWithObject()
-        //{
-        //    var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(sceneManager.CurrentScene.Layers[3].Entities);
-        //    var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-        //    var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-
-
-        //    CollisionRectangleComponent temp = collision;
-
-        //    temp.Rectangle = new Rectangle((int)position.Position.X + 32, (int)position.Position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
-
-        //    foreach (var collidableEntity in collidableEntities)
-        //    {
-        //        var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-        //        if (temp == otherCollision)
-        //            continue;
-
-        //        if (temp.Rectangle.Intersects(otherCollision.Rectangle))
-        //        {
-        //            return true;
-        //        }
-        //    }
-
-        //    return false;
-        //}
-
-        public bool CollidedWithEnemy(Entity entity, SceneManager sceneManager)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(sceneManager.CurrentScene.Layers[3].Entities);
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Entities);
             var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
             var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-            
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (collision == otherCollision)
+                    continue;
+
+                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool Collided(Entity entity, Vector2 position)
+        {
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Entities);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
 
             CollisionRectangleComponent temp = collision;
-
-            temp.Rectangle = new Rectangle((int)position.Position.X + 32, (int)position.Position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
 
             foreach (var collidableEntity in collidableEntities)
             {
@@ -76,44 +60,150 @@ namespace GameEngine.Framework
                     continue;
 
                 if (temp.Rectangle.Intersects(otherCollision.Rectangle))
-                {
                     return true;
-                }
             }
 
             return false;
         }
 
-        public void UpdateCollisionBox(CollisionRectangleComponent collision, TransformComponent position)
+        public bool Collided(Entity entity, List<Entity> collisionWithLayer)
         {
-            collision.Rectangle = new Rectangle((int)position.Position.X + 32, (int)position.Position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(collisionWithLayer);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+            var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (collision == otherCollision)
+                    continue;
+
+                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                    return true;
+            }
+
+            return false;
         }
 
-        public void Move(TransformComponent position, Vector2 velocity)
+        public bool CollidedWithEnemy(Entity entity, Vector2 position)
         {
-            position.Position += velocity;
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[3].Entities);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+            CollisionRectangleComponent temp = collision;
+            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (temp == otherCollision)
+                    continue;
+
+                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool CollidedWithJack(Entity entity, Vector2 position)
+        {
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[4].Entities);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+            CollisionRectangleComponent temp = collision;
+            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (temp == otherCollision)
+                    continue;
+
+                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool IsOnGround(Entity entity)
+        {
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[2].Entities);
+            var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+            var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
+            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+
+            bool onGround = false;
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (collision == otherCollision)
+                    continue;
+
+
+                Point bottomLeft = new Point(collision.Rectangle.Left + 1, collision.Rectangle.Bottom + 1);
+                Point bottomRight = new Point(collision.Rectangle.Right - 1, collision.Rectangle.Bottom + 1);
+                if (otherCollision.Rectangle.Contains(bottomLeft) || otherCollision.Rectangle.Contains(bottomRight))
+                {
+                    onGround = true;
+                    velocity.Velocity = new Vector2(velocity.Velocity.X, 0);
+                }
+
+                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                {
+                    if (position.Position.Y <= otherCollision.Rectangle.Top)
+                    {
+                        position.Position = new Vector2(position.Position.X, otherCollision.Rectangle.Top - collision.Rectangle.Height);
+                        onGround = true;
+                        return onGround;
+                    }
+                    else if(!onGround)
+                        position.Position = new Vector2(position.Position.X, otherCollision.Rectangle.Bottom); // Noooooooooooooooooooooooooo. Lägger barrarok på botten av Jack när Jack står på barrarok.
+
+                    velocity.Velocity = new Vector2(velocity.Velocity.X, 0);
+                }
+            }
+            collision.Rectangle = PhysicsManager.Instance.UpdateCollisionBox(collision.Rectangle, position.Position);
+            //if (collision.Rectangle.Width == 32 && onGround == false)
+            //{
+            //    int a = 0;
+            //}
+            return onGround;
+        }
+
+        public Rectangle UpdateCollisionBox(Rectangle collision, Vector2 position)
+        {
+            return new Rectangle((int)position.X + 32, (int)position.Y, collision.Width, collision.Height);
+        }
+
+        public Vector2 Move(Vector2 position, Vector2 velocity)
+        {
+            position += velocity;
             //For the camera, we need to put Jack at a pixel and not in between. Which means that we can't have it at x.xx, need it at x.00
-            var p = position.Position;
-            p.X = (float)Math.Round(p.X);
-            position.Position = p;
+            position.X = (float)Math.Round(position.X);
+            return position;
         }
 
-        public void ApplyFriction(VelocityComponent velocity, RigidBodyComponent body, float dt)
+        public Vector2 ApplyFriction(Vector2 velocity, RigidBodyComponent body, float dt)
         {
-            Vector2 newVelocity = velocity.Velocity;
+            Vector2 newVelocity = velocity;
 
             newVelocity.X *= (1 - body.Friction);
 
-            velocity.Velocity = newVelocity;
+            return newVelocity;
         }
 
-        public void ApplyGravity(VelocityComponent velocity, RigidBodyComponent body, float dt)
+        public Vector2 ApplyGravity(Vector2 velocity, RigidBodyComponent body, float dt)
         {
-            Vector2 newVelocity = velocity.Velocity;
+            Vector2 newVelocity = velocity;
 
             newVelocity.Y += body.Gravity;
 
-            velocity.Velocity = newVelocity;
+            return newVelocity;
         }
     }
 }

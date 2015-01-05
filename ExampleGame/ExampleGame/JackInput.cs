@@ -151,8 +151,21 @@ namespace ExampleGame
                 bulletTransform.Position += new Vector2(vx, vy) * dt * teleportComponent.Velocity;
             }
 
+            Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocity.Velocity, body, dt);
+            Vector2 collisionPosition = PhysicsManager.Instance.Move(transform.Position, new Vector2(collisionVelocity.X * dt, 0));
 
-          //  PhysicsManager.Instance.CollidedWithEnemy(entity, sceneManager);
+            if (PhysicsManager.Instance.CollidedWithEnemy(entity, collisionPosition))
+            {
+                var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+
+                if (healthComponent.hitClock >= healthComponent.hitCoolDown)
+                {
+                    healthComponent.CurrentHP--;
+                    SoundManager.Instance.PlaySoundEffect("Punch2");
+                    healthComponent.hitClock = 0;
+                }
+            }
 
             velocity.Velocity = newVelocity;
 
@@ -171,9 +184,6 @@ namespace ExampleGame
             }
 
             latestFacingRight = facingRight;
-        }
-
-
-        
+        } 
     }
 }

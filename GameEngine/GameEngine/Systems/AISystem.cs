@@ -10,15 +10,15 @@ namespace GameEngine.Systems
 {
     public class AISystem : EntitySystem, IUpdatableSystem
     {
-        public AISystem(SceneManager sceneManager) :
-            base(sceneManager)
-        {
-        }
+        //public AISystem(SceneManager sceneManager) :
+        //    base(sceneManager)
+        //{
+        //}
 
         public void Update(GameTime gameTime)
         {
-            var entities = ComponentManager.Instance.GetEntities<AgentComponent>(SceneManager.CurrentScene.Entities);
-
+           // var entities = ComponentManager.Instance.GetEntities<AgentComponent>(SceneManager.CurrentScene.Entities);
+            var entities = ComponentManager.Instance.GetEntities<AgentComponent>(SceneManager.Instance.CurrentScene.Entities);
             if (entities != null) {
                 foreach (var entity in entities) {
                     var agentComponent = ComponentManager.Instance.GetComponentOfType<AgentComponent>(entity);

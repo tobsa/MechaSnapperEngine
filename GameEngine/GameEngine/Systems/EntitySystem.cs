@@ -6,18 +6,17 @@ using GameEngine.Framework;
 
 namespace GameEngine.Systems
 {
-    public class EntitySystem
+    public interface EntitySystem
     {
-        private SceneManager sceneManager;
+        //private SceneManager sceneManager;
+        //public EntitySystem(SceneManager sceneManager)
+        //{
+        //    this.sceneManager = sceneManager;
+        //}
 
-        public EntitySystem(SceneManager sceneManager)
-        {
-            this.sceneManager = sceneManager;
-        }
-
-        public SceneManager SceneManager
-        {
-            get { return sceneManager; }
-        }
+        //public SceneManager SceneManager
+        //{
+        //    get { return sceneManager; }
+        //}
     }
 }
