@@ -108,8 +108,9 @@ namespace ExampleGame
             SceneManager.Instance.AddEntity("Level1", 3, barrarok3);
             SceneManager.Instance.AddEntity("Level1", 3, barrarok4);
             SceneManager.Instance.AddEntity("Level1", 4, jack);
-            SceneManager.Instance.AddEntity("Level1", 4, jackHealth);
+            SceneManager.Instance.AddEntity("Level1", 5, jackHealth);
             SceneManager.Instance.AddEntity("Level1", 4, portalGun);
+            SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
             SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
             SceneManager.Instance.AddEntity("Level1", 5, time);
             SceneManager.Instance.AddEntities("Level1", 1, rockBGEntities);
@@ -296,13 +297,12 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
             ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(0, 0, 32, 124)));
             ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
-            //ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState(engine.SceneManager) });
             ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState() });
             ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());
 
             return barrarok;
         }
-
+       
         private void AddSoundEffects()
         {
             SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("JackJump"));

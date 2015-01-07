@@ -10,7 +10,7 @@ using ExampleGame.Components;
 
 namespace ExampleGame.Enemies
 {
-    public class WalkingState : EntitySystem, IAgentBehaviour
+    public class WalkingState :  IAgentBehaviour
     {
         public float barrarokSpeed = 50;
 

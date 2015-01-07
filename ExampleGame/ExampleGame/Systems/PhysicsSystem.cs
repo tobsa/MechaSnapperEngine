@@ -49,7 +49,7 @@ namespace ExampleGame
                         if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
                             position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
                         else
-                            position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y);
+                            position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y); 
 
                         velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
                     }
