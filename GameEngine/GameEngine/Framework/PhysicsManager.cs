@@ -66,9 +66,9 @@ namespace GameEngine.Framework
             return false;
         }
 
-        public bool Collided(Entity entity, List<Entity> collisionWithLayer)
+        public bool Collided(Entity entity, int layer)
         {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(collisionWithLayer);
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities);
             var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
             var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
 
@@ -84,6 +84,74 @@ namespace GameEngine.Framework
             }
 
             return false;
+        }
+
+        public bool Collided(Entity entity,Vector2 position, int layer)
+        {
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+
+            CollisionRectangleComponent temp = collision;
+            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (temp == otherCollision)
+                    continue;
+
+                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /*
+         * 
+         * 0 = no collision, 1 = top, 2 = bottom, 3 = left, 4 = right
+         */
+        public int CollidedSide(Entity entity, Vector2 position, int layer)
+        {
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+            var transformComp = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+
+            CollisionRectangleComponent temp = collision;
+            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (temp == otherCollision)
+                    continue;
+
+                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
+                {
+                    int top, bottom, left, right;
+                    top = bottom = left = right = 0;
+
+                    top = temp.Rectangle.Bottom - otherCollision.Rectangle.Top;
+                    bottom = otherCollision.Rectangle.Bottom - temp.Rectangle.Top;
+                    left = otherCollision.Rectangle.Right - temp.Rectangle.Left;
+                    right = temp.Rectangle.Right - otherCollision.Rectangle.Left;
+
+                    int side = 1;
+                    int min = Math.Min(int.MaxValue, top);
+                    min = Math.Min(min, bottom);
+                    if (min == bottom) side = 2;
+                    min = Math.Min(min, left);
+                    if (min == left) side = 3;
+                    min = Math.Min(min, right);
+                    if (min == right) side = 4;
+
+                    return side;
+                }
+            }
+
+            return 0;
         }
 
         public bool CollidedWithEnemy(Entity entity, Vector2 position)
@@ -127,6 +195,8 @@ namespace GameEngine.Framework
 
             return false;
         }
+
+
 
         public bool IsOnGround(Entity entity)
         {

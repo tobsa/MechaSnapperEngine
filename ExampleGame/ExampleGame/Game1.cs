@@ -84,7 +84,8 @@ namespace ExampleGame
             //ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
 
             ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
-
+            ComponentManager.Instance.AddComponent(portalBullet, new CollisionRectangleComponent());
+            ComponentManager.Instance.AddComponent(portalBullet, new VelocityComponent());
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
            
 
@@ -109,9 +110,9 @@ namespace ExampleGame
             SceneManager.Instance.AddEntity("Level1", 3, barrarok4);
             SceneManager.Instance.AddEntity("Level1", 4, jack);
             SceneManager.Instance.AddEntity("Level1", 5, jackHealth);
-            SceneManager.Instance.AddEntity("Level1", 4, portalGun);
-            SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
-            SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
+            SceneManager.Instance.AddEntity("Level1", 5, portalGun);
+            SceneManager.Instance.AddEntity("Level1", 5, portalBullet);
+            //SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
             SceneManager.Instance.AddEntity("Level1", 5, time);
             SceneManager.Instance.AddEntities("Level1", 1, rockBGEntities);
             SceneManager.Instance.AddEntities("Level1", 2, rockEntities);

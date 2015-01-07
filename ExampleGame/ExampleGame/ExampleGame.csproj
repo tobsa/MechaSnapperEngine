@@ -121,7 +121,7 @@
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
     <Compile Include="Systems\InputSystem.cs" />
-    <Compile Include="JackInput.cs" />
+    <Compile Include="Scripts\JackInput.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\PausedState.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />

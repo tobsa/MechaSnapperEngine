@@ -15,6 +15,10 @@ namespace ExampleGame
     {
         private Entity portalGun;
         private Entity portalBullet;
+        private float bulletMaxLiveTime = 4000;
+        private float bulletCountTime = 0;
+        private int bulletDistanceY = 500;
+        private int bulletDistanceX = 500;
 
         private float maxVelocity = 350;
         private float jumpStrength = 720;
@@ -115,6 +119,17 @@ namespace ExampleGame
                 }
             }
 
+            if (portalBullet.Visible)
+            {
+                bulletCountTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (bulletCountTime > bulletMaxLiveTime)
+                {
+                    bulletCountTime = 0;
+                    portalBullet.Visible = false;
+                }
+            }else
+                bulletCountTime = 0;
+            
             if (InputManager.Instance.WasKeyDown("Shoot"))
             {
                 if (portalBullet.Visible)
@@ -130,13 +145,18 @@ namespace ExampleGame
 
                     var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
                     var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
+                    var bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
 
                     bulletTransform.Position = transform.Position + new Vector2(64, 84);
                     teleportComponent.Rotation = gunTransform.Rotation;
-                    teleportComponent.Velocity = facingRight ? 600 : -600;
+                    teleportComponent.Velocity = facingRight ? 500 : -500;
+                    Vector2 bulletVelocitys = bulletVelocity.Velocity;
+                    bulletVelocitys.Y = teleportComponent.Velocity;
+                    bulletVelocitys.X = teleportComponent.Velocity;
+                    bulletVelocity.Velocity = bulletVelocitys;
                 }
             }
-
+            
             if (portalBullet.Visible)
             {
                 var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
@@ -148,7 +168,40 @@ namespace ExampleGame
                 float vx = (float)Math.Cos(MathHelper.ToRadians(rotation));
                 float vy = (float)Math.Sin(MathHelper.ToRadians(rotation));
 
-                bulletTransform.Position += new Vector2(vx, vy) * dt * teleportComponent.Velocity;
+                Vector2 newPos = bulletTransform.Position;
+                newPos.X += vx * dt * bulletVelocity.Velocity.X;
+                newPos.Y += vy * dt * bulletVelocity.Velocity.Y;
+                int side = PhysicsManager.Instance.CollidedSide(portalBullet, newPos, 2);
+
+                if (side > 0)
+                {
+                    Vector2 newBulletVelocity = bulletVelocity.Velocity;
+                    if (side == 1)//top collision
+                    {
+                        newBulletVelocity.Y = -newBulletVelocity.Y;
+                    }
+                    else if (side == 2)//bottom collision
+                    {
+                        newBulletVelocity.Y = -newBulletVelocity.Y;
+                    }
+                    else if (side == 3)//left collision
+                    {
+                        newBulletVelocity.X = -newBulletVelocity.X;
+                    }
+                    else //right collision
+                    {
+                        newBulletVelocity.X = -newBulletVelocity.X;
+                    }
+                    bulletVelocity.Velocity = newBulletVelocity;
+                    teleportComponent.Velocity = -teleportComponent.Velocity;
+                }
+
+               // bulletTransform.Position += new Vector2(vx, vy) * dt * teleportComponent.Velocity;
+                bulletTransform.Position = newPos;
+
+                if (bulletTransform.Position.X > transform.Position.X + bulletDistanceX || bulletTransform.Position.X < transform.Position.X - bulletDistanceX
+                    || bulletTransform.Position.Y > transform.Position.Y + bulletDistanceY || bulletTransform.Position.Y < transform.Position.Y - bulletDistanceY)
+                    portalBullet.Visible = false;
             }
 
             Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocity.Velocity, body, dt);
