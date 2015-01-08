@@ -171,7 +171,7 @@ namespace ExampleGame
                 Vector2 newPos = bulletTransform.Position;
                 newPos.X += vx * dt * bulletVelocity.Velocity.X;
                 newPos.Y += vy * dt * bulletVelocity.Velocity.Y;
-                int side = PhysicsManager.Instance.CollidedSide(portalBullet, newPos, 2);
+                int side = PhysicsManager.Instance.SideCollisionDetection(portalBullet, newPos, new List<int>() { 2 });
 
                 if (side > 0)
                 {
@@ -207,7 +207,7 @@ namespace ExampleGame
             Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocity.Velocity, body, dt);
             Vector2 collisionPosition = PhysicsManager.Instance.Move(transform.Position, new Vector2(collisionVelocity.X * dt, 0));
 
-            if (PhysicsManager.Instance.CollidedWithEnemy(entity, collisionPosition))
+            if (PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { 3 }))
             {
                 var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
                 var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);

@@ -110,7 +110,7 @@ namespace ExampleGame
             SceneManager.Instance.AddEntity("Level1", 3, barrarok4);
             SceneManager.Instance.AddEntity("Level1", 4, jack);
             SceneManager.Instance.AddEntity("Level1", 5, jackHealth);
-            SceneManager.Instance.AddEntity("Level1", 5, portalGun);
+            SceneManager.Instance.AddEntity("Level1", 4, portalGun);
             SceneManager.Instance.AddEntity("Level1", 5, portalBullet);
             //SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
             SceneManager.Instance.AddEntity("Level1", 5, time);

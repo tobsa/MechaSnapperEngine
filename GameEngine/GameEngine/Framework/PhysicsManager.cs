@@ -24,71 +24,22 @@ namespace GameEngine.Framework
         {
         }
 
-        public bool Collided(Entity entity)
+        /*
+         * layers: a list of layers to collide with
+         * 
+         * returns true if collided with anything in the layers
+         * false if not collided
+         */
+        public bool Collided(Entity entity,Vector2 position, List<int> layers)
         {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Entities);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-
-            foreach (var collidableEntity in collidableEntities)
+            List<Entity> collidableEntities = new List<Entity>();
+            if (layers == null)
+                collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Entities);
+            else
             {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (collision == otherCollision)
-                    continue;
-
-                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
-                    return true;
+                foreach (int layer in layers)
+                    collidableEntities.AddRange(ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities));
             }
-
-            return false;
-        }
-
-        public bool Collided(Entity entity, Vector2 position)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Entities);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-
-            CollisionRectangleComponent temp = collision;
-            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
-
-            foreach (var collidableEntity in collidableEntities)
-            {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (temp == otherCollision)
-                    continue;
-
-                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
-                    return true;
-            }
-
-            return false;
-        }
-
-        public bool Collided(Entity entity, int layer)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-
-            foreach (var collidableEntity in collidableEntities)
-            {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (collision == otherCollision)
-                    continue;
-
-                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
-                    return true;
-            }
-
-            return false;
-        }
-
-        public bool Collided(Entity entity,Vector2 position, int layer)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities);
             var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
 
             CollisionRectangleComponent temp = collision;
@@ -109,12 +60,21 @@ namespace GameEngine.Framework
         }
 
         /*
+         * layers: a list of layers to collide with
          * 
+         * Returns an Integer which tells which side the collision was on
          * 0 = no collision, 1 = top, 2 = bottom, 3 = left, 4 = right
          */
-        public int CollidedSide(Entity entity, Vector2 position, int layer)
+        public int SideCollisionDetection(Entity entity, Vector2 position, List<int> layers)
         {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities);
+            List<Entity> collidableEntities = new List<Entity>();
+            if (layers == null)
+                collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Entities);
+            else
+            {
+                foreach (int layer in layers)
+                    collidableEntities.AddRange(ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[layer].Entities));
+            }
             var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
             var transformComp = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
 
@@ -153,49 +113,6 @@ namespace GameEngine.Framework
 
             return 0;
         }
-
-        public bool CollidedWithEnemy(Entity entity, Vector2 position)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[3].Entities);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            CollisionRectangleComponent temp = collision;
-            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
-
-            foreach (var collidableEntity in collidableEntities)
-            {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (temp == otherCollision)
-                    continue;
-
-                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
-                    return true;
-            }
-
-            return false;
-        }
-
-        public bool CollidedWithJack(Entity entity, Vector2 position)
-        {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[4].Entities);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            CollisionRectangleComponent temp = collision;
-            temp.Rectangle = new Rectangle((int)position.X, (int)position.Y, collision.Rectangle.Width, collision.Rectangle.Height);
-
-            foreach (var collidableEntity in collidableEntities)
-            {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (temp == otherCollision)
-                    continue;
-
-                if (temp.Rectangle.Intersects(otherCollision.Rectangle))
-                    return true;
-            }
-
-            return false;
-        }
-
 
 
         public bool IsOnGround(Entity entity)

@@ -17,6 +17,7 @@ namespace GameEngine.Components
 
         public Rectangle Rectangle { get; set; }
 
+
         public event EventHandler OnCollision;
     }
 }
