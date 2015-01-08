@@ -114,6 +114,59 @@ namespace GameEngine.Framework
             return 0;
         }
 
+        public void AvoidWallCollisions(Entity entity)
+        {
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+            var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+            var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
+
+            var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[3].Entities);
+            entities.AddRange(ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[4].Entities));
+            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[2].Entities);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (collision == otherCollision)
+                    continue;
+
+                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                {
+                    if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
+                        position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
+                    else
+                        position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y);
+
+                    velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
+                }
+            }
+        }
+
+        public void AvoidWallCollisions(List<Entity> entities, List<Entity> collidableEntities, CollisionRectangleComponent collision, TransformComponent position, VelocityComponent velocity)
+        {
+            //var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[3].Entities);
+            //entities.AddRange(ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[4].Entities));
+            //var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[2].Entities);
+
+            foreach (var collidableEntity in collidableEntities)
+            {
+                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+
+                if (collision == otherCollision)
+                    continue;
+
+                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                {
+                    if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
+                        position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
+                    else
+                        position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y);
+
+                    velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
+                }
+            }
+        }
 
         public bool IsOnGround(Entity entity)
         {

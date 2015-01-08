@@ -64,7 +64,6 @@ namespace ExampleGame.Enemies
             futureVelocity.X += barrarokSpeed;
             velocityComponent.Velocity = futureVelocity;
             transformComponent.Position = futurePosition;
-            
         }
     }
 }

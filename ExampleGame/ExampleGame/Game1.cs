@@ -89,8 +89,8 @@ namespace ExampleGame
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
            
 
-            //SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
-           // SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
+            SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
+            SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
             //engine.SceneManager.AddEntity("Level1", 0, background);
             //engine.SceneManager.AddEntity("Level1", 3, barrarok);
@@ -112,7 +112,6 @@ namespace ExampleGame
             SceneManager.Instance.AddEntity("Level1", 5, jackHealth);
             SceneManager.Instance.AddEntity("Level1", 4, portalGun);
             SceneManager.Instance.AddEntity("Level1", 5, portalBullet);
-            //SceneManager.Instance.AddEntity("Level1", 4, portalBullet);
             SceneManager.Instance.AddEntity("Level1", 5, time);
             SceneManager.Instance.AddEntities("Level1", 1, rockBGEntities);
             SceneManager.Instance.AddEntities("Level1", 2, rockEntities);
@@ -310,6 +309,8 @@ namespace ExampleGame
             SoundManager.Instance.LoadSoundEffect("JackDeath", Content.Load<SoundEffect>("JackDeath"));
             SoundManager.Instance.LoadSoundEffect("Punch", Content.Load<SoundEffect>("punch"));
             SoundManager.Instance.LoadSoundEffect("Punch2", Content.Load<SoundEffect>("punch2"));
+            SoundManager.Instance.LoadSoundEffect("Gunshot", Content.Load<SoundEffect>("gunshot"));
+            SoundManager.Instance.LoadSoundEffect("Teleport", Content.Load<SoundEffect>("teleport"));
         }
 
         /// <summary>

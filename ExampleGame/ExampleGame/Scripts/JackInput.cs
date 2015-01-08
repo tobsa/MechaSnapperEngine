@@ -17,8 +17,8 @@ namespace ExampleGame
         private Entity portalBullet;
         private float bulletMaxLiveTime = 4000;
         private float bulletCountTime = 0;
-        private int bulletDistanceY = 500;
-        private int bulletDistanceX = 500;
+        private int bulletDistanceY = 1000;
+        private int bulletDistanceX = 1000;
 
         private float maxVelocity = 350;
         private float jumpStrength = 720;
@@ -42,6 +42,7 @@ namespace ExampleGame
             var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
             var render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
+            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
             var gunRender = ComponentManager.Instance.GetComponentOfType<RenderComponent>(portalGun);
             var gunTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalGun);
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -134,6 +135,7 @@ namespace ExampleGame
             {
                 if (portalBullet.Visible)
                 {
+                    SoundManager.Instance.PlaySoundEffect("Teleport");
                     portalBullet.Visible = false;
 
                     var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
@@ -141,6 +143,7 @@ namespace ExampleGame
                 }
                 else
                 {
+                    SoundManager.Instance.PlaySoundEffect("Gunshot");
                     portalBullet.Visible = true;
 
                     var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
@@ -237,6 +240,7 @@ namespace ExampleGame
             }
 
             latestFacingRight = facingRight;
+
         } 
     }
 }

@@ -38,24 +38,24 @@ namespace ExampleGame
                 position.Position = PhysicsManager.Instance.Move(position.Position, new Vector2(velocity.Velocity.X * dt, 0));
                 collision.Rectangle = PhysicsManager.Instance.UpdateCollisionBox(collision.Rectangle, position.Position);
 
-                foreach (var collidableEntity in collidableEntities)
-                {
-                    var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
+                //foreach (var collidableEntity in collidableEntities)
+                //{
+                //    var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
 
-                    if (collision == otherCollision)
-                        continue;
+                //    if (collision == otherCollision)
+                //        continue;
 
-                    if (collision.Rectangle.Intersects(otherCollision.Rectangle))
-                    {
-                        if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
-                            position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
-                        else
-                            position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y); 
+                //    if (collision.Rectangle.Intersects(otherCollision.Rectangle))
+                //    {
+                //        if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
+                //            position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
+                //        else
+                //            position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y); 
 
-                        velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
-                    }
-                }
-
+                //        velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
+                //    }
+                //}
+                PhysicsManager.Instance.AvoidWallCollisions(entities, collidableEntities, collision, position, velocity);
                 if (!body.OnGround)
                 {
                     velocity.Velocity = PhysicsManager.Instance.ApplyGravity(velocity.Velocity, body, dt);
