@@ -22,11 +22,11 @@ namespace ExampleGame.Systems
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             //List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
-            List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+            var entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
 
             if (entities != null) {
                 foreach (Entity entity in entities) {
-                    HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
+                    var health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
                     if (!health.IsJack) return;
 
                     health.hitClock += (float)gameTime.ElapsedGameTime.TotalMilliseconds;

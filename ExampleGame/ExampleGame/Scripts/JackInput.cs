@@ -177,7 +177,7 @@ namespace ExampleGame
                 Vector2 newPos = bulletTransform.Position;
                 newPos.X += vx * dt * bulletVelocity.Velocity.X;
                 newPos.Y += vy * dt * bulletVelocity.Velocity.Y;
-                int side = PhysicsManager.Instance.SideCollisionDetection(portalBullet, newPos, new List<int>() { 2 });
+                int side = PhysicsManager.Instance.SideCollisionDetection(portalBullet, newPos, new List<int>() { Layers.WALKABLE_OBJECTS });
 
                 if (side > 0)
                 {

@@ -37,9 +37,9 @@ namespace ExampleGame.Enemies
             Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocityComponent.Velocity, body, (float)gameTime.ElapsedGameTime.TotalSeconds);
             Vector2 collisionPosition = PhysicsManager.Instance.Move(tempPosition, new Vector2(collisionVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
 
-            if (!body.OnGround || PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { 2,3,4 }))
+            if (!body.OnGround || PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { Layers.WALKABLE_OBJECTS, Layers.JACK }))
             {
-                if (PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { 4 }))
+                if (PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { Layers.JACK }))
                 {
                     var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
                     var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);

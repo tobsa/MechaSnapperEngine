@@ -114,9 +114,11 @@
     <Compile Include="Components\EnemySelectComponent.cs" />
     <Compile Include="Components\CountdownTimeComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\PortalComponent.cs" />
     <Compile Include="Components\TeleportComponent.cs" />
     <Compile Include="Enemies\WalkingState.cs" />
     <Compile Include="Enemies\WalkingWorldPlayerState.cs" />
+    <Compile Include="Layers.cs" />
     <Compile Include="Scripts\PortalScript.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />
@@ -124,7 +126,6 @@
     <Compile Include="Scripts\JackInput.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\PausedState.cs" />
-    <Compile Include="Systems\MoveSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="States\PlayingState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="SimpleAI.cs" />
     <Compile Include="Systems\EnemySelectSystem.cs" />
     <Compile Include="Systems\HealthSystem.cs" />
+    <Compile Include="Systems\PortalSystem.cs" />
     <Compile Include="Systems\TimeSystem.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -74,6 +74,7 @@ namespace ExampleGame
             Entity jack = CreateJack(new Vector2(2 * 64, 4 * 80));
             Entity jackHealth = CreateJackHealth();
             Entity time = CreateTime(new Vector2(1200, 0), 500);
+            Entity[] portals = CreatePortal(new Vector2( 3 * 64, 550), new Vector2(10 * 64, 50));
 
             Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
             Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
@@ -103,18 +104,20 @@ namespace ExampleGame
             //engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             //engine.SceneManager.AddEntities("Level1", 2, rockEntities);
 
-            SceneManager.Instance.AddEntity("Level1", 0, background);
-            SceneManager.Instance.AddEntity("Level1", 3, barrarok);
-            SceneManager.Instance.AddEntity("Level1", 3, barrarok2);
-            SceneManager.Instance.AddEntity("Level1", 3, barrarok3);
-            SceneManager.Instance.AddEntity("Level1", 3, barrarok4);
-            SceneManager.Instance.AddEntity("Level1", 4, jack);
-            SceneManager.Instance.AddEntity("Level1", 5, jackHealth);
-            SceneManager.Instance.AddEntity("Level1", 4, portalGun);
-            SceneManager.Instance.AddEntity("Level1", 5, portalBullet);
-            SceneManager.Instance.AddEntity("Level1", 5, time);
-            SceneManager.Instance.AddEntities("Level1", 1, rockBGEntities);
-            SceneManager.Instance.AddEntities("Level1", 2, rockEntities);
+            SceneManager.Instance.AddEntity("Level1", Layers.BACKGROUND, background);
+            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok);
+            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok2);
+            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok3);
+            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok4);
+            SceneManager.Instance.AddEntity("Level1", Layers.JACK, jack);
+            SceneManager.Instance.AddEntity("Level1", Layers.JACK_ITEMS, portalGun);
+            SceneManager.Instance.AddEntity("Level1", Layers.PORTAL_BULLET, portalBullet);
+            SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, jackHealth);
+            SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, time);
+            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[0]);
+            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[1]);
+            SceneManager.Instance.AddEntities("Level1", Layers.BACKGROUND_OBJECTS, rockBGEntities);
+            SceneManager.Instance.AddEntities("Level1", Layers.WALKABLE_OBJECTS, rockEntities);
 
 
             SceneManager.Instance.SetCurrentScene("Level1");
@@ -146,6 +149,7 @@ namespace ExampleGame
             playingState.RegisterSystem(new AISystem());
             playingState.RegisterSystem(enemySelectSystem);
             playingState.RegisterSystem(new HealthSystem());
+            playingState.RegisterSystem(new PortalSystem());
 
             var pausedState = new PausedState(engine);
             pausedState.CameraComponent = camComp;
@@ -303,6 +307,27 @@ namespace ExampleGame
             ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());
 
             return barrarok;
+        }
+
+        /*
+         * Creates 2 portals at 2 positions.
+         * The portals are created with smaller collision rectangles and moved into the center of the portal
+         */
+        private Entity[] CreatePortal(Vector2 position, Vector2 position2)
+        {
+            Entity[] portals = new Entity[2];
+            portals[0] = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
+            portals[1] = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position2);
+            Texture2D portalTexture = Content.Load<Texture2D>("Portal");
+            ComponentManager.Instance.AddComponent(portals[0], new RenderComponent(portalTexture, portalTexture.Width, portalTexture.Height, 0));
+            ComponentManager.Instance.AddComponent(portals[0], new CollisionRectangleComponent(new Rectangle((int)(position.X + portalTexture.Width / 4), (int)position.Y + portalTexture.Height / 4, portalTexture.Width/ 2, portalTexture.Height / 2)));
+            ComponentManager.Instance.AddComponent(portals[0], new PortalComponent(portals[0], portals[1], 3000));
+
+            ComponentManager.Instance.AddComponent(portals[1], new RenderComponent(portalTexture, portalTexture.Width, portalTexture.Height, 0));
+            ComponentManager.Instance.AddComponent(portals[1], new CollisionRectangleComponent(new Rectangle((int)(position2.X + portalTexture.Width / 4), (int)position2.Y + portalTexture.Height / 4, portalTexture.Width / 2, portalTexture.Height / 2)));
+            ComponentManager.Instance.AddComponent(portals[1], new PortalComponent(portals[1], portals[0], 3000));
+
+            return portals;
         }
        
         private void AddSoundEffects()
