@@ -8,6 +8,7 @@ using GameEngine.Components;
 using ExampleGame.Animations;
 using Microsoft.Xna.Framework.Graphics;
 using ExampleGame.Components;
+using Microsoft.Xna.Framework.Input;
 
 namespace ExampleGame
 {
@@ -28,6 +29,8 @@ namespace ExampleGame
         private IAnimation jumpingAnim = new JackJumpingAnimation();
         private bool facingRight = true;
         private bool latestFacingRight = true;
+
+        private int playerIndex = 1;
 
         public JackInput(Entity portalGun, Entity portalBullet)
         {
@@ -50,7 +53,7 @@ namespace ExampleGame
             Vector2 newVelocity = velocity.Velocity;
             anim.Animation = idleAnim;
 
-            if (InputManager.Instance.IsKeyDown("Left"))
+            if (InputManager.Instance.IsKeyDown(playerIndex, Buttons.LeftThumbstickLeft, "Left"))
             {
                 render.SpriteEffect = SpriteEffects.FlipHorizontally;
                 gunRender.Effect = SpriteEffects.FlipHorizontally;
@@ -62,7 +65,7 @@ namespace ExampleGame
                 anim.Animation = runningAnim;
             }
 
-            if (InputManager.Instance.IsKeyDown("Right"))
+            if (InputManager.Instance.IsKeyDown(playerIndex, Buttons.LeftThumbstickRight, "Right"))
             {
                 facingRight = true;
                 transform.Position = transform.Position;
@@ -74,7 +77,7 @@ namespace ExampleGame
                 anim.Animation = runningAnim;
             }
 
-            if (InputManager.Instance.WasKeyDown("Jump"))
+            if (InputManager.Instance.WasKeyDown(playerIndex, Buttons.A, "Jump"))
             {
                 if (body.OnGround)
                 {
@@ -92,7 +95,7 @@ namespace ExampleGame
             float leftLowLimit = -0.8f;
             float leftHighLimit = 0.8f;
 
-            if (InputManager.Instance.IsKeyDown("Up"))
+            if (InputManager.Instance.IsKeyDown(playerIndex, Buttons.RightThumbstickUp, "Up"))
             {
                 if (facingRight)
                 {
@@ -106,7 +109,7 @@ namespace ExampleGame
                 }
             }
 
-            if (InputManager.Instance.IsKeyDown("Down"))
+            if (InputManager.Instance.IsKeyDown(playerIndex, Buttons.RightThumbstickDown, "Down"))
             {
                 if (facingRight)
                 {
@@ -130,8 +133,8 @@ namespace ExampleGame
                 }
             }else
                 bulletCountTime = 0;
-            
-            if (InputManager.Instance.WasKeyDown("Shoot"))
+
+            if (InputManager.Instance.WasKeyDown(playerIndex, Buttons.X, "Shoot"))
             {
                 if (portalBullet.Visible)
                 {

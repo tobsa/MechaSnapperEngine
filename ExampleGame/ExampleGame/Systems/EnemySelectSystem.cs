@@ -16,7 +16,7 @@ namespace ExampleGame.Systems {
         private List<Button> availableButton;
         private int xOffset = 20;
         private SpriteBatch spriteBatch;
-
+        private int playerIndex = 0;
         //public EnemySelectSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
         //    base(sceneManager) {
         //    this.spriteBatch = spriteBatch;
@@ -79,11 +79,21 @@ namespace ExampleGame.Systems {
 
         private void Select(List<Entity> selectComponentEntities) {
             string pressed = "";
-            if (InputManager.Instance.IsKeyDown("LB")) {
+            if (InputManager.Instance.IsKeyDown(playerIndex, Microsoft.Xna.Framework.Input.Buttons.LeftShoulder, "LB"))
+            {
                 pressed = "LB";
             }
-            if (InputManager.Instance.IsKeyDown("LT")) {
+            if (InputManager.Instance.IsKeyDown(playerIndex, Microsoft.Xna.Framework.Input.Buttons.LeftTrigger, "LT"))
+            {
                 pressed = "LT";
+            }
+            if (InputManager.Instance.IsKeyDown(playerIndex, Microsoft.Xna.Framework.Input.Buttons.RightShoulder, "RB"))
+            {
+                pressed = "RB";
+            }
+            if (InputManager.Instance.IsKeyDown(playerIndex, Microsoft.Xna.Framework.Input.Buttons.RightTrigger, "RT"))
+            {
+                pressed = "RT";
             }
 
             if (pressed.Equals("")) return;

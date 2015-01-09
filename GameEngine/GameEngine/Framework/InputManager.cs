@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Framework
 {
@@ -11,7 +12,8 @@ namespace GameEngine.Framework
         private Dictionary<string, List<Keys>> keyBindings = new Dictionary<string, List<Keys>>();
         private KeyboardState prevKeyboardState;
         private KeyboardState newKeyboardState;
-
+        private GamePadState[] prevGamePadsState = new GamePadState[2];
+        private GamePadState[] gamePadsState = new GamePadState[2];
         private static InputManager inputManager;
 
         private InputManager() { }
@@ -40,30 +42,42 @@ namespace GameEngine.Framework
             keyBindings[key].Remove(value);
         }
 
-        public bool IsKeyDown(string action)
+        public bool IsKeyDown(int playerIndex, Buttons button, string action)
         {
             foreach (var key in keyBindings[action])
                 if (newKeyboardState.IsKeyDown(key))
                     return true;
-
-            return false;
+            
+            return (gamePadsState[playerIndex].IsButtonDown(button));
         }
 
-        public bool WasKeyDown(string action)
+
+        public bool WasKeyDown(int playerIndex, Buttons button, string action)
         {
+
             foreach (var key in keyBindings[action])
             {
                 if (newKeyboardState.IsKeyDown(key) && prevKeyboardState.IsKeyUp(key))
                     return true;
             }
 
-            return false;
+            return (gamePadsState[playerIndex].IsButtonDown(button) && prevGamePadsState[playerIndex].IsButtonUp(button));
+
         }
 
         public void Update()
         {
             prevKeyboardState = newKeyboardState;
             newKeyboardState = Keyboard.GetState();
+
+            //set our previous state to our new state
+            prevGamePadsState[0] = gamePadsState[0];
+            prevGamePadsState[1] = gamePadsState[1];
+
+            //get our new state
+            //gamePadsState = GamePad.State .GetState();
+            gamePadsState[0] = GamePad.GetState(PlayerIndex.One);
+            gamePadsState[1] = GamePad.GetState(PlayerIndex.Two);
         }
     }
 }

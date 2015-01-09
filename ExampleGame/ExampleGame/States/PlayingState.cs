@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using GameEngine.Framework;
 using ExampleGame.Components;
 using GameEngine.Components;
+using Microsoft.Xna.Framework.Input;
 
 namespace ExampleGame
 {
@@ -28,28 +29,28 @@ namespace ExampleGame
         public override void Update(GameTime gameTime)
         {
             SetCameraToRendering();
-            if (InputManager.Instance.WasKeyDown("ChangeScene1"))
-            {
-                //engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
-                SceneManager.Instance.SetCurrentScene("World1.Level1.Room1");
-            }
-            if (InputManager.Instance.WasKeyDown("ChangeScene2"))
-            {
-                //engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
-                SceneManager.Instance.SetCurrentScene("World1.Level1.Room2");
-            }
-            if (InputManager.Instance.WasKeyDown("ChangeScene3"))
-            {
-               // engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
-                SceneManager.Instance.SetCurrentScene("World1.Level2.Room1");
-            }
+            //if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"ChangeScene1"))
+            //{
+            //    //engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
+            //    SceneManager.Instance.SetCurrentScene("World1.Level1.Room1");
+            //}
+            //if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"ChangeScene2"))
+            //{
+            //    //engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
+            //    SceneManager.Instance.SetCurrentScene("World1.Level1.Room2");
+            //}
+            //if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"ChangeScene3"))
+            //{
+            //   // engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
+            //    SceneManager.Instance.SetCurrentScene("World1.Level2.Room1");
+            //}
 
-            if (InputManager.Instance.WasKeyDown("MainMenu"))
+            if (InputManager.Instance.WasKeyDown(0, Buttons.Start, "MainMenu"))
             {
                 SetCameraToNotRendering();
                 engine.PopState();
             }
-            else if (InputManager.Instance.WasKeyDown("Paused"))
+            else if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"Paused"))
             {
                 engine.PushState<PausedState>();
             }

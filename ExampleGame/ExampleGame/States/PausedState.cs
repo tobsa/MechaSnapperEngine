@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ExampleGame.Components;
 using GameEngine.Components;
+using Microsoft.Xna.Framework.Input;
 
 namespace ExampleGame
 {
@@ -24,7 +25,7 @@ namespace ExampleGame
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.Instance.WasKeyDown("Paused"))
+            if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"Paused"))
                 engine.PopState();
         }
 

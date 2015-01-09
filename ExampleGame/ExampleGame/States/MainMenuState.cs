@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameEngine.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace ExampleGame
 {
@@ -22,10 +23,11 @@ namespace ExampleGame
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.Instance.WasKeyDown("Exit"))
+            
+            if (InputManager.Instance.WasKeyDown(0, Buttons.A ,"Exit"))
                 engine.Game.Exit();
 
-            if (InputManager.Instance.WasKeyDown("Play"))
+            if (InputManager.Instance.WasKeyDown(0, Buttons.Start, "Play"))
                 engine.PushState<PlayingState>();
         }
 

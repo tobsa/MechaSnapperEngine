@@ -13,7 +13,7 @@ namespace ExampleGame.Enemies
     public class WalkingWorldPlayerState :  IAgentBehaviour
     {
         public float barrarokSpeed = 75;
-
+        private int playerIndex = 0;
         public WalkingWorldPlayerState() { }
 
         //public WalkingWorldPlayerState(SceneManager sceneManager) :
@@ -30,11 +30,11 @@ namespace ExampleGame.Enemies
 
             Vector2 tempV = velocityComponent.Velocity;
 
-            if (InputManager.Instance.IsKeyDown("Right2"))
+            if (InputManager.Instance.IsKeyDown(playerIndex, Microsoft.Xna.Framework.Input.Buttons.LeftThumbstickRight, "Right2"))
             {
                 tempV.X += barrarokSpeed;
             }
-            if (InputManager.Instance.IsKeyDown("Left2"))
+            if (InputManager.Instance.IsKeyDown(playerIndex, Microsoft.Xna.Framework.Input.Buttons.LeftThumbstickLeft, "Left2"))
             {
                 tempV.X -= barrarokSpeed;
             }

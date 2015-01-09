@@ -186,6 +186,8 @@ namespace ExampleGame
             //Worldplayer change character
             InputManager.Instance.AddKeyBinding("LB", Microsoft.Xna.Framework.Input.Keys.P);
             InputManager.Instance.AddKeyBinding("LT", Microsoft.Xna.Framework.Input.Keys.O);
+            InputManager.Instance.AddKeyBinding("RB", Microsoft.Xna.Framework.Input.Keys.L);
+            InputManager.Instance.AddKeyBinding("RT", Microsoft.Xna.Framework.Input.Keys.I);
         }
 
         EnemySelectSystem enemySelectSystem;
