@@ -321,11 +321,11 @@ namespace ExampleGame
             Texture2D portalTexture = Content.Load<Texture2D>("Portal");
             ComponentManager.Instance.AddComponent(portals[0], new RenderComponent(portalTexture, portalTexture.Width, portalTexture.Height, 0));
             ComponentManager.Instance.AddComponent(portals[0], new CollisionRectangleComponent(new Rectangle((int)(position.X + portalTexture.Width / 4), (int)position.Y + portalTexture.Height / 4, portalTexture.Width/ 2, portalTexture.Height / 2)));
-            ComponentManager.Instance.AddComponent(portals[0], new PortalComponent(portals[0], portals[1], 3000));
+            ComponentManager.Instance.AddComponent(portals[0], new PortalComponent(portals[1], 3000));
 
             ComponentManager.Instance.AddComponent(portals[1], new RenderComponent(portalTexture, portalTexture.Width, portalTexture.Height, 0));
             ComponentManager.Instance.AddComponent(portals[1], new CollisionRectangleComponent(new Rectangle((int)(position2.X + portalTexture.Width / 4), (int)position2.Y + portalTexture.Height / 4, portalTexture.Width / 2, portalTexture.Height / 2)));
-            ComponentManager.Instance.AddComponent(portals[1], new PortalComponent(portals[1], portals[0], 3000));
+            ComponentManager.Instance.AddComponent(portals[1], new PortalComponent(portals[0], 3000));
 
             return portals;
         }

@@ -10,15 +10,13 @@ namespace ExampleGame.Components
 {
     public class PortalComponent : IComponent
     {
-        public Entity FirstPortal { get; set; }
-        public Entity SecondPortal { get; set; }
+        public Entity PortalBuddy { get; set; }
         public float CoolDownTime { get; set; }
         public float CurrentTime { get; set; }
 
-        public PortalComponent(Entity firstPortal, Entity secondPortal, float portalCoolDownTime)
+        public PortalComponent(Entity portalBuddy, float portalCoolDownTime)
         {
-            FirstPortal = firstPortal;
-            SecondPortal = secondPortal;
+            PortalBuddy = portalBuddy;
             CoolDownTime = portalCoolDownTime;
 
         }
