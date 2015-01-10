@@ -44,11 +44,11 @@ namespace ExampleGame.Enemies
                     var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
                     var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
 
-                    if (healthComponent.hitClock >= healthComponent.hitCoolDown)
+                    if (healthComponent.HitClock >= healthComponent.HitCoolDown)
                     {
                         healthComponent.CurrentHP--;
                         SoundManager.Instance.PlaySoundEffect("Punch2");
-                        healthComponent.hitClock = 0;
+                        healthComponent.HitClock = 0;
                     }
                 }
 

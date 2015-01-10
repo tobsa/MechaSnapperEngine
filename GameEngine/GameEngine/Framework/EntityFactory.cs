@@ -44,13 +44,13 @@ namespace GameEngine.Framework
 
 
         
-        public static List<Entity> CreateTileWorld(int[,] world, Texture2D spriteSheet, int tileWidth, int tileHeight)
+        public static List<Entity> CreateTileWorld(int[,] world, Texture2D spriteSheet, int numRows, int numColumns, int tileWidth, int tileHeight)
         {
             List<Entity> entities = new List<Entity>();
 
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < numRows; i++)
             {
-                for (int j = 0; j < 25; j++)
+                for (int j = 0; j < numColumns; j++)
                 {
                     if (world[i, j] == 0)
                     {

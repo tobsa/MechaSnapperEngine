@@ -18,8 +18,8 @@ namespace ExampleGame
         private Entity portalBullet;
         private float bulletMaxLiveTime = 4000;
         private float bulletCountTime = 0;
-        private int bulletDistanceY = 1000;
-        private int bulletDistanceX = 1000;
+        private int bulletDistanceY = 700;
+        private int bulletDistanceX = 700;
 
         private float maxVelocity = 350;
         private float jumpStrength = 720;
@@ -213,16 +213,18 @@ namespace ExampleGame
             Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocity.Velocity, body, dt);
             Vector2 collisionPosition = PhysicsManager.Instance.Move(transform.Position, new Vector2(collisionVelocity.X * dt, 0));
 
-            if (PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { 3 }))
+            List<Entity> jackHealth = null;
+            HealthComponent healthComponent = null;
+            if (PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { Layers.BARRAROK }))
             {
-                var jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
-                var healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+                jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
 
-                if (healthComponent.hitClock >= healthComponent.hitCoolDown)
+                if (healthComponent.HitClock >= healthComponent.HitCoolDown)
                 {
                     healthComponent.CurrentHP--;
                     SoundManager.Instance.PlaySoundEffect("Punch2");
-                    healthComponent.hitClock = 0;
+                    healthComponent.HitClock = 0;
                 }
             }
 
@@ -243,6 +245,20 @@ namespace ExampleGame
             }
 
             latestFacingRight = facingRight;
+
+            
+
+            if (PhysicsManager.Instance.Collided(entity, transform.Position, new List<int>() { Layers.HORSE_SHOE }))
+            {
+                if (healthComponent != null)
+                    healthComponent.HasHorseShoe = true;
+                else
+                {
+                    jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                    healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+                    healthComponent.HasHorseShoe = true;
+                }
+            }
 
         } 
     }

@@ -9,6 +9,7 @@ using GameEngine.Framework;
 using ExampleGame.Components;
 using GameEngine.Components;
 using Microsoft.Xna.Framework.Input;
+using ExampleGame.States;
 
 namespace ExampleGame
 {
@@ -53,6 +54,16 @@ namespace ExampleGame
             else if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"Paused"))
             {
                 engine.PushState<PausedState>();
+            }
+
+            var healthComponent = ComponentManager.Instance.GetComponentsOfType<HealthComponent>();
+            if (healthComponent[0].CurrentHP == 0)
+            {
+                engine.PushState<GameOverState>();
+            }
+            if (healthComponent[0].HasHorseShoe)
+            {
+                engine.PushState<GameWonState>();
             }
 
             for (int i = 0; i < updateableSystems.Count; i++)

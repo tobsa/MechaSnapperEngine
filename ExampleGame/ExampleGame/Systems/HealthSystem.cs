@@ -29,7 +29,7 @@ namespace ExampleGame.Systems
                     var health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
                     if (!health.IsJack) return;
 
-                    health.hitClock += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    health.HitClock += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (health.CurrentHP <= 0 && health.IsAlive) {
                         health.IsAlive = false;
                         SoundManager.Instance.PlaySoundEffect("JackDeath");
