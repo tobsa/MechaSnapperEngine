@@ -40,7 +40,7 @@ namespace ExampleGame
             engine.Initialize();
 
             //cameraSystem = new CameraSystem(engine.SceneManager);
-            cameraSystem = new CameraSystem();
+            //cameraSystem = new CameraSystem();
             camComp = new CameraComponent(GraphicsDevice.Viewport);
             camComp.XOffset = camComp.Viewport.Width / 2; //Make so that the camera follows the object in the middle of the screen
 
@@ -53,41 +53,40 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            int[,] rocks = LoadRocks();
+            //int[,] rocks = LoadRocks();
 
-            int[,] rocksBG = LoadRocksBG();
+            //int[,] rocksBG = LoadRocksBG();
 
-            LoadEnemySelectSystem();
+            //LoadEnemySelectSystem();
+
+            //List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 14, 100, 64, 64);
+            //List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 14, 25, 64, 64);
+
+            //Entity background = CreateBackground(new Vector2(350, 0));
+            //Entity barrarok = CreateBarrarok(new Vector2(576, 256));
+            //Entity barrarok2 = CreateBarrarok(new Vector2(2600, 256));
+            //Entity barrarok3 = CreateBarrarok(new Vector2(2700, 64));
+            //Entity jack = CreateJack(new Vector2(2 * 64, 4 * 80));
+            //Entity jackHealth = CreateJackHealth();
+            //Entity time = CreateTime(new Vector2(1200, 0), 500);
+            //Entity[] portals = CreatePortal(new Vector2(1750, 192), new Vector2(2144, 448));
+            //Entity[] portals2 = CreatePortal(new Vector2(2496, 64), new Vector2(3328, 384));
+            //Entity horseShoe = CreateHorseShoe(new Vector2(4000, 384));
+
+
+            //Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
+            //Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
+            //portalBullet.Visible = false;
+
+            //ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
+            //ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
+
+            //ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
+            //ComponentManager.Instance.AddComponent(portalBullet, new CollisionRectangleComponent());
+            //ComponentManager.Instance.AddComponent(portalBullet, new VelocityComponent());
             
-            List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 14, 100, 64, 64);
-            List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"),14, 25, 64, 64);
-
-            Entity background = CreateBackground(new Vector2(350, 0));
-            Entity barrarok = CreateBarrarok(new Vector2(576, 256));
-            Entity barrarok2 = CreateBarrarok(new Vector2(2600, 256));
-            Entity barrarok3 = CreateBarrarok(new Vector2(2700, 64));
-            Entity jack = CreateJack(new Vector2(2 * 64, 4 * 80));
-            Entity jackHealth = CreateJackHealth();
-            Entity time = CreateTime(new Vector2(1200, 0), 500);
-            Entity[] portals = CreatePortal(new Vector2( 1750, 192), new Vector2(2144, 448));
-            Entity[] portals2 = CreatePortal(new Vector2(2496, 64), new Vector2(3328, 384));
-            Entity horseShoe = CreateHorseShoe(new Vector2(4000, 384));
-
-
-            Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
-            Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
-            portalBullet.Visible = false;
-
-            ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
-            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
-            //ComponentManager.Instance.AddComponent(portalGun, new InputComponent(new PortalScript()));
-
-            ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
-            ComponentManager.Instance.AddComponent(portalBullet, new CollisionRectangleComponent());
-            ComponentManager.Instance.AddComponent(portalBullet, new VelocityComponent());
+            
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
-           
-
             SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
             SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
@@ -102,25 +101,25 @@ namespace ExampleGame
             //engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
             //engine.SceneManager.AddEntities("Level1", 2, rockEntities);
 
-            SceneManager.Instance.AddEntity("Level1", Layers.BACKGROUND, background);
-            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok);
-            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok2);
-            SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok3);
-            SceneManager.Instance.AddEntity("Level1", Layers.JACK, jack);
-            SceneManager.Instance.AddEntity("Level1", Layers.JACK_ITEMS, portalGun);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTAL_BULLET, portalBullet);
-            SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, jackHealth);
-            SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, time);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[0]);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[1]);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[0]);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[1]);
-            SceneManager.Instance.AddEntity("Level1", Layers.HORSE_SHOE, horseShoe);
-            SceneManager.Instance.AddEntities("Level1", Layers.BACKGROUND_OBJECTS, rockBGEntities);
-            SceneManager.Instance.AddEntities("Level1", Layers.WALKABLE_OBJECTS, rockEntities);
+            //SceneManager.Instance.AddEntity("Level1", Layers.BACKGROUND, background);
+            //SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok);
+            //SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok2);
+            //SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok3);
+            //SceneManager.Instance.AddEntity("Level1", Layers.JACK, jack);
+            //SceneManager.Instance.AddEntity("Level1", Layers.JACK_ITEMS, portalGun);
+            //SceneManager.Instance.AddEntity("Level1", Layers.PORTAL_BULLET, portalBullet);
+            //SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, jackHealth);
+            //SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, time);
+            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[0]);
+            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[1]);
+            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[0]);
+            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[1]);
+            //SceneManager.Instance.AddEntity("Level1", Layers.HORSE_SHOE, horseShoe);
+            //SceneManager.Instance.AddEntities("Level1", Layers.BACKGROUND_OBJECTS, rockBGEntities);
+            //SceneManager.Instance.AddEntities("Level1", Layers.WALKABLE_OBJECTS, rockEntities);
 
 
-            SceneManager.Instance.SetCurrentScene("Level1");
+            //SceneManager.Instance.SetCurrentScene("Level1");
 
             AddSoundEffects();
             AddKeyBindings();
@@ -138,24 +137,27 @@ namespace ExampleGame
             //playingState.RegisterSystem(enemySelectSystem);
             //playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
 
-            playingState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
-            playingState.RegisterSystem(new InputSystem());
-            playingState.RegisterSystem(new PhysicsSystem());
-            playingState.RegisterSystem(new AnimationSystem(engine.SpriteBatch));
-            playingState.RegisterSystem(new ParentSystem());
-            playingState.RegisterSystem(new TimeSystem());
-            playingState.RegisterSystem(cameraSystem);
+            //playingState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
+            //playingState.RegisterSystem(new InputSystem());
+            //playingState.RegisterSystem(new PhysicsSystem());
+            //playingState.RegisterSystem(new AnimationSystem(engine.SpriteBatch));
+            //playingState.RegisterSystem(new ParentSystem());
+            //playingState.RegisterSystem(new TimeSystem());
+            //playingState.RegisterSystem(cameraSystem);
+            //playingState.RegisterCamera(camComp);
+            //playingState.RegisterSystem(new AISystem());
+            //playingState.RegisterSystem(enemySelectSystem);
+            //playingState.RegisterSystem(new HealthSystem());
+            //playingState.RegisterSystem(new PortalSystem());
+
+          //  playingState.InitializePlayingState(cameraSystem, camComp);
             playingState.RegisterCamera(camComp);
-            playingState.RegisterSystem(new AISystem());
-            playingState.RegisterSystem(enemySelectSystem);
-            playingState.RegisterSystem(new HealthSystem());
-            playingState.RegisterSystem(new PortalSystem());
+            playingState.InitializeLevels();
 
             var pausedState = new PausedState(engine);
             pausedState.CameraComponent = camComp;
 
             var mainMenuState = new MainMenuState(engine);
-            //mainMenuState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
             mainMenuState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
 
 
@@ -278,6 +280,12 @@ namespace ExampleGame
             return background;
         }
 
+        private Entity LoadBackground()
+        {
+
+            return null;
+        }
+
         private Entity CreateTime(Vector2 position, int countDownSeconds)
         {
             Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
@@ -317,11 +325,11 @@ namespace ExampleGame
         private Entity CreateBarrarok(Vector2 position)
         {
             Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
-
+            Texture2D bar = Content.Load<Texture2D>("Barrarok");
             ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
-            ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(Content.Load<Texture2D>("BarrarokAnim"), 64, 124, 0));
+            ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(bar, 64, bar.Height, 0));
             ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(0, 0, 32, 124)));
+            ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(0, 0, 32, bar.Height)));
             ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
             ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState() });
             ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());

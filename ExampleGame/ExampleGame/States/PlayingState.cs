@@ -10,21 +10,40 @@ using ExampleGame.Components;
 using GameEngine.Components;
 using Microsoft.Xna.Framework.Input;
 using ExampleGame.States;
+using GameEngine.Systems;
+using ExampleGame.Systems;
+using ExampleGame.Animations;
+using ExampleGame.Enemies;
+using ExampleGame.Levels;
 
 namespace ExampleGame
 {
     public class PlayingState : GameState
     {
-        SpriteFont font;
-
-        CameraComponent cameraComponent = null;
-
+        private SpriteFont font;
+        private CameraComponent cameraComponent;
+        private List<Level> Levels = new List<Level>();
+        private Level CurrentLevel;
         public PlayingState(MechaSnapperEngine engine) :
             base(engine)
         {
             InputManager.Instance.AddKeyBinding("MainMenu", Microsoft.Xna.Framework.Input.Keys.Escape);
             InputManager.Instance.AddKeyBinding("Paused", Microsoft.Xna.Framework.Input.Keys.Enter);
             font = engine.Content.Load<SpriteFont>("Font");
+            
+        }
+
+        public void InitializeLevels()
+        {
+            Levels.Add(new Level1(engine, this, cameraComponent));
+            Level1 a = (Level1)Levels[0];
+            a.Initialize();
+            CurrentLevel = a;
+        }
+
+        public void RestartCurrentLevel()
+        {
+            CurrentLevel.RestartLevel();
         }
 
         public override void Update(GameTime gameTime)
@@ -86,7 +105,7 @@ namespace ExampleGame
         {
             base.StateChanged(sender, e);
             
-            if (engine.State == engine.GetState<PausedState>())
+            if (engine.State == engine.GetState<PausedState>() || engine.State == engine.GetState<GameOverState>())
             {
                 Visible = true;
             }
@@ -115,5 +134,7 @@ namespace ExampleGame
         {
             cameraComponent = camera;
         }
+
+        
     }
 }

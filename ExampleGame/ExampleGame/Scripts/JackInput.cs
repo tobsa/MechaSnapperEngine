@@ -21,7 +21,7 @@ namespace ExampleGame
         private int bulletDistanceY = 700;
         private int bulletDistanceX = 700;
 
-        private float maxVelocity = 350;
+        private float maxVelocity = 2000;//350;
         private float jumpStrength = 720;
         private IAnimation idleAnim = new JackIdleAnimation();
         private IAnimation runningAnim = new JackRunningAnimation();

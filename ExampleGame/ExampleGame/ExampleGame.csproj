@@ -119,6 +119,8 @@
     <Compile Include="Enemies\WalkingState.cs" />
     <Compile Include="Enemies\WalkingWorldPlayerState.cs" />
     <Compile Include="Layers.cs" />
+    <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Level1.cs" />
     <Compile Include="Scripts\PortalScript.cs" />
     <Compile Include="Animations\BarrarokAttackAnimation.cs" />
     <Compile Include="Animations\BarrarokWalkingAnimation.cs" />

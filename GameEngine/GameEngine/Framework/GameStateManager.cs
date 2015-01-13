@@ -22,6 +22,10 @@ namespace GameEngine.Framework
         {
             registeredStates.Remove(state.GetType());
         }
+        public void UnregisterState<T>()
+        {
+            registeredStates.Remove(typeof(T));
+        }
 
         public GameState GetRegisteredState<T>()
         {
