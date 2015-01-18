@@ -18,10 +18,10 @@ namespace ExampleGame
         private Entity portalBullet;
         private float bulletMaxLiveTime = 4000;
         private float bulletCountTime = 0;
-        private int bulletDistanceY = 700;
-        private int bulletDistanceX = 700;
+        private int bulletDistanceY = 1000;
+        private int bulletDistanceX = 1000;
 
-        private float maxVelocity = 2000;//350;
+        private float maxVelocity = 350;
         private float jumpStrength = 720;
         private IAnimation idleAnim = new JackIdleAnimation();
         private IAnimation runningAnim = new JackRunningAnimation();

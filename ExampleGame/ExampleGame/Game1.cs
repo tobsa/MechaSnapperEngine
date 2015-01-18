@@ -42,7 +42,7 @@ namespace ExampleGame
             //cameraSystem = new CameraSystem(engine.SceneManager);
             //cameraSystem = new CameraSystem();
             camComp = new CameraComponent(GraphicsDevice.Viewport);
-            camComp.XOffset = camComp.Viewport.Width / 2; //Make so that the camera follows the object in the middle of the screen
+            camComp.XOffset = camComp.Viewport.Width / 4; //Make so that the camera follows the object in the middle of the screen
 
             base.Initialize();
         }
