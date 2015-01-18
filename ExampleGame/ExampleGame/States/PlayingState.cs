@@ -35,8 +35,8 @@ namespace ExampleGame
 
         public void InitializeLevels()
         {
-            Levels.Add(new Level1(engine, this, cameraComponent));
-            Level1 a = (Level1)Levels[0];
+            Levels.Add(new Level2(engine, this, cameraComponent));
+            Level2 a = (Level2)Levels[0];
             a.Initialize();
             CurrentLevel = a;
         }
