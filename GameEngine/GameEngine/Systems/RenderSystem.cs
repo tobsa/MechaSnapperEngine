@@ -13,27 +13,34 @@ namespace GameEngine.Systems
     {
         private SpriteBatch spriteBatch;
 
-        //public RenderSystem(SceneManager sceneManager, SpriteBatch spriteBatch) :
-        //    base(sceneManager)
-        //{
-        //    this.spriteBatch = spriteBatch;
-        //}
-
         public RenderSystem(SpriteBatch spriteBatch)
         {
             this.spriteBatch = spriteBatch;
         }
 
+        List<double> averages = new List<double>();
+        List<int> times = new List<int>(100);
         public void Draw(GameTime gameTime)
         {
-           // var layers = SceneManager.CurrentScene.Layers;
             var layers = SceneManager.Instance.CurrentScene.Layers;
 
+            if (times.Count >= 100)
+            {
+                averages.Add(times.Average());
+                times = new List<int>(100);
+                SoundManager.Instance.PlaySoundEffect("punch2");
+            }
+
+            DateTime now = DateTime.Now;
+            int milli = now.Millisecond;
             for (int i = 0; i < layers.Count; i++)
             {
                 DrawTexture(layers[i]);
                 DrawString(layers[i]);
             }
+            now = DateTime.Now;
+            int timeItTook = now.Millisecond - milli;
+            times.Add(timeItTook);
         }
 
         private void DrawTexture(Layer layer)

@@ -15,109 +15,70 @@ namespace ExampleGame.Levels
 {
     public class Level1 : Level
     {
-        private List<Entity> Barraroks = new List<Entity>();
-        private Entity Jack;
-        private Entity JackHealth;
 
+        private int numBarraroks = 3;
+        private int numPortals = 4;
         public Level1(MechaSnapperEngine engine, PlayingState playingState, CameraComponent cameraComponent)
             : base(engine, playingState, cameraComponent)
         {
-
+            LevelName = "level1";
         }
 
         public override void RestartLevel()
         {
-            var jackTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(Jack);
-            jackTransform.Position = new Vector2(2 * 64, 4 * 80);
-
-            var jackHealth = ComponentManager.Instance.GetComponentOfType<HealthComponent>(JackHealth);
-            jackHealth.CurrentHP = 3;
-            jackHealth.IsAlive = true;
-            jackHealth.HasHorseShoe = false;
-
-            var barrarokTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(Barraroks[0]);
-            barrarokTransform.Position = new Vector2(576, 256);
-            barrarokTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(Barraroks[1]);
-            barrarokTransform.Position = new Vector2(2550, 256);
-            barrarokTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(Barraroks[1]);
-            barrarokTransform.Position = new Vector2(2700, 64);
+            CreateNonStaticEntities();
         }
 
         public override void Initialize()
         {
-            base.Initialize();
+            base.LoadStuff();
+            
 
             int[,] rocks = LoadRocks();
 
             int[,] rocksBG = LoadRocksBG();
 
-            CreateMovableEntities();
-            List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, engine.Content.Load<Texture2D>("Rocks_FG_64x64"), 14, 100, 64, 64);
-            List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, engine.Content.Load<Texture2D>("Rocks_BG_64x64"), 14, 25, 64, 64);
+            CreateNonStaticEntities();
+            List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Engine.Content.Load<Texture2D>("Rocks_FG_64x64"), 14, 100, 64, 64);
+            List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Engine.Content.Load<Texture2D>("Rocks_BG_64x64"), 14, 25, 64, 64);
             Entity background = CreateBackground(new Vector2(350, 0));
-            Entity time = CreateTime(new Vector2(1200, 0), 500);
-            Entity[] portals = CreatePortal(new Vector2(1750, 192), new Vector2(2144, 448));
-            Entity[] portals2 = CreatePortal(new Vector2(2496, 64), new Vector2(3328, 384));
-            Entity horseShoe = CreateHorseShoe(new Vector2(4000, 384));
 
 
-            Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, engine.Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
-            Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, engine.Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
-            portalBullet.Visible = false;
+            SceneManager.Instance.AddEntity(LevelName, Layers.JACK, Jack);
+            SceneManager.Instance.AddEntity(LevelName, Layers.TIME_AND_HEALTH, JackHealth);
+            SceneManager.Instance.AddEntity(LevelName, Layers.BACKGROUND, background);
+            SceneManager.Instance.AddEntity(LevelName, Layers.JACK_ITEMS, PortalGun);
+            SceneManager.Instance.AddEntity(LevelName, Layers.PORTAL_BULLET, PortalBullet);
+            SceneManager.Instance.AddEntity(LevelName, Layers.TIME_AND_HEALTH, Time);
+            SceneManager.Instance.AddEntity(LevelName, Layers.HORSE_SHOE, HorseShoe);
+            SceneManager.Instance.AddEntities(LevelName, Layers.BACKGROUND_OBJECTS, rockBGEntities);
+            SceneManager.Instance.AddEntities(LevelName, Layers.WALKABLE_OBJECTS, rockEntities);
 
-            ComponentManager.Instance.AddComponent(Jack, new InputComponent(new JackInput(portalGun, portalBullet)));
-            ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(Jack, 55, 70));
+            for (int i = 0; i < numPortals; i++)
+            {
+                SceneManager.Instance.AddEntity(LevelName, Layers.PORTALS, Portals[i]);
+            }
 
-            ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
-            ComponentManager.Instance.AddComponent(portalBullet, new CollisionRectangleComponent());
-            ComponentManager.Instance.AddComponent(portalBullet, new VelocityComponent());
-
-            SceneManager.Instance.AddEntity("Level1", Layers.BACKGROUND, background);
-            SceneManager.Instance.AddEntity("Level1", Layers.JACK_ITEMS, portalGun);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTAL_BULLET, portalBullet);
-            SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, time);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[0]);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[1]);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[0]);
-            SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[1]);
-            SceneManager.Instance.AddEntity("Level1", Layers.HORSE_SHOE, horseShoe);
-            SceneManager.Instance.AddEntities("Level1", Layers.BACKGROUND_OBJECTS, rockBGEntities);
-            SceneManager.Instance.AddEntities("Level1", Layers.WALKABLE_OBJECTS, rockEntities);
-
-            RegisterSystems();
-            SceneManager.Instance.SetCurrentScene("Level1");
+            for (int i = 0; i < numBarraroks; i++)
+            {
+                SceneManager.Instance.AddEntity(LevelName, Layers.BARRAROK, Barraroks[i]);
+            }
         }
 
-        private void RegisterSystems()
+        private void CreateNonStaticEntities()
         {
-            playingState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
-            playingState.RegisterSystem(new InputSystem());
-            playingState.RegisterSystem(new PhysicsSystem());
-            playingState.RegisterSystem(new AnimationSystem(engine.SpriteBatch));
-            playingState.RegisterSystem(new ParentSystem());
-            playingState.RegisterSystem(new TimeSystem());
-            playingState.RegisterSystem( new CameraSystem());
-            playingState.RegisterCamera(cameraComponent);
-            playingState.RegisterSystem(new AISystem());
-            playingState.RegisterSystem(enemySelectSystem);
-            playingState.RegisterSystem(new HealthSystem());
-            playingState.RegisterSystem(new PortalSystem());
-        }
+            var jackTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(Jack);
+            jackTransform.Position = new Vector2(2 * 64, 4 * 80);
 
-        private void CreateMovableEntities()
-        {
-            Jack = CreateJack(new Vector2(2 * 64, 4 * 80));
-            SceneManager.Instance.AddEntity("Level1", Layers.JACK, Jack);
+            ResetHealth();
 
-            JackHealth = CreateJackHealth();
-            SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, JackHealth);
+            CreateBarraroks(numBarraroks, new List<Vector2>() { new Vector2(576, 256), new Vector2(2600, 256), new Vector2(2700, 64) }); 
+            CreatePortals(numPortals, new List<Vector2>() { new Vector2(1750, 192), new Vector2(2144, 448), new Vector2(2496, 64), new Vector2(3328, 384) });
 
-            Barraroks.Add(CreateBarrarok(new Vector2(576, 256)));
-            Barraroks.Add(CreateBarrarok(new Vector2(2600, 256)));
-            Barraroks.Add(CreateBarrarok(new Vector2(2700, 64)));
+            var timeComponent = ComponentManager.Instance.GetComponentOfType<CountdownTimeComponent>(Time);
+            timeComponent.TimeSeconds = 500;
 
-            foreach (Entity entity in Barraroks)
-                SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, entity);
+            UpdateHorseShoe(new Vector2(4000, 384));
         }
 
         protected override int[,] LoadRocks()

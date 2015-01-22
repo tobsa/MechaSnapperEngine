@@ -16,6 +16,8 @@ namespace ExampleGame
     {
         private Entity portalGun;
         private Entity portalBullet;
+        private Entity jack;
+        private HealthComponent healthComponent;
         private float bulletMaxLiveTime = 4000;
         private float bulletCountTime = 0;
         private int bulletDistanceY = 1000;
@@ -32,22 +34,77 @@ namespace ExampleGame
 
         private int playerIndex = 1;
 
-        public JackInput(Entity portalGun, Entity portalBullet)
+
+        private TransformComponent transform;
+        private VelocityComponent velocity;
+        private AnimationComponent anim;
+        private RigidBodyComponent body;
+        private RenderComponent render;
+        private CollisionRectangleComponent collision;
+        private RenderComponent gunRender;
+        private TransformComponent gunTransform;
+
+
+        private TransformComponent bulletTransform;
+        private TeleportComponent teleportComponent;
+        private VelocityComponent bulletVelocity;
+
+        public JackInput(Entity jack, Entity portalGun, Entity portalBullet)
         {
+            this.jack = jack;
+            collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(jack);
+            render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(jack);
+            body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(jack);
+            anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(jack);
+            velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(jack);
+            transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(jack);
+
+
             this.portalGun = portalGun;
             this.portalBullet = portalBullet;
+
+        }
+
+        private void CheckIfNull()
+        {
+            if (gunTransform == null)
+            {
+                gunTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalGun);
+            }
+            if (gunRender == null)
+            {
+                gunRender = ComponentManager.Instance.GetComponentOfType<RenderComponent>(portalGun);
+            }
+            if (bulletVelocity == null)
+            {
+                bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
+            }
+            if (teleportComponent == null)
+            {
+                teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
+            }
+            if (bulletTransform == null)
+            {
+                bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+            }
         }
 
         public void Update(GameTime gameTime, Entity entity)
         {
-            var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-            var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
-            var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
-            var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
-            var render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            var gunRender = ComponentManager.Instance.GetComponentOfType<RenderComponent>(portalGun);
-            var gunTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalGun);
+            CheckIfNull();
+            if (healthComponent == null)
+            {
+                var entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entities[0]);
+            }
+            //var transform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
+            //var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
+            //var anim = ComponentManager.Instance.GetComponentOfType<AnimationComponent>(entity);
+            //var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
+            //var render = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
+            //var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
+            //var gunRender = ComponentManager.Instance.GetComponentOfType<RenderComponent>(portalGun);
+            //var gunTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalGun);
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Vector2 newVelocity = velocity.Velocity;
@@ -141,7 +198,7 @@ namespace ExampleGame
                     SoundManager.Instance.PlaySoundEffect("Teleport");
                     portalBullet.Visible = false;
 
-                    var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+                    //var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
                     transform.Position = bulletTransform.Position - new Vector2(64, 84);
                 }
                 else
@@ -149,9 +206,9 @@ namespace ExampleGame
                     SoundManager.Instance.PlaySoundEffect("Gunshot");
                     portalBullet.Visible = true;
 
-                    var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
-                    var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
-                    var bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
+                    //var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+                    //var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
+                    //var bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
 
                     bulletTransform.Position = transform.Position + new Vector2(64, 84);
                     teleportComponent.Rotation = gunTransform.Rotation;
@@ -165,9 +222,9 @@ namespace ExampleGame
             
             if (portalBullet.Visible)
             {
-                var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
-                var bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
-                var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
+                //var bulletTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalBullet);
+                //var bulletVelocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(portalBullet);
+                //var teleportComponent = ComponentManager.Instance.GetComponentOfType<TeleportComponent>(portalBullet);
 
                 float rotation = teleportComponent.Rotation * 65;
 
@@ -213,12 +270,12 @@ namespace ExampleGame
             Vector2 collisionVelocity = PhysicsManager.Instance.ApplyFriction(velocity.Velocity, body, dt);
             Vector2 collisionPosition = PhysicsManager.Instance.Move(transform.Position, new Vector2(collisionVelocity.X * dt, 0));
 
-            List<Entity> jackHealth = null;
-            HealthComponent healthComponent = null;
+           // List<Entity> jackHealth = null;
+           // HealthComponent healthComponent = null;
             if (PhysicsManager.Instance.Collided(entity, collisionPosition, new List<int>() { Layers.BARRAROK }))
             {
-                jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
-                healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+               // jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+               // healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
 
                 if (healthComponent.HitClock >= healthComponent.HitCoolDown)
                 {
@@ -254,8 +311,8 @@ namespace ExampleGame
                     healthComponent.HasHorseShoe = true;
                 else
                 {
-                    jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
-                    healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
+                   // jackHealth = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                    //healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(jackHealth[0]);
                     healthComponent.HasHorseShoe = true;
                 }
             }

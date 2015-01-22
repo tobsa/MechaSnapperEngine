@@ -11,26 +11,28 @@ namespace ExampleGame.States
 {
     public class GameWonState : GameState
     {
-
-        private SpriteFont Font;
-        private CameraComponent CameraComponent;
+        public CameraComponent CameraComponent { get; set; }
         public GameWonState(MechaSnapperEngine engine) :
             base(engine)
         {
-            Font = engine.Content.Load<SpriteFont>("Font");
-            var cameraComponent = ComponentManager.Instance.GetComponentsOfType<CameraComponent>();
-            CameraComponent = cameraComponent[0];
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-
+            if (InputManager.Instance.IsKeyDown(0, Microsoft.Xna.Framework.Input.Buttons.A, "Play"))
+            {
+                PlayingState playingState = (PlayingState)engine.GetState<PlayingState>();
+                playingState.NextLevel();
+                engine.PopState();
+            }
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            engine.SpriteBatch.DrawString(Font, "YOU WON!",
+            engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "YOU WON!",
                    new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, Matrix.Invert(CameraComponent.Transform).Translation.Y + 360), Color.White);
+            engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "PRESS ENTER / A TO PLAY NEXT LEVEL",
+                   new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, CameraComponent.Viewport.Height / 4 + FontManager.Instance.GetFont("Font").LineSpacing + 10), Color.White);
         }
     }
 }

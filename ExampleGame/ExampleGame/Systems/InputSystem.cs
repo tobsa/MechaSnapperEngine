@@ -11,15 +11,8 @@ namespace ExampleGame
 {
     public class InputSystem : EntitySystem, IUpdatableSystem 
     {
-        //public InputSystem(SceneManager sceneManager) :
-        //    base (sceneManager)
-        //{
-
-        //}
-
         public void Update(GameTime gameTime)
         {
-            //var entities = ComponentManager.Instance.GetEntities<InputComponent>(SceneManager.CurrentScene.Entities);
             var entities = ComponentManager.Instance.GetEntities<InputComponent>(SceneManager.Instance.CurrentScene.Entities);
             if (entities == null)
                 return;

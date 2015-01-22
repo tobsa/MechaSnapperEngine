@@ -13,7 +13,6 @@ namespace ExampleGame.Systems
     public class PortalSystem : EntitySystem, IUpdatableSystem
     {
 
-
         public void Update(GameTime gameTime)
         {
             var portalEntities = ComponentManager.Instance.GetEntities<PortalComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.PORTALS].Entities); 
@@ -34,11 +33,8 @@ namespace ExampleGame.Systems
                     {
                         var collidableTransform = ComponentManager.Instance.GetComponentOfType<TransformComponent>(collidable);
                         var transformComponent2 = ComponentManager.Instance.GetComponentOfType<TransformComponent>(portalComponent.PortalBuddy);
-                        var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(portalComponent.PortalBuddy);
                         //set the collidable entities new position as the buddy portals position
-                        Vector2 newPos = collidableTransform.Position;
-                        //newPos.X += transformComponent2.Position.X - newPos.X;
-                        //newPos.Y -= newPos.Y - transformComponent2.Position.Y - renderComponent.Texture.Height;
+                        Vector2 newPos = transformComponent2.Position;
                         collidableTransform.Position = newPos;
                         //reset time
                         var buddyPortal = ComponentManager.Instance.GetComponentOfType<PortalComponent>(portalComponent.PortalBuddy);

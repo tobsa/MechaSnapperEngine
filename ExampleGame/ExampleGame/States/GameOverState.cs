@@ -12,14 +12,11 @@ namespace ExampleGame.States
 {
     class GameOverState : GameState
     {
-        private SpriteFont Font;
-        private CameraComponent CameraComponent;
+
+        public CameraComponent CameraComponent { get; set; }
         public GameOverState(MechaSnapperEngine engine) :
             base(engine)
         {
-            Font = engine.Content.Load<SpriteFont>("Font");
-            var cameraComponent = ComponentManager.Instance.GetComponentsOfType<CameraComponent>();
-            CameraComponent = cameraComponent[0];
         }
         
         public override void Update(GameTime gameTime)
@@ -34,10 +31,11 @@ namespace ExampleGame.States
 
         public override void Draw(GameTime gameTime)
         {
-            engine.SpriteBatch.DrawString(Font, "GAME OVER",
+
+            engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "GAME OVER",
                    new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, CameraComponent.Viewport.Height / 4), Color.White);
-            engine.SpriteBatch.DrawString(Font, "PRESS ENTER / A TO RESTART",
-                   new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, CameraComponent.Viewport.Height / 4 + Font.LineSpacing + 10), Color.White);
+            engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "PRESS ENTER / A TO RESTART",
+                   new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, CameraComponent.Viewport.Height / 4 + FontManager.Instance.GetFont("Font").LineSpacing + 10), Color.White);
         }
     }
 }

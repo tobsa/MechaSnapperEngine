@@ -12,48 +12,39 @@ namespace ExampleGame.Systems
 {
     public class HealthSystem : EntitySystem, IUpdatableSystem, IRenderableSystem
     {
-        
-
-        //public HealthSystem(SceneManager manager)
-        //    : base(manager) {
-
-        //}
+        private HealthComponent healthComponent;
+        private RenderComponent renderComponent;
 
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            //List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
-            var entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+            if (healthComponent == null)
+            {
+                var entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entities[0]);
+            }
 
-            if (entities != null) {
-                foreach (Entity entity in entities) {
-                    var health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
-                    if (!health.IsJack) return;
-
-                    health.HitClock += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (health.CurrentHP <= 0 && health.IsAlive) {
-                        health.IsAlive = false;
-                        SoundManager.Instance.PlaySoundEffect("JackDeath");
-                    }
-                }
+            healthComponent.HitClock += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (healthComponent.CurrentHP <= 0 && healthComponent.IsAlive)
+            {
+                healthComponent.IsAlive = false;
+                SoundManager.Instance.PlaySoundEffect("JackDeath");
             }
 
         }
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            //List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.CurrentScene.Entities);
-            List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
-
-            if (entities != null) {
-                foreach (Entity entity in entities) {
-                    HealthComponent health = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entity);
-                    if (!health.IsJack) return;
-                    if (health.CurrentHP < 0) health.CurrentHP = 0;
-                    var renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entity);
-
-                    renderComponent.Frame = health.CurrentHP;
-                }
+            if (renderComponent == null)
+            {
+                List<Entity> entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                renderComponent = ComponentManager.Instance.GetComponentOfType<RenderComponent>(entities[0]);
             }
+            if (healthComponent == null)
+            {
+                var entities = ComponentManager.Instance.GetEntities<HealthComponent>(SceneManager.Instance.CurrentScene.Entities);
+                healthComponent = ComponentManager.Instance.GetComponentOfType<HealthComponent>(entities[0]);
+            }
+            renderComponent.Frame = healthComponent.CurrentHP;
         }
     }
 }

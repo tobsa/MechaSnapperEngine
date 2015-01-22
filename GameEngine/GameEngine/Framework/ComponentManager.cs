@@ -40,6 +40,14 @@ namespace GameEngine.Framework
                 components[type][entity] = null;
         }
 
+        public void RemoveEntityComponents(Entity entity)
+        {
+            foreach (var comp in components)
+            {
+
+            }
+        }
+
         public List<Entity> GetEntities<T>() where T : IComponent
         {
             if (!components.ContainsKey(typeof(T)))

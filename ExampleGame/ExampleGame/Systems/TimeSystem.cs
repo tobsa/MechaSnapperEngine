@@ -12,18 +12,24 @@ namespace ExampleGame.Systems {
 
     public class TimeSystem : EntitySystem, IUpdatableSystem {
 
+        private CountdownTimeComponent time;
+        private StringRenderComponent stringRender;
         public TimeSystem() { }
         //public TimeSystem(SceneManager manager) : base(manager) { }
 
-        public void Update(Microsoft.Xna.Framework.GameTime gameTime) {
+        public void Update(Microsoft.Xna.Framework.GameTime gameTime) 
+        {
+            if (time == null || stringRender == null)
+            {
+                List<Entity> entities = ComponentManager.Instance.GetEntities<CountdownTimeComponent>(SceneManager.Instance.CurrentScene.Entities);
+                time = ComponentManager.Instance.GetComponentOfType<CountdownTimeComponent>(entities[0]);
+                stringRender = ComponentManager.Instance.GetComponentOfType<StringRenderComponent>(entities[0]);
+            }
 
-            //List<Entity> entities = ComponentManager.Instance.GetEntities<CountdownTimeComponent>(SceneManager.CurrentScene.Entities);
-            List<Entity> entities = ComponentManager.Instance.GetEntities<CountdownTimeComponent>(SceneManager.Instance.CurrentScene.Entities);
-
-            if (entities != null) {
-                foreach (Entity entity in entities) {
-                    CountdownTimeComponent time = ComponentManager.Instance.GetComponentOfType<CountdownTimeComponent>(entity);
-                    StringRenderComponent stringRender = ComponentManager.Instance.GetComponentOfType<StringRenderComponent>(entity);
+            //if (entities != null) {
+            //    foreach (Entity entity in entities) {
+            //        CountdownTimeComponent time = ComponentManager.Instance.GetComponentOfType<CountdownTimeComponent>(entity);
+            //        StringRenderComponent stringRender = ComponentManager.Instance.GetComponentOfType<StringRenderComponent>(entity);
 
                     if (time.State == CountdownTimeComponent.Stopped) {
                         time.BeginTimeReal = gameTime.TotalGameTime.Seconds;
@@ -35,8 +41,8 @@ namespace ExampleGame.Systems {
                         //    ;//Döda/starta om spelet
                         stringRender.Text = time.TimeSeconds.ToString();
                     }
-                }
-            }
+            //    }
+            //}
         }
     }
 }

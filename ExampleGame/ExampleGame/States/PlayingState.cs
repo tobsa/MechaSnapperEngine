@@ -20,50 +20,93 @@ namespace ExampleGame
 {
     public class PlayingState : GameState
     {
-        private SpriteFont font;
-        private CameraComponent cameraComponent;
-        private List<Level> Levels = new List<Level>();
+        private CameraComponent CameraComponent;
+        private MoveSystem physicsSystem;
+        private Dictionary<int, Level> Levels = new Dictionary<int, Level>();
         private Level CurrentLevel;
+        private int CurrentLevelID;
+        private HealthComponent HealthComponent;
         public PlayingState(MechaSnapperEngine engine) :
             base(engine)
         {
             InputManager.Instance.AddKeyBinding("MainMenu", Microsoft.Xna.Framework.Input.Keys.Escape);
             InputManager.Instance.AddKeyBinding("Paused", Microsoft.Xna.Framework.Input.Keys.Enter);
-            font = engine.Content.Load<SpriteFont>("Font");
-            
+            InitializeSystems();
         }
 
-        public void InitializeLevels()
+        /*
+         * Load levels and set first level as current scene.
+         * Also set that levels walkable entities and Jack and the enemies o physicsSystem for enhanced performance
+         */
+        public void LoadLevels()
         {
-            Levels.Add(new Level2(engine, this, cameraComponent));
-            Level2 a = (Level2)Levels[0];
-            a.Initialize();
-            CurrentLevel = a;
+            Levels.Add(1, new Level1(engine, this, CameraComponent));
+            Levels.Add(2, new Level2(engine, this, CameraComponent));
+            Levels[1].Initialize();
+            CurrentLevel = Levels[1];
+            CurrentLevelID = 1;
+            SceneManager.Instance.SetCurrentScene(CurrentLevel.LevelName);
+
+            physicsSystem.SetCollidableEntities(ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.WALKABLE_OBJECTS].Entities));
+            var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.BARRAROK].Entities);
+            entities.AddRange(ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.JACK].Entities));
+            physicsSystem.SetJackAndEnemies(entities);
         }
 
+        /*
+         * Resets current level 
+         */ 
         public void RestartCurrentLevel()
         {
             CurrentLevel.RestartLevel();
         }
 
+        /*
+         * Sets the new level.
+         * Updates physicsSystem with the new walkable objects
+         */
+        public void NextLevel()
+        {
+            CurrentLevelID++;
+            
+            Levels[CurrentLevelID].Initialize();
+            CurrentLevel = Levels[CurrentLevelID];
+            SceneManager.Instance.SetCurrentScene(CurrentLevel.LevelName);
+            physicsSystem.SetCollidableEntities(ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.WALKABLE_OBJECTS].Entities));
+        }
+
+        /*
+         * Initializes all the systems that the two levels are using
+         */
+        private void InitializeSystems()
+        {
+            
+            RegisterSystem(new RenderSystem(engine.SpriteBatch));
+            RegisterSystem(new InputSystem());
+            physicsSystem = new MoveSystem();
+            RegisterSystem(physicsSystem);
+            RegisterSystem(new AnimationSystem(engine.SpriteBatch));
+            RegisterSystem(new ParentSystem());
+            RegisterSystem(new TimeSystem());
+            RegisterSystem(new CameraSystem());
+            RegisterCamera(CameraComponent);
+            RegisterSystem(new AISystem());
+
+            EnemySelectSystem enemySelectSystem = new EnemySelectSystem(engine.SpriteBatch);
+            enemySelectSystem.AddButton("LB", engine.Content.Load<Texture2D>("bumper_left"));
+            enemySelectSystem.AddButton("LT", engine.Content.Load<Texture2D>("trigger_left"));
+            enemySelectSystem.AddButton("RB", engine.Content.Load<Texture2D>("bumper_right"));
+            enemySelectSystem.AddButton("RT", engine.Content.Load<Texture2D>("trigger_right"));
+
+            RegisterSystem(enemySelectSystem);
+            RegisterSystem(new HealthSystem());
+            RegisterSystem(new PortalSystem());
+        }
+
+
         public override void Update(GameTime gameTime)
         {
             SetCameraToRendering();
-            //if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"ChangeScene1"))
-            //{
-            //    //engine.SceneManager.SetCurrentScene("World1.Level1.Room1");
-            //    SceneManager.Instance.SetCurrentScene("World1.Level1.Room1");
-            //}
-            //if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"ChangeScene2"))
-            //{
-            //    //engine.SceneManager.SetCurrentScene("World1.Level1.Room2");
-            //    SceneManager.Instance.SetCurrentScene("World1.Level1.Room2");
-            //}
-            //if (InputManager.Instance.WasKeyDown(0, Buttons.Start,"ChangeScene3"))
-            //{
-            //   // engine.SceneManager.SetCurrentScene("World1.Level2.Room1");
-            //    SceneManager.Instance.SetCurrentScene("World1.Level2.Room1");
-            //}
 
             if (InputManager.Instance.WasKeyDown(0, Buttons.Start, "MainMenu"))
             {
@@ -75,12 +118,16 @@ namespace ExampleGame
                 engine.PushState<PausedState>();
             }
 
-            var healthComponent = ComponentManager.Instance.GetComponentsOfType<HealthComponent>();
-            if (healthComponent[0].CurrentHP == 0)
+            if (HealthComponent == null)
+            {
+                var healthComponent = ComponentManager.Instance.GetComponentsOfType<HealthComponent>();
+                HealthComponent = healthComponent[0];
+            }
+            if (HealthComponent.CurrentHP == 0)
             {
                 engine.PushState<GameOverState>();
             }
-            if (healthComponent[0].HasHorseShoe)
+            if (HealthComponent.HasHorseShoe)
             {
                 engine.PushState<GameWonState>();
             }
@@ -91,14 +138,11 @@ namespace ExampleGame
 
         public override void Draw(GameTime gameTime)
         {
-            //if (IsCameraRendering())
-            //{
+
                 for (int i = 0; i < renderableSystems.Count; i++)
                     renderableSystems[i].Draw(gameTime);
 
-                engine.SpriteBatch.DrawString(font, "Playing\n Press Escape to go back to main menu\n Press Enter to pause/unpause the game", Vector2.Zero, Color.White);
-
-            //}
+                engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "Playing\n Press Escape to go back to main menu\n Press Enter to pause/unpause the game", Vector2.Zero, Color.White);
         }
 
         public override void StateChanged(object sender, EventArgs e)
@@ -113,26 +157,26 @@ namespace ExampleGame
 
         private void SetCameraToNotRendering()
         {
-            if (cameraComponent != null)
-                cameraComponent.IsRendering = false;
+            if (CameraComponent != null)
+                CameraComponent.IsRendering = false;
         }
 
         private void SetCameraToRendering()
         {
-            if (cameraComponent != null)
-                cameraComponent.IsRendering = true;
+            if (CameraComponent != null)
+                CameraComponent.IsRendering = true;
         }
 
         private bool IsCameraRendering()
         {
-            if (cameraComponent != null)
-                return cameraComponent.IsRendering;
+            if (CameraComponent != null)
+                return CameraComponent.IsRendering;
             return false;
         }
 
         public void RegisterCamera(CameraComponent camera)
         {
-            cameraComponent = camera;
+            CameraComponent = camera;
         }
 
         

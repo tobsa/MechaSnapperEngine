@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace ExampleGame
-{
+{/*
+  * Different layers of the game in one place. Can be used for when searching for entities or components
+  */
     public class Layers
     {
         public static int BACKGROUND = 0;

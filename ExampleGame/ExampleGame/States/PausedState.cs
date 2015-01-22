@@ -13,13 +13,11 @@ namespace ExampleGame
 {
     public class PausedState : GameState
     {
-        SpriteFont font;
         public CameraComponent CameraComponent { get; set; }
 
         public PausedState(MechaSnapperEngine engine) :
             base(engine)
         {
-            font = engine.Content.Load<SpriteFont>("Font");
             InputManager.Instance.AddKeyBinding("Paused", Microsoft.Xna.Framework.Input.Keys.Escape);
         }
 
@@ -32,7 +30,7 @@ namespace ExampleGame
         public override void Draw(GameTime gameTime)
         {
             if(CameraComponent != null)
-                engine.SpriteBatch.DrawString(font, "- Paused -",
+                engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "- Paused -",
                     new Vector2(Matrix.Invert(CameraComponent.Transform).Translation.X + 550, Matrix.Invert(CameraComponent.Transform).Translation.Y + 360), Color.White);
         }
     }

@@ -21,7 +21,6 @@ namespace ExampleGame
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         MechaSnapperEngine engine;
-        CameraSystem cameraSystem;
         CameraComponent camComp;
         public Game1()
         {
@@ -39,8 +38,6 @@ namespace ExampleGame
         {
             engine.Initialize();
 
-            //cameraSystem = new CameraSystem(engine.SceneManager);
-            //cameraSystem = new CameraSystem();
             camComp = new CameraComponent(GraphicsDevice.Viewport);
             camComp.XOffset = camComp.Viewport.Width / 4; //Make so that the camera follows the object in the middle of the screen
 
@@ -53,106 +50,17 @@ namespace ExampleGame
         /// </summary>
         protected override void LoadContent()
         {
-            //int[,] rocks = LoadRocks();
-
-            //int[,] rocksBG = LoadRocksBG();
-
-            //LoadEnemySelectSystem();
-
-            //List<Entity> rockEntities = EntityFactory.CreateTileWorld(rocks, Content.Load<Texture2D>("Rocks_FG_64x64"), 14, 100, 64, 64);
-            //List<Entity> rockBGEntities = EntityFactory.CreateTileWorld(rocksBG, Content.Load<Texture2D>("Rocks_BG_64x64"), 14, 25, 64, 64);
-
-            //Entity background = CreateBackground(new Vector2(350, 0));
-            //Entity barrarok = CreateBarrarok(new Vector2(576, 256));
-            //Entity barrarok2 = CreateBarrarok(new Vector2(2600, 256));
-            //Entity barrarok3 = CreateBarrarok(new Vector2(2700, 64));
-            //Entity jack = CreateJack(new Vector2(2 * 64, 4 * 80));
-            //Entity jackHealth = CreateJackHealth();
-            //Entity time = CreateTime(new Vector2(1200, 0), 500);
-            //Entity[] portals = CreatePortal(new Vector2(1750, 192), new Vector2(2144, 448));
-            //Entity[] portals2 = CreatePortal(new Vector2(2496, 64), new Vector2(3328, 384));
-            //Entity horseShoe = CreateHorseShoe(new Vector2(4000, 384));
-
-
-            //Entity portalGun = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("PortalGun"), new Vector2(2 * 64, 4 * 64));
-            //Entity portalBullet = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Projectile"), new Vector2(2 * 64, 4 * 64));
-            //portalBullet.Visible = false;
-
-            //ComponentManager.Instance.AddComponent(jack, new InputComponent(new JackInput(portalGun, portalBullet)));
-            //ComponentManager.Instance.AddComponent(portalGun, new ParentComponent(jack, 55, 70));
-
-            //ComponentManager.Instance.AddComponent(portalBullet, new TeleportComponent());
-            //ComponentManager.Instance.AddComponent(portalBullet, new CollisionRectangleComponent());
-            //ComponentManager.Instance.AddComponent(portalBullet, new VelocityComponent());
-            
-            
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
-            SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
-            SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
-
-            //engine.SceneManager.AddEntity("Level1", 0, background);
-            //engine.SceneManager.AddEntity("Level1", 3, barrarok);
-            //engine.SceneManager.AddEntity("Level1", 3, barrarok2);
-            //engine.SceneManager.AddEntity("Level1", 3, jack);
-            //engine.SceneManager.AddEntity("Level1", 3, jackHealth);
-            //engine.SceneManager.AddEntity("Level1", 4, portalGun);
-            //engine.SceneManager.AddEntity("Level1", 4, portalBullet);
-            //engine.SceneManager.AddEntity("Level1", 5, time);
-            //engine.SceneManager.AddEntities("Level1", 1, rockBGEntities);
-            //engine.SceneManager.AddEntities("Level1", 2, rockEntities);
-
-            //SceneManager.Instance.AddEntity("Level1", Layers.BACKGROUND, background);
-            //SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok);
-            //SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok2);
-            //SceneManager.Instance.AddEntity("Level1", Layers.BARRAROK, barrarok3);
-            //SceneManager.Instance.AddEntity("Level1", Layers.JACK, jack);
-            //SceneManager.Instance.AddEntity("Level1", Layers.JACK_ITEMS, portalGun);
-            //SceneManager.Instance.AddEntity("Level1", Layers.PORTAL_BULLET, portalBullet);
-            //SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, jackHealth);
-            //SceneManager.Instance.AddEntity("Level1", Layers.TIME_AND_HEALTH, time);
-            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[0]);
-            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals[1]);
-            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[0]);
-            //SceneManager.Instance.AddEntity("Level1", Layers.PORTALS, portals2[1]);
-            //SceneManager.Instance.AddEntity("Level1", Layers.HORSE_SHOE, horseShoe);
-            //SceneManager.Instance.AddEntities("Level1", Layers.BACKGROUND_OBJECTS, rockBGEntities);
-            //SceneManager.Instance.AddEntities("Level1", Layers.WALKABLE_OBJECTS, rockEntities);
-
-
-            //SceneManager.Instance.SetCurrentScene("Level1");
+           // SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
+            //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
             AddSoundEffects();
             AddKeyBindings();
 
             var playingState = new PlayingState(engine);
-            //playingState.RegisterSystem(new RenderSystem(engine.SceneManager, engine.SpriteBatch));
-            //playingState.RegisterSystem(new InputSystem(engine.SceneManager));
-            //playingState.RegisterSystem(new PhysicsSystem(engine.SceneManager));
-            //playingState.RegisterSystem(new AnimationSystem(engine.SceneManager, engine.SpriteBatch));
-            //playingState.RegisterSystem(new ParentSystem(engine.SceneManager));
-            //playingState.RegisterSystem(new TimeSystem(engine.SceneManager));
-            //playingState.RegisterSystem(cameraSystem);
-            //playingState.RegisterCamera(camComp);
-            //playingState.RegisterSystem(new AISystem(engine.SceneManager));
-            //playingState.RegisterSystem(enemySelectSystem);
-            //playingState.RegisterSystem(new HealthSystem(engine.SceneManager));
 
-            //playingState.RegisterSystem(new RenderSystem(engine.SpriteBatch));
-            //playingState.RegisterSystem(new InputSystem());
-            //playingState.RegisterSystem(new PhysicsSystem());
-            //playingState.RegisterSystem(new AnimationSystem(engine.SpriteBatch));
-            //playingState.RegisterSystem(new ParentSystem());
-            //playingState.RegisterSystem(new TimeSystem());
-            //playingState.RegisterSystem(cameraSystem);
-            //playingState.RegisterCamera(camComp);
-            //playingState.RegisterSystem(new AISystem());
-            //playingState.RegisterSystem(enemySelectSystem);
-            //playingState.RegisterSystem(new HealthSystem());
-            //playingState.RegisterSystem(new PortalSystem());
-
-          //  playingState.InitializePlayingState(cameraSystem, camComp);
             playingState.RegisterCamera(camComp);
-            playingState.InitializeLevels();
+            playingState.LoadLevels();
 
             var pausedState = new PausedState(engine);
             pausedState.CameraComponent = camComp;
@@ -164,8 +72,12 @@ namespace ExampleGame
             engine.RegisterState(playingState);
             engine.RegisterState(mainMenuState);
             engine.RegisterState(pausedState);
-            engine.RegisterState(new GameOverState(engine));
-            engine.RegisterState(new GameWonState(engine));
+            var gameOverState = new GameOverState(engine);
+            gameOverState.CameraComponent = camComp;
+            engine.RegisterState(gameOverState);
+            var gameWonState = new GameWonState(engine);
+            gameWonState.CameraComponent = camComp;
+            engine.RegisterState(gameWonState);
 
             engine.PushState<MainMenuState>();
         }
@@ -199,175 +111,6 @@ namespace ExampleGame
             InputManager.Instance.AddKeyBinding("RT", Microsoft.Xna.Framework.Input.Keys.I);
         }
 
-        EnemySelectSystem enemySelectSystem;
-        private void LoadEnemySelectSystem()
-        {
-            //enemySelectSystem = new EnemySelectSystem(engine.SceneManager, engine.SpriteBatch);
-            enemySelectSystem = new EnemySelectSystem(engine.SpriteBatch);
-            enemySelectSystem.AddButton("LB", Content.Load<Texture2D>("bumper_left"));
-            enemySelectSystem.AddButton("LT", Content.Load<Texture2D>("trigger_left"));
-            enemySelectSystem.AddButton("RB", Content.Load<Texture2D>("bumper_right"));
-            enemySelectSystem.AddButton("RT", Content.Load<Texture2D>("trigger_right"));
-        }
-
-        private int[,] LoadRocks() {
-            //int[,] rocks = new int[,] 
-            //{
-            //    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 0, 0, 0, 0, 0, 0, 2, 1,-5,-5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 0, 0, 0, 0, 0, 1,-5,-5,-5, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 0, 0, 0, 0, 4,-5, 9, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 0, 2, 2, 0, 0, 8, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0},
-            //    {0, 4,-5,-5, 6, 0, 0, 0, 0, 0, 0, 4,-5,-5,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 0}, 
-            //    {0, 0, 8, 8, 0, 2, 0, 0, 0, 0, 0, 0, 8, 8, 7,-5,-5, 9, 0, 2, 2, 2, 2, 2, 2}, 
-            //    {0, 0, 0, 0, 4,-5, 6, 0, 0, 2, 2, 2, 2, 0, 0, 8, 8, 0, 4,-5,-5,-5,-5,-5,-5}, 
-            //    {0, 0, 2, 2, 1,-5, 3, 2, 4,-5,-5,-5,-5, 6, 0, 0, 0, 0, 0, 7,-5,-5,-5, 9, 8}, 
-            //    {0, 4,-5,-5,-5,-5,-5,-5, 6, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 7,-5, 9, 0, 0}, 
-            //    {0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}, 
-            //    {-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5}, 
-            //};
-            int[,] rocks = new int[,] 
-            {   
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 4, -5, -5, 6, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, -5, -5, -5, 6, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {4, -5, -5, -5, -5, -5, -5, -5, -5, -5, 6, 0, 4, -5, -5, -5, 6, 0, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 4, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, -5, -5, -5, 6, 0, 0, 0, -5, 0, 0, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, -5, -5, -5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5},
-            };
-
-            return rocks;
-        }
-
-        private int[,] LoadRocksBG() {
-            int[,] rocksBG = new int[,] 
-            {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 3, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 5, 5, 3, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 5, 5, 6, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 3, 2, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 3, 0, 0},
-                {0, 0, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 6, 0, 0, 2, 1, 5, 5, 5, 5, 5, 5, 6, 0},
-                {0, 0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 5, 9, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
-                {2, 2, 2, 2, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 2},
-                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-            };
-
-            return rocksBG;
-        }
-
-        private Entity CreateBackground(Vector2 position)
-        {
-            Entity background = EntityFactory.CreateEntity(EntityFactory.GenerateID, Content.Load<Texture2D>("Sky"), position);
-
-            ComponentManager.Instance.AddComponent(background, new IsFixedComponent(camComp));
-
-            return background;
-        }
-
-        private Entity LoadBackground()
-        {
-
-            return null;
-        }
-
-        private Entity CreateTime(Vector2 position, int countDownSeconds)
-        {
-            Entity time = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
-
-            ComponentManager.Instance.AddComponent(time, new StringRenderComponent());
-            ComponentManager.Instance.AddComponent(time, new CountdownTimeComponent(countDownSeconds));
-            ComponentManager.Instance.AddComponent(time, new IsFixedComponent(camComp));
-
-            return time;
-        }
-
-        private Entity CreateJack(Vector2 position)
-        {
-            Entity jack = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
-
-            ComponentManager.Instance.AddComponent(jack, new RenderComponent(Content.Load<Texture2D>("UnluckyJackAnim2"), 128, 128, 0));
-            ComponentManager.Instance.AddComponent(jack, new AnimationComponent(new JackIdleAnimation()));
-            ComponentManager.Instance.AddComponent(jack, new RigidBodyComponent(32f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent(jack, new CollisionRectangleComponent(new Rectangle(2 * 64 + 32, 1 * 64, 64, 128)));
-            ComponentManager.Instance.AddComponent(jack, new VelocityComponent());
-            ComponentManager.Instance.AddComponent(jack, camComp);
-
-            return jack;
-        }
-
-        private Entity CreateJackHealth()
-        {
-            Entity jackHealth = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, Vector2.Zero);
-
-            ComponentManager.Instance.AddComponent(jackHealth, new HealthComponent() { IsJack = true, IsAlive = true, CurrentHP = 3, MaxHP = 3, HitCoolDown = 3000 });
-            ComponentManager.Instance.AddComponent(jackHealth, new RenderComponent(Content.Load<Texture2D>("hearts"), 144, 48, 0));
-            ComponentManager.Instance.AddComponent(jackHealth, new IsFixedComponent(camComp));
-
-            return jackHealth;
-        }
-
-        private Entity CreateBarrarok(Vector2 position)
-        {
-            Entity barrarok = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
-            Texture2D bar = Content.Load<Texture2D>("Barrarok");
-            ComponentManager.Instance.AddComponent(barrarok, new AnimationComponent(new BarrarokWalkingAnimation()));
-            ComponentManager.Instance.AddComponent(barrarok, new RenderComponent(bar, 64, bar.Height, 0));
-            ComponentManager.Instance.AddComponent(barrarok, new RigidBodyComponent(32f, 0.3f, 0f));
-            ComponentManager.Instance.AddComponent(barrarok, new CollisionRectangleComponent(new Rectangle(0, 0, 32, bar.Height)));
-            ComponentManager.Instance.AddComponent(barrarok, new VelocityComponent());
-            ComponentManager.Instance.AddComponent(barrarok, new AgentComponent() { Behaviour = new WalkingState() });
-            ComponentManager.Instance.AddComponent(barrarok, new EnemySelectComponent());
-
-            return barrarok;
-        }
-
-        /*
-         * Creates 2 portals at 2 positions.
-         * The portals are created with smaller collision rectangles and moved into the center of the portal
-         */
-        private Entity[] CreatePortal(Vector2 position, Vector2 position2)
-        {
-            Entity[] portals = new Entity[2];
-            portals[0] = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
-            portals[1] = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position2);
-            Texture2D portalTexture = Content.Load<Texture2D>("Portal");
-            ComponentManager.Instance.AddComponent(portals[0], new RenderComponent(portalTexture, portalTexture.Width, portalTexture.Height, 0));
-            ComponentManager.Instance.AddComponent(portals[0], new CollisionRectangleComponent(new Rectangle((int)(position.X + portalTexture.Width / 4), (int)position.Y + portalTexture.Height / 4, portalTexture.Width/ 2, portalTexture.Height / 2)));
-            ComponentManager.Instance.AddComponent(portals[0], new PortalComponent(portals[1], 3000));
-
-            ComponentManager.Instance.AddComponent(portals[1], new RenderComponent(portalTexture, portalTexture.Width, portalTexture.Height, 0));
-            ComponentManager.Instance.AddComponent(portals[1], new CollisionRectangleComponent(new Rectangle((int)(position2.X + portalTexture.Width / 4), (int)position2.Y + portalTexture.Height / 4, portalTexture.Width / 2, portalTexture.Height / 2)));
-            ComponentManager.Instance.AddComponent(portals[1], new PortalComponent(portals[0], 3000));
-
-            return portals;
-        }
-
-        private Entity CreateHorseShoe(Vector2 position)
-        {
-            Entity horseShoe = EntityFactory.CreateEmptyEntity(EntityFactory.GenerateID, position);
-            Texture2D shoe = Content.Load<Texture2D>("horseshoe");
-            ComponentManager.Instance.AddComponent(horseShoe, new RenderComponent(shoe, shoe.Width, shoe.Height, 0));
-            ComponentManager.Instance.AddComponent(horseShoe, new CollisionRectangleComponent(new Rectangle((int)position.X, (int)position.Y, shoe.Width, shoe.Width)));
-
-            return horseShoe;
-        }
-
         private void AddSoundEffects()
         {
             SoundManager.Instance.LoadSoundEffect("JackJump", Content.Load<SoundEffect>("JackJump"));
@@ -397,6 +140,8 @@ namespace ExampleGame
             base.Update(gameTime);
         }
 
+        
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -408,7 +153,7 @@ namespace ExampleGame
             if (camComp.IsRendering)
                 engine.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null, null, null, null, camComp.Transform);
             else
-            engine.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                engine.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             engine.Draw(gameTime);
             engine.SpriteBatch.End();

@@ -66,5 +66,10 @@ namespace GameEngine.Framework
                 scenes[name].AddEntity(layerPriority, entity);
             }
         }
+
+        public void RemoveScene(string name)
+        {
+            scenes.Remove(name);
+        }
     }
 }

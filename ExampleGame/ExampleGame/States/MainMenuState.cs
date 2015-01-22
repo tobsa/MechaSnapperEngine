@@ -12,13 +12,11 @@ namespace ExampleGame
 {
     public class MainMenuState : GameState
     {
-        SpriteFont font;
 
         public MainMenuState(MechaSnapperEngine engine) :
             base (engine)
         {
             InputManager.Instance.AddKeyBinding("Play", Microsoft.Xna.Framework.Input.Keys.Enter);
-            font = engine.Content.Load<SpriteFont>("Font");
         }
 
         public override void Update(GameTime gameTime)
@@ -33,7 +31,7 @@ namespace ExampleGame
 
         public override void Draw(GameTime gameTime)
         {
-            engine.SpriteBatch.DrawString(font, "Main Menu\n Press Escape to quit game\n Press Enter to start playing", Vector2.Zero, Color.White);
+            engine.SpriteBatch.DrawString(FontManager.Instance.GetFont("Font"), "Main Menu\n Press Escape to quit game\n Press Enter to start playing", Vector2.Zero, Color.White);
         }
     }
 }

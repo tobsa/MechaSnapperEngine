@@ -114,41 +114,11 @@ namespace GameEngine.Framework
             return 0;
         }
 
-        public void AvoidWallCollisions(Entity entity)
-        {
-            var collision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(entity);
-            var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
-            var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
-
-            var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[3].Entities);
-            entities.AddRange(ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[4].Entities));
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[2].Entities);
-
-            foreach (var collidableEntity in collidableEntities)
-            {
-                var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
-
-                if (collision == otherCollision)
-                    continue;
-
-                if (collision.Rectangle.Intersects(otherCollision.Rectangle))
-                {
-                    if (collision.Rectangle.Left < otherCollision.Rectangle.Left)
-                        position.Position = new Vector2(otherCollision.Rectangle.Left - (collision.Rectangle.Width + collision.Rectangle.Width / 2), position.Position.Y);
-                    else
-                        position.Position = new Vector2(otherCollision.Rectangle.Right - collision.Rectangle.Width / 2, position.Position.Y);
-
-                    velocity.Velocity = new Vector2(0, velocity.Velocity.Y);
-                }
-            }
-        }
-
+        /*
+         * Stops the entity walkin into a wall. Sets the entities velocity to 0 if its walking into a wall
+         */
         public void AvoidWallCollisions(List<Entity> entities, List<Entity> collidableEntities, CollisionRectangleComponent collision, TransformComponent position, VelocityComponent velocity)
         {
-            //var entities = ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[3].Entities);
-            //entities.AddRange(ComponentManager.Instance.GetEntities<VelocityComponent>(SceneManager.Instance.CurrentScene.Layers[4].Entities));
-            //var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[2].Entities);
-
             foreach (var collidableEntity in collidableEntities)
             {
                 var otherCollision = ComponentManager.Instance.GetComponentOfType<CollisionRectangleComponent>(collidableEntity);
@@ -168,9 +138,12 @@ namespace GameEngine.Framework
             }
         }
 
-        public bool IsOnGround(Entity entity)
+        /*
+         * Evaluates if the entity is horizontally on one of the collidableEntities. ei, is it standing on one of them?
+         * 
+         */
+        public bool IsOnGround(Entity entity, List<Entity> collidableEntities)
         {
-            var collidableEntities = ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[2].Entities);
             var position = ComponentManager.Instance.GetComponentOfType<TransformComponent>(entity);
             var velocity = ComponentManager.Instance.GetComponentOfType<VelocityComponent>(entity);
             var body = ComponentManager.Instance.GetComponentOfType<RigidBodyComponent>(entity);
@@ -202,7 +175,7 @@ namespace GameEngine.Framework
                         return onGround;
                     }
                     else if(!onGround)
-                        position.Position = new Vector2(position.Position.X, otherCollision.Rectangle.Bottom); // Noooooooooooooooooooooooooo. Lägger barrarok på botten av Jack när Jack står på barrarok.
+                        position.Position = new Vector2(position.Position.X, otherCollision.Rectangle.Bottom); 
 
                     velocity.Velocity = new Vector2(velocity.Velocity.X, 0);
                 }

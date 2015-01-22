@@ -106,7 +106,7 @@ namespace GameEngine.Framework
         public void Update(GameTime gameTime)
         {
             var state = State;
-
+            countFPS(gameTime);
             if(state.Enabled)
                 state.Update(gameTime);
 
@@ -120,6 +120,23 @@ namespace GameEngine.Framework
                 if(state.Visible)
                     
                     state.Draw(gameTime);
+            }
+        }
+        float framecount = 0;
+        float timeSinceLastUpdate = 0;
+        float FPSupdateInterval = 1;
+        float fps = 0;
+        private void countFPS(GameTime time)
+        {
+            float elapsed = (float)time.ElapsedGameTime.TotalSeconds;
+            framecount++;
+            timeSinceLastUpdate += elapsed;
+            if (timeSinceLastUpdate > FPSupdateInterval)
+            {
+                fps = framecount / timeSinceLastUpdate;
+                game.Window.Title = "FPS: " + fps.ToString();
+                framecount = 0;
+                timeSinceLastUpdate -= FPSupdateInterval;
             }
         }
     }
