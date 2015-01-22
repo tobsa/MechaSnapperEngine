@@ -68,11 +68,17 @@ namespace ExampleGame
         public void NextLevel()
         {
             CurrentLevelID++;
-            
-            Levels[CurrentLevelID].Initialize();
-            CurrentLevel = Levels[CurrentLevelID];
-            SceneManager.Instance.SetCurrentScene(CurrentLevel.LevelName);
-            physicsSystem.SetCollidableEntities(ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.WALKABLE_OBJECTS].Entities));
+            if (CurrentLevelID > 2)
+            {
+                engine.PushState<GameOverState>();
+            }
+            else
+            {
+                Levels[CurrentLevelID].Initialize();
+                CurrentLevel = Levels[CurrentLevelID];
+                SceneManager.Instance.SetCurrentScene(CurrentLevel.LevelName);
+                physicsSystem.SetCollidableEntities(ComponentManager.Instance.GetEntities<CollisionRectangleComponent>(SceneManager.Instance.CurrentScene.Layers[Layers.WALKABLE_OBJECTS].Entities));
+            }
         }
 
         /*

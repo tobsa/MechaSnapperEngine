@@ -51,8 +51,8 @@ namespace ExampleGame
         protected override void LoadContent()
         {
             FontManager.Instance.LoadFont("Font", Content.Load<SpriteFont>("Font"));
-           // SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
-            //SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
+            SoundManager.Instance.LoadSong("GameSong", Content.Load<Song>("Latin_Industries"));
+            SoundManager.Instance.PlaySong("GameSong"); //Spelar om när den är klar nu
 
             AddSoundEffects();
             AddKeyBindings();
